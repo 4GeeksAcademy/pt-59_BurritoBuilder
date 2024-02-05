@@ -20,7 +20,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},			
 			signUp: async (form, navigate) => {
-				const url = "https://humble-doodle-r4gvggp7vx49f5rw7-3001.app.github.dev/api/signup";
+				const url = "https://supreme-space-sniffle-pjrpg9qwxwqrf6ggq-3001.app.github.dev/";
 				await fetch(url, {
 					method: "Post",
 					headers: {
@@ -49,7 +49,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			login: (form, navigate) => {
 				const store = getStore();
-				const url = "https://humble-doodle-r4gvggp7vx49f5rw7-3001.app.github.dev/api/token";
+				const url = "hhttps://supreme-space-sniffle-pjrpg9qwxwqrf6ggq-3001.app.github.dev/";
 				fetch(url, {
 					method: "Post",
 					headers: {
@@ -83,7 +83,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			authenticateUser: (navigate) => {
 				const store = getStore();
 				console.log(store.token);
-				const url = "https://humble-doodle-r4gvggp7vx49f5rw7-3001.app.github.dev/api/private"
+				const url = "https://supreme-space-sniffle-pjrpg9qwxwqrf6ggq-3001.app.github.dev/"
 				fetch(url, {
 					method: "GET",
 					headers: {
