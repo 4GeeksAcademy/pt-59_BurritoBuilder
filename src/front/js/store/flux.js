@@ -20,7 +20,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},			
 			signUp: async (form, navigate) => {
-				const url = process.env.BACKEND_URL + "api/signup";
+				const url = "https://glorious-yodel-5gqpqqxvp5vw347jp-3001.app.github.dev/api/signup";
 				await fetch(url, {
 					method: "Post",
 					headers: {
@@ -49,7 +49,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			login: (form, navigate) => {
 				const store = getStore();
-				const url =  process.env.BACKEND_URL + "api/token";
+				const url =  "https://glorious-yodel-5gqpqqxvp5vw347jp-3001.app.github.dev/api/token";
 				fetch(url, {
 					method: "Post",
 					headers: {
