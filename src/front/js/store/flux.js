@@ -20,7 +20,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},			
 			signUp: async (form, navigate) => {
-				const url = "https://supreme-space-sniffle-pjrpg9qwxwqrf6ggq-3001.app.github.dev/";
+				const url = process.env.BACKEND_URL + "api/signup";
 				await fetch(url, {
 					method: "Post",
 					headers: {
@@ -49,7 +49,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			login: (form, navigate) => {
 				const store = getStore();
-				const url = "hhttps://supreme-space-sniffle-pjrpg9qwxwqrf6ggq-3001.app.github.dev/";
+				const url = "https://glorious-yodel-5gqpqqxvp5vw347jp-3001.app.github.dev/api/token";
 				fetch(url, {
 					method: "Post",
 					headers: {
@@ -83,7 +83,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			authenticateUser: (navigate) => {
 				const store = getStore();
 				console.log(store.token);
-				const url = "https://supreme-space-sniffle-pjrpg9qwxwqrf6ggq-3001.app.github.dev/"
+				const url = "https://glorious-yodel-5gqpqqxvp5vw347jp-3001.app.github.dev/api/private"
 				fetch(url, {
 					method: "GET",
 					headers: {
