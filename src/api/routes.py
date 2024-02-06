@@ -29,6 +29,8 @@ def handle_hello():
 def create_token():
     username = request.json.get("username", None)
     password = request.json.get("password", None)
+    print (username)
+    print(password)
     # Query your database for username and password
     user = User.query.filter_by(email=username, password=password).first()
     if user is None:

@@ -22,7 +22,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			signUp: async (form, navigate) => {
 				const url = process.env.BACKEND_URL+"/api/signup";
 				await fetch(url, {
-					method: "Post",
+					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 					},
@@ -47,38 +47,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(error);
 				})
 			},
-			login: (form, navigate) => {
+			login: async(form) => {
+				console.log(form)
 				const store = getStore();
 				const url =  process.env.BACKEND_URL+"/api/token";
-				fetch(url, {
-					method: "Post",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({						
-						"username": form.email,
-                      	"password": form.password
-					})					
-				})
-				.then(async resp => {
-					console.log(resp.ok); // will be true if the response is successfull
-					console.log(resp.status); // the status code = 200 or code = 400 etc.
-					if(!resp.ok){
-						alert("wrong username or password");
-						return false;						
+				try{
+					let response = await fetch(url, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({						
+							"username": form.email,
+							  "password": form.password
+						})					
+					})
+					if(response.status==200){
+						const data = await response.json();
+						sessionStorage.setItem("token", data.token);
+						sessionStorage.setItem("user", data.user_id);
+						setStore({token: data.token});
+						setStore({user: data.user_id})
+						return true
 					}
-					//console.log(resp.text()); // will try return the exact result as string
-					const data = await resp.json();
-					sessionStorage.setItem("token", data.token);
-					setStore({token: data.token});
+					else {
+						alert("wrong username or password");
+						return false;
+					}
+				}catch(error){console.log(error)}
+				
+				// .then(async resp => {
+				// 	console.log(resp.ok); // will be true if the response is successfull
+				// 	console.log(resp.status); // the status code = 200 or code = 400 etc.
+				// 	if(!resp.ok){
+				// 		alert("wrong username or password");
+				// 		return false;						
+				// 	}
+				// 	//console.log(resp.text()); // will try return the exact result as string
+				// 	const data = await resp.json();
+				// 	sessionStorage.setItem("token", data.token);
+				// 	setStore({token: data.token});
 					
-					console.log(store.token);
-					navigate('/private');
-				})				
-				.catch(error => {
-					//error handling
-					console.log(error);
-				})
+				// 	console.log(store.token);
+				// 	navigate('/private');
+				// })				
+				// .catch(error => {
+				// 	//error handling
+				// 	console.log(error);
+				// })
 			},
 			authenticateUser: (navigate) => {
 				const store = getStore();

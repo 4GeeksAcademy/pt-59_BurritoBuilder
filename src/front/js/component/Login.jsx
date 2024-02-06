@@ -13,9 +13,15 @@ const Login = () => {
         setFormValue({...formValue, [id]:value});
                             
     }
+    const handleSubmit = async() => {
+        let result = await actions.login(formValue)
+        if (result){
+            navigate("/")
+        }
+    }
     return(
         <div className="container mt-5">
-                <form className="row g-3 border border-lightgray">
+                <div className="row g-3 border border-lightgray">
                     <div className="py-2 bg-light border-bottom border-lightgray mt-0 text-center">
                         <h2 >Login</h2>
                     </div>                    
@@ -27,8 +33,8 @@ const Login = () => {
                         <label htmlFor="password" className="form-label">Password</label>
                         <input onChange={onChange} value={formValue.password} type="password" className="form-control" placeholder="Enter password" id="password" />
                     </div>
-                    <button type="button" onClick={() => actions.login(formValue,navigate)} className="btn btn-primary">Login</button>                      
-                </form>
+                    <button type="button" onClick={handleSubmit} className="btn btn-primary">Login</button>                      
+                </div>
             </div>
     );
 }
