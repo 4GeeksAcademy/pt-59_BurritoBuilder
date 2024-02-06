@@ -49,7 +49,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			login: (form, navigate) => {
 				const store = getStore();
-				const url = "https://glorious-yodel-5gqpqqxvp5vw347jp-3001.app.github.dev/api/token";
+				const url =  process.env.BACKEND_URL + "api/token";
 				fetch(url, {
 					method: "Post",
 					headers: {
