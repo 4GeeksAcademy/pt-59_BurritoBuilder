@@ -1,11 +1,10 @@
 import React, {useContext, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-import "../../styles/home.css";
 
-export const Home = () => {
-	const { store, actions } = useContext(Context);
-	const [formValue, setFormValue] = useState({email: "", password: ""})
+const LandingPage = () => {
+    const { store, actions } = useContext(Context);
+    const [formValue, setFormValue] = useState({email: "", password: ""})
     const navigate = useNavigate();
 
     function onChange(e)  {				
