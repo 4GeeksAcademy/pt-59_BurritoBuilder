@@ -10,6 +10,12 @@ import Signup from "./component/Signup.jsx";
 import Login from "./component/Login.jsx";
 import Private from "./component/Private.jsx";
 import injectContext from "./store/appContext";
+import { Menu } from "./pages/Menu.js";
+import { ShoppingCart } from "./pages/ShoppingCart.js";
+import { Checkout } from "./pages/Checkout.js";
+import { EditFavorites } from "./pages/EditFavorties.js";
+import { FavoriteBurgers } from "./pages/FavoriteBurgers.js";
+import { OrderHistory } from "./pages/OrderHistory.js";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -34,6 +40,12 @@ const Layout = () => {
                         <Route element={<Signup />} path="/signup" />
                         <Route element={<Login />} path="/login" />
                         <Route element={<Private />} path="/private" />
+                        <Route element={<Menu />} path="/menu" />
+                        <Route element={<ShoppingCart />} path="/shoppingcart" />
+                        <Route element={<Checkout />} path="/checkout" />
+                        <Route element={<EditFavorites />} path="/editfavorites" />
+                        <Route element={<FavoriteBurgers />} path="/favoriteburgers" />
+                        <Route element={<OrderHistory />} path="/orderhistory" />
                         <Route element={<h1>Not found!</h1>} path="*"/>
                     </Routes>
                     <Footer />

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
-export const Menu = () => {
+export const EditFavorites = () => {
     const {store, actions} = useContext(Context);
     const navigate = useNavigate();
 
@@ -18,6 +18,6 @@ export const Menu = () => {
     
 
     return(
-        <div className="container mt-5">This where the menu page should go</div>
+        <div className="container mt-5">should be able to go back to menu and edit ingredients</div>
     );
 }
