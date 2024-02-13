@@ -10,7 +10,7 @@ const Private = () => {
     useEffect(() => {
         function authenticate() {
             actions.authenticateUser(navigate);
-        }
+        } 
         setTimeout(() => {
             authenticate() }, 500)        
     }, [])
