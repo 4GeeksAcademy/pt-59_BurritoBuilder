@@ -3,7 +3,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			message: null,			
 			token: null,
-			user: null
+			user: null,
+			ingredients: [],
+			orders: [],
+			//we can add more state properties as needed
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -76,25 +79,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				}catch(error){console.log(error)}
 				
-				// .then(async resp => {
-				// 	console.log(resp.ok); // will be true if the response is successfull
-				// 	console.log(resp.status); // the status code = 200 or code = 400 etc.
-				// 	if(!resp.ok){
-				// 		alert("wrong username or password");
-				// 		return false;						
-				// 	}
-				// 	//console.log(resp.text()); // will try return the exact result as string
-				// 	const data = await resp.json();
-				// 	sessionStorage.setItem("token", data.token);
-				// 	setStore({token: data.token});
-					
-				// 	console.log(store.token);
-				// 	navigate('/private');
-				// })				
-				// .catch(error => {
-				// 	//error handling
-				// 	console.log(error);
-				// })
 			},
 			authenticateUser: (navigate) => {
 				const store = getStore();
@@ -137,7 +121,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 				sessionStorage.removeItem("token");
 				setStore({token: null});
 				navigate("/");
-			}
+			},
+			//Burger Builder Actions Start Here
+			getIngredients: async () => {
+                try {
+                    const response = await fetch(process.env.BACKEND_URL + "/api/ingredients");
+                    const data = await response.json();
+                    setStore({ ingredients: data });
+                } catch (error) {
+                    console.log("Error loading ingredients from backend", error);
+                }
+            },
+			createOrder: async (orderData) => {
+                try {
+                    const response = await fetch(process.env.BACKEND_URL + "/api/orders", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(orderData)
+                    });
+                    const data = await response.json();
+                    // Handle response data as needed, such as updating state
+                    console.log("Order created:", data);
+                } catch (error) {
+                    console.log("Error creating order", error);
+                }
+            },
+            // Add more actions for interacting with orders as needed
+            // Example: getOrders, updateOrder, deleteOrder, etc.
 		}
 	};
 };

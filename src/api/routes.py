@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User, Ingredient, OrderIngredient, Order 
 from api.utils import generate_sitemap, APIException
 
 #new
@@ -75,3 +75,36 @@ def protected():
         return jsonify(response_body)
     
     return jsonify({"id": user.id, "username": user.email }), 200
+
+# routes for the burger builder webapp tool, Ingredient, OrderIngredient, Order
+@api.route('/ingredients', methods=['GET'])
+def get_ingredients():
+    ingredients = Ingredient.query.all()
+    return jsonify([ingredient.serialize() for ingredient in ingredients])
+
+@api.route('/orders', methods=['POST'])
+def create_order():
+    data = request.get_json()
+    ingredients = data.get('ingredients', [])
+    
+    order = Order()
+    for ingredient_data in ingredients:
+        ingredient_id = ingredient_data['id']
+        quantity = ingredient_data['quantity']
+        ingredient = Ingredient.query.get(ingredient_id)
+        if ingredient:
+            order_ingredient = OrderIngredient(ingredient=ingredient, quantity=quantity)
+            order.order_ingredients.append(order_ingredient)
+    
+    order.calculate_total_price()
+    db.session.add(order)
+    db.session.commit()
+    
+    return jsonify(order.serialize()), 201
+
+@api.route('/orders/<int:order_id>', methods=['GET'])
+def get_order(order_id):
+    order = Order.query.get(order_id)
+    if not order:
+        return jsonify({'error': 'Order not found'}), 404
+    return jsonify(order.serialize())
