@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
+import burgerbitelogo from "../../img/burgerbitelogo.jpg"
+
+
+
 export const Navbar = () => {
 	const navigate = useNavigate();
 	const { store, actions } = useContext(Context);
@@ -18,12 +22,14 @@ export const Navbar = () => {
 				<div className="ml-auto">					
 					{!store.token ?
 						<>
-							<Link to="/login">
+							<img src={burgerbitelogo} alt="BurgerBite Logo" style={{ height: "75px" }} />
+							{/* <h4>BurgerBite<br></br>Logo</h4> */}
+							{/* <Link to="/login">
 								<button className="btn btn-primary me-1">Login</button>
 							</Link>
 							<Link to="/signup">
 								<button className="btn btn-primary">Signup</button>
-							</Link>
+							</Link> */}
 						</>
 						:
 						<>

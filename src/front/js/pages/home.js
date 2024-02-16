@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import "../../styles/home.css";
+import "../../styles/home.css"; // Import your custom CSS styles if needed
 import theclassichamburger from "../../img/theclassichamburger.png";
 import blueclassichamburger from "../../img/blueclassichamburger.png";
 import greenclassichamburger from "../../img/greenclassichamburger.png";
@@ -38,7 +38,7 @@ export const Home = () => {
     const handleSubmit = async () => {
         let result = await actions.login(formValue);
         if (result) {
-            navigate("/");
+            navigate("/private");
         }
     };
 
@@ -61,7 +61,10 @@ export const Home = () => {
                                     <label htmlFor="password" className="form-label">Password</label>
                                     <input onChange={onChange} value={formValue.password} type="password" className="form-control" placeholder="Enter password" id="password" />
                                 </div>
-                                <button type="button" onClick={handleSubmit} className="btn btn-primary mt-3">Login</button>
+                                <div className="d-flex justify-content-between mt-3">
+                                    <button type="button" onClick={handleSubmit} className="btn btn-primary mb-2">Login</button>
+                                    <Link to="/signup" className="btn btn-secondary mb-2">Signup</Link>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -95,6 +98,8 @@ export const Home = () => {
 };
 
 export default Home;
+
+
 
 
 
