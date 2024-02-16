@@ -76,6 +76,8 @@ def protected():
     
     return jsonify({"id": user.id, "username": user.email }), 200
 
+# forgot password
+
 # routes for the burger builder webapp tool, Ingredient, OrderIngredient, Order
 @api.route('/ingredients', methods=['GET'])
 def get_ingredients():
