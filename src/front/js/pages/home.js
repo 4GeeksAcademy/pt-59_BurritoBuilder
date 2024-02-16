@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
@@ -28,20 +28,6 @@ export const Home = () => {
         "The Special",
         "Buns Voyage Burger"
     ];
-
-    // State variable to track the index of the currently displayed image
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-    // Function to move to the next image
-    const nextImage = () => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    };
-
-    // Use useEffect to automatically switch to the next image at a set interval
-    useEffect(() => {
-        const intervalId = setInterval(nextImage, 8000); // Switch image every 8 seconds
-        return () => clearInterval(intervalId); // Cleanup function to clear the interval
-    }, []);
 
     function onChange(e) {
         const id = e.target.id;
@@ -85,24 +71,16 @@ export const Home = () => {
                 <div className="col-md-6 d-flex justify-content-center align-items-center">
                     <div className="features-table-wrapper border p-3 rounded">
                         <div id="carouselExampleCaptions" className="carousel slide rounded bronze-border" style={{ maxWidth: "300px" }}>
-                            <div className="carousel-inner">
+                            <Carousel>
                                 {images.map((imageUrl, index) => (
-                                    <div key={index} className={index === 0 ? "carousel-item active" : "carousel-item"}>
+                                    <Carousel.Item key={index}>
                                         <img src={imageUrl} className="d-block w-100" alt={`Slide ${index + 1}`} />
-                                        <div className="carousel-caption d-none d-md-block" style={{ top: "20px" }}>
+                                        <Carousel.Caption style={{ top: "8px" }}>
                                             <h5 style={{ fontSize: "20px" }}>{labels[index]}</h5>
-                                        </div>
-                                    </div>
+                                        </Carousel.Caption>
+                                    </Carousel.Item>
                                 ))}
-                            </div>
-                            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span className="visually-hidden">Previous</span>
-                            </button>
-                            <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span className="visually-hidden">Next</span>
-                            </button>
+                            </Carousel>
                             <div className="carousel-indicators">
                                 {images.map((imageUrl, index) => (
                                     <button key={index} type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to={index} className={index === 0 ? "active" : ""} aria-current={index === 0 ? "true" : "false"} aria-label={`Slide ${index + 1}`}></button>
@@ -117,6 +95,7 @@ export const Home = () => {
 };
 
 export default Home;
+
 
 
 
