@@ -1,23 +1,35 @@
-import React, {useContext, useState, useEffect} from "react";
-import { useNavigate } from "react-router-dom";
-import { Context } from "../store/appContext";
-import "../../styles/home.css";
+import React from 'react';
+ 
 
-export const AccountProfile = () => {
-    const {store, actions} = useContext(Context);
-    const navigate = useNavigate();
+class AccountProfile extends React.Component {
+    createNewOrder = () => {
+        alert("Create New Order clicked!");
+    }
 
-    useEffect(() => {
-        function authenticate() {
-            actions.authenticateUser(navigate);
-        }
-        setTimeout(() => {
-            authenticate() }, 500)        
-    }, [])
+    showFavorites = () => {
+        alert("Favorites clicked!");
+    }
 
-    
+    viewOrderHistory = () => {
+        alert("Order History clicked!");
+    }
 
-    return(
-        <div className="container mt-5">This where the account profile page should go</div>
-    );
+    render() {
+        return (
+            <div>
+                <div className="header">
+                    <img src="user-icon.png" alt="User Icon" className="user-icon" />
+                    <span className="username">Username</span>
+                </div>
+
+                <div className="button-container">
+                    <button onClick={this.createNewOrder}>Create New Order</button>
+                    <button onClick={this.showFavorites}>Favorites</button>
+                    <button onClick={this.viewOrderHistory}>Order History</button>
+                </div>
+            </div>
+        );
+    }
 }
+
+export default AccountProfile;
