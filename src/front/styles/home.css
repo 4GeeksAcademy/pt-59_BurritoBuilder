@@ -1,4 +1,57 @@
 .bronze-border {
     border: 6px solid #cd7f32; /* Bronze color */
 }
+/* Menu.js CSS */
+.burger-preview {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 150px; /* Adjust height as needed */
+    position: relative;
+}
+
+.burger-preview img {
+    position: absolute;
+    bottom: 0;
+}
+
+.burger-preview img:nth-child(1) {
+    z-index: 5; /* Top bun */
+}
+
+.burger-preview img:nth-child(2) {
+    z-index: 4; /* Condiments */
+}
+
+.burger-preview img:nth-child(3) {
+    z-index: 3; /* Sauce */
+}
+
+.burger-preview img:nth-child(4) {
+    z-index: 2; /* Patty */
+}
+
+.burger-preview img:nth-child(5) {
+    z-index: 1; /* Bottom bun */
+}
+
+.ingredient-options {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.ingredient-option {
+    cursor: pointer;
+    text-align: center;
+}
+
+.ingredient-option img {
+    width: 60px; /* Adjust size as needed */
+    height: 60px; /* Adjust size as needed */
+}
+
+.burger-container {
+    margin-top: 40rem!important;
+}
 
