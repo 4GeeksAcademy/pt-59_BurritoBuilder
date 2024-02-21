@@ -1,35 +1,33 @@
 import React from 'react';
- 
+import './Dashboard.css'; 
 
-class AccountProfile extends React.Component {
-    createNewOrder = () => {
+function Dashboard() {
+    const handleNewOrder = () => {
         alert("Create New Order clicked!");
-    }
+    };
 
-    showFavorites = () => {
+    const handleFavorites = () => {
         alert("Favorites clicked!");
-    }
+    };
 
-    viewOrderHistory = () => {
+    const handleOrderHistory = () => {
         alert("Order History clicked!");
-    }
+    };
 
-    render() {
-        return (
-            <div>
-                <div className="header">
-                    <img src="user-icon.png" alt="User Icon" className="user-icon" />
-                    <span className="username">Username</span>
-                </div>
-
-                <div className="button-container">
-                    <button onClick={this.createNewOrder}>Create New Order</button>
-                    <button onClick={this.showFavorites}>Favorites</button>
-                    <button onClick={this.viewOrderHistory}>Order History</button>
-                </div>
+    return (
+        <div>
+            <div className="header">
+                <img src="user-icon.png" alt="User Icon" className="user-icon" />
+                <span className="username">Username</span>
             </div>
-        );
-    }
+
+            <div className="button-container">
+                <button onClick={handleNewOrder}>Create New Order</button>
+                <button onClick={handleFavorites}>Favorites</button>
+                <button onClick={handleOrderHistory}>Order History</button>
+            </div>
+        </div>
+    );
 }
 
-export default AccountProfile;
+export default Dashboard;
