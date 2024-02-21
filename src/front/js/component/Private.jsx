@@ -12,7 +12,7 @@ const Private = () => {
             actions.authenticateUser(navigate);
         } 
         setTimeout(() => {
-            authenticate() }, 500)        
+            authenticate(navigate)}, 500)        
     }, [])
 
     return (

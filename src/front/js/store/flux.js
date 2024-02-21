@@ -132,22 +132,28 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.log("Error loading ingredients from backend", error);
                 }
             },
-			createOrder: async (orderData) => {
-                try {
-                    const response = await fetch(process.env.BACKEND_URL + "/api/orders", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(orderData)
-                    });
-                    const data = await response.json();
-                    // Handle response data as needed, such as updating state
-                    console.log("Order created:", data);
-                } catch (error) {
-                    console.log("Error creating order", error);
-                }
+// flux.js
+
+createOrder: async (orderData, selectedIngredients) => {
+    try {
+        // Add selected ingredients to order data
+        orderData.ingredients = selectedIngredients;
+
+        const response = await fetch(process.env.BACKEND_URL + "/api/orders", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
             },
+            body: JSON.stringify(orderData)
+        });
+        const data = await response.json();
+        // Handle response data as needed, such as updating state
+        console.log("Order created:", data);
+    } catch (error) {
+        console.log("Error creating order", error);
+    }
+},
+
             // Add more actions for interacting with orders as needed
             // Example: getOrders, updateOrder, deleteOrder, etc.
 		}

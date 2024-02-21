@@ -2,6 +2,12 @@
     border: 6px solid #cd7f32; /* Bronze color */
 }
 /* Menu.js CSS */
+.menu-card {
+    max-width: 500px; /* Adjust as needed */
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}
+
 .burger-preview {
     display: flex;
     justify-content: center;
@@ -13,27 +19,11 @@
 .burger-preview img {
     position: absolute;
     bottom: 0;
+    width:150px;
+    height:150px;
 }
 
-.burger-preview img:nth-child(1) {
-    z-index: 5; /* Top bun */
-}
 
-.burger-preview img:nth-child(2) {
-    z-index: 4; /* Condiments */
-}
-
-.burger-preview img:nth-child(3) {
-    z-index: 3; /* Sauce */
-}
-
-.burger-preview img:nth-child(4) {
-    z-index: 2; /* Patty */
-}
-
-.burger-preview img:nth-child(5) {
-    z-index: 1; /* Bottom bun */
-}
 
 .ingredient-options {
     display: flex;
@@ -51,7 +41,4 @@
     height: 60px; /* Adjust size as needed */
 }
 
-.burger-container {
-    margin-top: 40rem!important;
-}
 
