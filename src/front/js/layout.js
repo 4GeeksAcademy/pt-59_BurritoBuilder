@@ -10,9 +10,11 @@ import Signup from "./component/Signup.jsx";
 import Login from "./component/Login.jsx";
 import Private from "./component/Private.jsx";
 import injectContext from "./store/appContext";
-
+import { StripeContainer } from "./component/StripeContainer.js";
+import { Product } from "./component/ShoppingApp.js";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+import ShoppingApp from './component/ShoppingApp';
 
 //create your first component
 const Layout = () => {
@@ -34,6 +36,8 @@ const Layout = () => {
                         <Route element={<Signup />} path="/signup" />
                         <Route element={<Login />} path="/login" />
                         <Route element={<Private />} path="/private" />
+                        <Route element={<StripeContainer />} path="/react-stripe" />
+                        <Route element={<ShoppingApp />} path="/component/ShoppingApp" />
                         <Route element={<h1>Not found!</h1>} path="*"/>
                     </Routes>
                     <Footer />
