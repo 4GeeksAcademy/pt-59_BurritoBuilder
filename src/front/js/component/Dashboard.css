@@ -9,11 +9,7 @@ body {
     height: 100vh;
 }
 
-.header {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
+
 
 .user-icon {
     width: 50px;
