@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
+import './Dashboard.css';
 
 const Dashboard = () => {
     const { store, actions } = useContext(Context);
