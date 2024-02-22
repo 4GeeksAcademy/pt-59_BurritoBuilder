@@ -138,4 +138,4 @@ def get_order(order_id):
     order = Order.query.get(order_id)
     if not order:
         return jsonify({'error': 'Order not found'}), 404
-    return jsonify(order.serialize())
+    return jsonify(order.serialize()) 
