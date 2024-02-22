@@ -122,37 +122,60 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({token: null});
 				navigate("/");
 			},
-			//Burger Builder Actions Start Here
-			getIngredients: async () => {
-                try {
-                    const response = await fetch(process.env.BACKEND_URL + "/api/ingredients");
-                    const data = await response.json();
-                    setStore({ ingredients: data });
-                } catch (error) {
-                    console.log("Error loading ingredients from backend", error);
-                }
-            },
-// flux.js
+	//Burger Builder Actions Start Here
+	
+		getIngredients: async () => {
+			try {
+				const response = await fetch(process.env.BACKEND_URL + "/api/ingredients");
+				const data = await response.json();
+				
+				// Extracting only the names from the fetched data
+				const ingredientNames = data.map(ingredient => ingredient.name);
+				
+				// Setting the store with the extracted names
+				setStore({ ingredients: ingredientNames });
+			} catch (successfull) {
+				console.log("Error loading ingredient names from backend", error);
+			}
+		},
 
-create_order: async (orderData, selectedIngredients) => {
-    try {
-        // Add selected ingredients to order data
-        orderData.ingredients = selectedIngredients;
+		addIngredientToOrder: async (data) => {
+			try {
+				// Perform a POST request to add the ingredient to the order
+				const response = await fetch(process.env.BACKEND_URL + "/api/add-ingredient", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(data)
+				});
+				// Handle the response as needed
+			} catch (error) {
+				console.log("Error adding ingredient to order", error);
+			}
+		},
 
-        const response = await fetch(process.env.BACKEND_URL + "/api/orders", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(orderData)
-        });
-        const data = await response.json();
-        // Handle response data as needed, such as updating state
-        console.log("Order created:", data);
-    } catch (error) {
-        console.log("Error creating order", error);
-    }
-},
+		createOrder: async (orderData, selectedIngredients) => {
+			try {
+				// Add selected ingredients to order data
+				orderData.ingredients = selectedIngredients;
+
+				// Send the order data to the backend to create a new order
+				const response = await fetch(process.env.BACKEND_URL + "/api/orders", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(orderData)
+				});
+				const data = await response.json();
+				// Handle response data as needed, such as updating state or navigating to the cart page
+				console.log("Order created:", data);
+			} catch (error) {
+				console.log("Error creating order", error);
+			}
+		},	
+
 
             // Add more actions for interacting with orders as needed
             // Example: getOrders, updateOrder, deleteOrder, etc.

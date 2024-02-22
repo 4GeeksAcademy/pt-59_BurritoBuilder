@@ -1,5 +1,3 @@
-// Menu.js
-
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
@@ -16,39 +14,49 @@ export const Menu = () => {
     const [burgerIngredients, setBurgerIngredients] = useState([]);
 
     useEffect(() => {
-        function authenticate() {
-            actions.authenticateUser(navigate);
-        }
-        setTimeout(authenticate, 500);
+        // Fetch Ingredients when component mounts
+        actions.getIngredients();
     }, []);
 
-    const handleIngredientSelect = (ingredientImg) => {
-        // Check if the ingredient is already in the burgerIngredients array
-        const isIngredientSelected = burgerIngredients.includes(ingredientImg);
-        
-        // If the ingredient is selected, remove it from the array
-        if (isIngredientSelected) {
-            // If the selected ingredient is the top bun, remove both top and bottom buns
-            if (ingredientImg === topBunImg) {
-                setBurgerIngredients(burgerIngredients.filter(img => img !== topBunImg && img !== bottomBunImg));
-            } else {
-                // If other ingredients are selected, remove only the selected ingredient
-                setBurgerIngredients(burgerIngredients.filter(img => img !== ingredientImg));
-            }
-        } else {
-            // If the ingredient is not selected
-            let updatedIngredients = [];
-            
-            if (ingredientImg === topBunImg) {
-                // If the top bun is selected, add both top and bottom bun images
-                updatedIngredients = [bottomBunImg, ...burgerIngredients, topBunImg];
-            } else {
-                // If other ingredients are selected, add them directly to the array
-                updatedIngredients = [...burgerIngredients, ingredientImg];
-            }
-            
-            setBurgerIngredients(updatedIngredients);
+    useEffect(() => {
+        // Set selected ingredients based on fetched ingredient names
+        if (store.ingredients.length > 0) {
+            const selectedIngredients = ingredients.map(ingredient => {
+                return {
+                    ...ingredient,
+                    isSelected: store.ingredients.includes(ingredient.name)
+                };
+            });
+            setBurgerIngredients(selectedIngredients);
         }
+    }, [store.ingredients]);
+
+    const ingredients = [
+        { name: "Bun", imgSrc: topBunImg, price: 1.99 },
+        { name: "Condiments", imgSrc: condimentsImg, price: 0.5 },
+        { name: "Sauce", imgSrc: sauceImg, price: 0.75 },
+        { name: "Patty", imgSrc: pattyImg, price: 2.5 }
+    ];
+
+    const handleIngredientSelect = (ingredient) => {
+        let updatedIngredients = [...burgerIngredients];
+        const index = updatedIngredients.findIndex(item => item.name === ingredient.name);
+        updatedIngredients[index].isSelected = !updatedIngredients[index].isSelected;
+        setBurgerIngredients(updatedIngredients);
+
+        // Call addIngredientToOrder action to add or remove the selected ingredient to/from the order
+        if (updatedIngredients[index].isSelected) {
+            actions.addIngredientToOrder({ name: ingredient.name, price: ingredient.price });
+        } else {
+            // Assuming you have a removeIngredientFromOrder action
+            actions.removeIngredientFromOrder({ name: ingredient.name });
+        }
+    };
+
+    const handleProceedToCart = () => {
+        // Step 3: Create Order and navigate to the cart page
+        actions.createOrder({}, burgerIngredients);
+        navigate("/shoppingcart"); // Assuming you have a route for the cart page
     };
 
     const zIndices = {
@@ -60,12 +68,12 @@ export const Menu = () => {
     };
 
     // Sort the ingredients based on their fixed z-index
-    const sortedIngredients = burgerIngredients.sort((a, b) => zIndices[b] - zIndices[a]);
+    const sortedIngredients = burgerIngredients.sort((a, b) => zIndices[b.imgSrc] - zIndices[a.imgSrc]);
 
-    const hasBun = burgerIngredients.includes(topBunImg) && burgerIngredients.includes(bottomBunImg);
-    const hasCondiment = burgerIngredients.includes(condimentsImg);
-    const hasSauce = burgerIngredients.includes(sauceImg);
-    const hasProtein = burgerIngredients.includes(pattyImg);
+    const hasBun = burgerIngredients.some(item => item.name === "Top Bun") && burgerIngredients.some(item => item.name === "Bottom Bun");
+    const hasCondiment = burgerIngredients.some(item => item.name === "Condiments");
+    const hasSauce = burgerIngredients.some(item => item.name === "Sauce");
+    const hasProtein = burgerIngredients.some(item => item.name === "Patty");
 
     return (
         <div className="card menu-card">
@@ -73,42 +81,30 @@ export const Menu = () => {
                 <div className="burger-container container mt-5">
                     <h2>Build Your Burger</h2>
                     <div className="burger-preview">
-                        {sortedIngredients.map((ingredientImg, index) => (
-                            <img key={index} src={ingredientImg} alt={`Ingredient ${index + 1}`} style={{ zIndex: zIndices[ingredientImg] }} />
+                        {sortedIngredients.map((ingredient, index) => (
+                            <img key={index} src={ingredient.imgSrc} alt={ingredient.name} style={{ zIndex: zIndices[ingredient.imgSrc] }} />
                         ))}
                     </div>
                     <div className="ingredient-options">
                         <h3>Choose Your Ingredients</h3>
-                        <div className="ingredient-option" onClick={() => handleIngredientSelect(topBunImg)}>
-                            <img src={topBunImg} alt="Top Bun" />
-                            <span>Top Bun</span>
-                        </div>
-                        <div className="ingredient-option" onClick={() => handleIngredientSelect(condimentsImg)}>
-                            <img src={condimentsImg} alt="Condiments" />
-                            <span>Condiments</span>
-                        </div>
-                        <div className="ingredient-option" onClick={() => handleIngredientSelect(sauceImg)}>
-                            <img src={sauceImg} alt="Sauce" />
-                            <span>Sauce</span>
-                        </div>
-                        <div className="ingredient-option" onClick={() => handleIngredientSelect(pattyImg)}>
-                            <img src={pattyImg} alt="Patty" />
-                            <span>Patty</span>
-                        </div>
+                        {ingredients.map((ingredient, index) => (
+                            <div key={index} className="ingredient-option" onClick={() => handleIngredientSelect(ingredient)}>
+                                <img src={ingredient.imgSrc} alt={ingredient.name} />
+                                <span>{ingredient.name}</span>
+                            </div>
+                        ))}
                     </div>
-                    {hasBun && hasCondiment && hasSauce && hasProtein && (
-                        <button className="btn btn-primary mt-3" onClick={() => {
-                            actions.create_order({}, burgerIngredients);
-                            navigate("/ShoppingApp");
-                        }}>
-                            Go to Cart
-                        </button>
-                    )}
+                    <button className="btn btn-primary mt-3" onClick={handleProceedToCart}>
+                        Go to Cart
+                    </button>
                 </div>
             </div>
         </div>
     );
 };
+
+
+
 
 
 

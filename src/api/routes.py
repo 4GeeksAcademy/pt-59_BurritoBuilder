@@ -6,6 +6,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Ingredient, OrderIngredient, Order 
 from api.utils import generate_sitemap, APIException
+from flask_cors import CORS
 
 #new
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
@@ -84,7 +85,33 @@ def protected():
 @api.route('/ingredients', methods=['GET'])
 def get_ingredients():
     ingredients = Ingredient.query.all()
-    return jsonify([ingredient.serialize() for ingredient in ingredients])
+    ingredient_names = [ingredient.name for ingredient in ingredients]
+    return jsonify(ingredient_names)
+
+@api.route('/add-ingredient', methods=['POST'])
+def add_ingredient_to_order():
+    try:
+        data = request.get_json()
+        name = data.get('name')
+        price = data.get('price')
+        is_selected = data.get('is_selected')
+        ingredient_img = data.get('ingredientImg')
+
+        # Create a new Ingredient instance
+        new_ingredient = Ingredient(name=name, price=price)
+
+        # Add the new ingredient to the database session
+        db.session.add(new_ingredient)
+        db.session.commit()
+
+        # Here you can perform any necessary logic
+        # For demonstration purposes, let's assume we just return a success message
+        return jsonify({"message": "Ingredient added to order successfully"}), 200
+    except Exception as e:
+        # Rollback the transaction if an error occurs
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
 
 @api.route('/orders', methods=['POST'])
 def create_order():
