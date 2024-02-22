@@ -12,10 +12,12 @@ import Private from "./component/Private.jsx";
 import injectContext from "./store/appContext";
 import { Menu } from "./pages/Menu.js";
 import { ShoppingCart } from "./pages/ShoppingCart.js";
-import { Checkout } from "./pages/Checkout.js";
+import Checkout from "./pages/CheckoutPage.js";
 import { EditFavorites } from "./pages/EditFavorties.js";
 import { FavoriteBurgers } from "./pages/FavoriteBurgers.js";
 import { OrderHistory } from "./pages/OrderHistory.js";
+import ShoppingApp from './component/ShoppingApp';
+import { StripeContainer } from "./component/StripeContainer.js";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -46,6 +48,8 @@ const Layout = () => {
                         <Route element={<EditFavorites />} path="/editfavorites" />
                         <Route element={<FavoriteBurgers />} path="/favoriteburgers" />
                         <Route element={<OrderHistory />} path="/orderhistory" />
+                        <Route element={<StripeContainer />} path="/react-stripe" />
+                        <Route element={<ShoppingApp />} path="/component/ShoppingApp" />
                         <Route element={<h1>Not found!</h1>} path="*"/>
                     </Routes>
                     <Footer />
