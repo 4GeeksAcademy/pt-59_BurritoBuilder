@@ -134,7 +134,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
 // flux.js
 
-createOrder: async (orderData, selectedIngredients) => {
+create_order: async (orderData, selectedIngredients) => {
     try {
         // Add selected ingredients to order data
         orderData.ingredients = selectedIngredients;

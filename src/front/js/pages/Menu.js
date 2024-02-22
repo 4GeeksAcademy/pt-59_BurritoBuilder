@@ -98,8 +98,8 @@ export const Menu = () => {
                     </div>
                     {hasBun && hasCondiment && hasSauce && hasProtein && (
                         <button className="btn btn-primary mt-3" onClick={() => {
-                            actions.createOrder({}, burgerIngredients);
-                            navigate("/shoppingcart");
+                            actions.create_order({}, burgerIngredients);
+                            navigate("/ShoppingApp");
                         }}>
                             Go to Cart
                         </button>
