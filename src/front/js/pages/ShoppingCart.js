@@ -8,10 +8,7 @@ export const ShoppingCart = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        function authenticate() {
-            actions.authenticateUser(navigate);
-        }
-        setTimeout(authenticate, 500);
+        
     }, []);
 
     return (

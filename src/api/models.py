@@ -35,9 +35,10 @@ class Ingredient(db.Model):
 
 # class Burger(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
+#     burger_id=db.Column(db.Integer, nullable=False)
 #     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
 #     total_price = db.Column(db.Float, nullable=False, default=0.0)  
-#     burger_to_ingredients = db.relationship('BurgertoIngredients')
+    
 
 #     def calculate_total_price(self):
 #         total_price = sum(bi.subtotal() for bi in self.burger_to_ingredients)
@@ -50,14 +51,15 @@ class Ingredient(db.Model):
 #     def serialize(self):
 #         return {
 #             'id': self.id,
+#             'burger_id': self.burger_id,
 #             'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
 #             'total_price': self.total_price,
 #             'ingredients': list(map(lambda bi: bi.serialize(), self.burger_to_ingredients))
 #         }
     
-# class BurgertoIngredient(db.Model):
+# class BurgerIngredient(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
-#     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
+#     burger_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
 #     ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredient.id'), nullable=False)
 #     quantity = db.Column(db.Integer, nullable=False)
 

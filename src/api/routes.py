@@ -91,6 +91,8 @@ def get_ingredients():
         serialized_ingredients.append(ingredient.serialize())    
     return jsonify(serialized_ingredients)
 
+
+
 @api.route('/add-ingredient', methods=['POST'])
 def add_ingredient_to_burger():
     try:
@@ -128,9 +130,16 @@ def remove_ingredient_from_burger(ingredient_name):
         return jsonify({"error": str(e)}), 500
 
 
+# @api.route("/Burgeringredient", methods=["GET"])
+# def get_ingredients():
+#     ingredients = Ingredient.query.all()
+#     serialized_ingredients = []
+#     for ingredient in ingredients:
+#         serialized_ingredients.append(ingredient.serialize())    
+#     return jsonify(serialized_ingredients)
 
 
-@api.route('/burgers', methods=['POST'])
+@api.route('/burgeringredient', methods=['POST'])
 def create_burger():
     data = request.get_json()
     ingredients = data.get('ingredients', [])

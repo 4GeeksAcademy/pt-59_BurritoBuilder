@@ -176,13 +176,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		
 
-		createOrder: async (orderData, selectedIngredients) => {
+		createBurger: async (orderData, selectedIngredients) => {
 			try {
 				// Add selected ingredients to order data
 				orderData.ingredients = selectedIngredients;
 
 				// Send the order data to the backend to create a new order
-				const response = await fetch(process.env.BACKEND_URL + "/api/orders", {
+				const response = await fetch(process.env.BACKEND_URL + "/api/burger", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
@@ -197,7 +197,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 			}
 		},	
 
+		createIngredientstoBurger: async (orderData, selectedIngredients) => {
+			try {
+				// Add selected ingredients to order data
+				orderData.ingredients = selectedIngredients;
 
+				// Send the order data to the backend to create a new order
+				const response = await fetch(process.env.BACKEND_URL + "/api/burgeringredient", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(orderData)
+				});
+				const data = await response.json();
+				// Handle response data as needed, such as updating state or navigating to the cart page
+				console.log("Order created:", data);
+			} catch (error) {
+				console.log("Error creating order", error);
+			}
+		},
             // Add more actions for interacting with orders as needed
             // Example: getOrders, updateOrder, deleteOrder, etc.
 		}

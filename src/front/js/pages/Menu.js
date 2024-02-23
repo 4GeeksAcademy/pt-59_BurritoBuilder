@@ -28,15 +28,19 @@ export const Menu = () => {
                 };
             });
             setBurgerIngredients(selectedIngredients);
+            
         }
+        
     }, [store.ingredients]);
 
     const ingredients = [
         { name: "Bun", imgSrc: topBunImg, price: 1.99 },
         { name: "Condiments", imgSrc: condimentsImg, price: 0.5 },
         { name: "Sauce", imgSrc: sauceImg, price: 0.75 },
-        { name: "Patty", imgSrc: pattyImg, price: 2.5 }
+        { name: "Patty", imgSrc: pattyImg, price: 2.5 },
+        ,
     ];
+    
 
     const handleIngredientSelect = async (ingredient) => {
         const ingredientExists = burgerIngredients.some(bi => bi.name === ingredient.name);
@@ -69,8 +73,12 @@ export const Menu = () => {
 
     const addIngredientToPreview = (ingredient) => {
         let updatedIngredients = [...burgerIngredients];
+        if (ingredient.name === "Bun") {
+            updatedIngredients.push({ name: "Bottom Bun", imgSrc: bottomBunImg, zIndex: 0 });
+        }
         updatedIngredients.push({ ...ingredient, isSelected: true });
         setBurgerIngredients(updatedIngredients);
+
     };
 
     const removeIngredientFromPreview = (ingredient) => {
@@ -79,9 +87,10 @@ export const Menu = () => {
     };
 
     const handleProceedToCart = () => {
-        // Step 3: Create Order and navigate to the cart page
-        actions.createOrder({}, burgerIngredients);
-        navigate("/shoppingcart"); // Assuming you have a route for the cart page
+        // Step 3: Create a burger and navigate to the cart page
+        // actions.createBurger({}, burgerIngredients);
+        actions.createIngredientstoBurger({}, burgerIngredients)
+        navigate("/shoppingcart"); // This link is for the cart page i designed
     };
 
     const zIndices = {
@@ -92,9 +101,12 @@ export const Menu = () => {
         [bottomBunImg]: 0
     };
 
-    // Sort the ingredients based on their fixed z-index
-    const sortedIngredients = burgerIngredients.sort((a, b) => zIndices[b.imgSrc] - zIndices[a.imgSrc]);
 
+    
+    // Sort the ingredients based on their fixed z-index
+    const sortedIngredients = burgerIngredients.sort((a, b) => zIndices[b.imgSrc] - zIndices[a.imgSrc]); // Sort by z-index
+    
+   
     return (
         <div className="card menu-card">
             <div className="card-body">
