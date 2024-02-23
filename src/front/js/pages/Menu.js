@@ -39,16 +39,27 @@ export const Menu = () => {
     ];
 
     const handleIngredientSelect = async (ingredient) => {
+        const ingredientExists = burgerIngredients.some(bi => bi.name === ingredient.name);
+    
         try {
-            // Check if the ingredient is stored in the backend
-            const response = await fetch(process.env.BACKEND_URL + `/api/ingredients/${ingredient.name}`);
-            if (response.ok) {
-                // If the ingredient exists in the backend, remove it
-                await actions.removeIngredientFromOrder({ name: ingredient.name });
+            if (ingredientExists) {
+                // If the ingredient exists in local state, remove it
+                await fetch(`${process.env.BACKEND_URL}/api/remove-ingredient/${ingredient.name}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
                 removeIngredientFromPreview(ingredient);
             } else {
-                // If the ingredient does not exist in the backend, add it
-                await actions.addIngredientToOrder({ name: ingredient.name, price: ingredient.price });
+                // Ingredient does not exist in local state, add it
+                await fetch(`${process.env.BACKEND_URL}/api/add-ingredient`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ name: ingredient.name, price: ingredient.price })
+                });
                 addIngredientToPreview(ingredient);
             }
         } catch (error) {

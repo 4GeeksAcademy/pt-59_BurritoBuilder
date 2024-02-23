@@ -4,7 +4,8 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Ingredient, OrderIngredient, Order 
+from api.models import db, User, Ingredient
+# BurgertoIngredient, Burger 
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
@@ -81,41 +82,35 @@ def protected():
 
 # forgot password
 
-# routes for the burger builder webapp tool, Ingredient, OrderIngredient, Order
-@api.route('/ingredients', methods=['GET'])
+# routes for the burger builder webapp tool, IngredieBrugertoIngredientpi.route('/ingredients', methods=['GET'])
 def get_ingredients():
     ingredients = Ingredient.query.all()
-    ingredient_names = [ingredient.name for ingredient in ingredients]
-    return jsonify(ingredient_names)
+    serialized_ingredients = []
+    for ingredient in ingredients:
+        serialized_ingredients.append(ingredient.serialize())    
+    return jsonify(serialized_ingredients)
 
 @api.route('/add-ingredient', methods=['POST'])
-def add_ingredient_to_order():
+def add_ingredient_to_burger():
     try:
         data = request.get_json()
         name = data.get('name')
-        price = data.get('price')
-        is_selected = data.get('is_selected')
-        ingredient_img = data.get('ingredientImg')
+        price = data.get('price') 
 
-        # Create a new Ingredient instance
+        # Create a new Ingredient 
         new_ingredient = Ingredient(name=name, price=price)
 
-        # Add the new ingredient to the database session
+        # Add the new ingredient to the database 
         db.session.add(new_ingredient)
         db.session.commit()
 
-        # Here you can perform any necessary logic
-        # For demonstration purposes, let's assume we just return a success message
-        return jsonify({"message": "Ingredient added to order successfully"}), 200
+        return jsonify({"message": "Ingredient added to burger successfully", "name": name, "price": price}), 200
     except Exception as e:
-        # Rollback the transaction if an error occurs
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
 
-from flask import request
-
 @api.route('/remove-ingredient/<string:ingredient_name>', methods=['DELETE'])
-def remove_ingredient_from_order(ingredient_name):
+def remove_ingredient_from_burger(ingredient_name):
     try:
         # Retrieve the ingredient from the database based on the provided name
         ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
@@ -124,7 +119,7 @@ def remove_ingredient_from_order(ingredient_name):
             # If the ingredient exists, remove it from the database
             db.session.delete(ingredient)
             db.session.commit()
-            return jsonify({"message": f"Ingredient '{ingredient_name}' removed from order successfully"}), 200
+            return jsonify({"message": f"Ingredient '{ingredient_name}' removed from burger successfully"}), 200
         else:
             return jsonify({"error": f"Ingredient '{ingredient_name}' not found"}), 404
     except Exception as e:
@@ -134,29 +129,43 @@ def remove_ingredient_from_order(ingredient_name):
 
 
 
-@api.route('/orders', methods=['POST'])
-def create_order():
+@api.route('/burgers', methods=['POST'])
+def create_burger():
     data = request.get_json()
     ingredients = data.get('ingredients', [])
-    
-    order = Order()
+    user_id = get_jwt_identity()
+
+    burger = Burger(user_id=user_id)
+    db.session.add(burger)
+    db.session.commit()
+# list of burg.s user has
+    burgers=Burger.query.filter_by(user_id=user_id)
+    # gets last item from line 137.
+    burger=burgers[len(burgers)-1]
+
+
     for ingredient_data in ingredients:
         ingredient_id = ingredient_data['id']
         quantity = ingredient_data['quantity']
         ingredient = Ingredient.query.get(ingredient_id)
         if ingredient:
-            order_ingredient = OrderIngredient(ingredient=ingredient, quantity=quantity)
-            order.order_ingredients.append(order_ingredient)
+            burger_to_ingredient= BurgertoIngredient(
+                burger_id=burger.id, 
+                ingredient_id=ingredient.id, 
+                quantity=quantity
+                )
+            db.session.add(burger_to_ingredient)
+            db.session.commit()
+            
     
-    order.calculate_total_price()
-    db.session.add(order)
-    db.session.commit()
+    burger.calculate_total_price()
+    # db.session.commit() <--redundant
     
-    return jsonify(order.serialize()), 201
+    return jsonify(burger.serialize()), 201
 
-@api.route('/orders/<int:order_id>', methods=['GET'])
-def get_order(order_id):
-    order = Order.query.get(order_id)
-    if not order:
-        return jsonify({'error': 'Order not found'}), 404
-    return jsonify(order.serialize()) 
+@api.route('/burgers/<int:burger_id>', methods=['GET'])
+def get_burger(burger_id):
+    burger = Burger.query.get(burger_id)
+    if not burger:
+        return jsonify({'error': 'Burger not found'}), 404
+    return jsonify(burger.serialize()) 

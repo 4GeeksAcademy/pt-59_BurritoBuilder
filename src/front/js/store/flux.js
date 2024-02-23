@@ -139,26 +139,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 			}
 		},
 
-		addIngredientToOrder: async (data) => {
+		addIngredientToOrder: async (ingredient) => {
 			try {
-				// Perform a POST request to add the ingredient to the order
-				const response = await fetch(process.env.BACKEND_URL + "/api/add-ingredient", {
+				const response = await fetch(`${process.env.BACKEND_URL}/api/add-ingredient`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
 					},
-					body: JSON.stringify(data)
+					body: JSON.stringify({
+						name: ingredient.name, 
+						price: ingredient.price,
+						is_selected: true, 
+						ingredientImg: ingredient.imgSrc 
+					})
 				});
-				// Handle the response as needed
+				
 			} catch (error) {
 				console.log("Error adding ingredient to order", error);
 			}
 		},
 		
-		removeIngredientFromOrder: async (data) => {
+		
+		removeIngredientFromOrder: async (ingredient) => {
 			try {
 				// Perform a DELETE request to remove the ingredient from the order
-				const response = await fetch(process.env.BACKEND_URL + `/api/remove-ingredient/${data.name}`, {
+				const response = await fetch(process.env.BACKEND_URL + `/api/remove-ingredient/${ingredient.name}`, {
 					method: "DELETE",
 					headers: {
 						"Content-Type": "application/json"

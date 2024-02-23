@@ -31,48 +31,50 @@ class Ingredient(db.Model):
             'id': self.id,
             'name': self.name,
             'price': self.price
-        }
-class OrderIngredient(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
-    ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredient.id'), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False)
+        },
 
-    order = db.relationship('Order', backref=db.backref('order_ingredients', lazy=True))
-    ingredient = db.relationship('Ingredient')
+# class Burger(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
+#     total_price = db.Column(db.Float, nullable=False, default=0.0)  
+#     burger_to_ingredients = db.relationship('BurgertoIngredients')
 
-    def subtotal(self):
-        return self.ingredient.price * self.quantity
+#     def calculate_total_price(self):
+#         total_price = sum(bi.subtotal() for bi in self.burger_to_ingredients)
+#         self.total_price = total_price
+#         db.session.commit()
 
-    def __repr__(self):
-        return f'<OrderIngredient {self.id}>'
+#     def __repr__(self):
+#         return f'<Order {self.id}>'
     
-    def serialize(self):
-        return {
-            'id': self.id,
-            'ingredient_id': self.ingredient_id,
-            'ingredient_name': self.ingredient.name,
-            'quantity': self.quantity,
-            'subtotal': self.subtotal()
-        }
-
-class Order(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
-    total_price = db.Column(db.Float, nullable=False, default=0.0)
-
-    def calculate_total_price(self):
-        total_price = sum(oi.subtotal() for oi in self.order_ingredients)
-        self.total_price = total_price
-        db.session.commit()
-
-    def __repr__(self):
-        return f'<Order {self.id}>'
+#     def serialize(self):
+#         return {
+#             'id': self.id,
+#             'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+#             'total_price': self.total_price,
+#             'ingredients': list(map(lambda bi: bi.serialize(), self.burger_to_ingredients))
+#         }
     
-    def serialize(self):
-        return {
-            'id': self.id,
-            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-            'total_price': self.total_price,
-            'ingredients': [oi.serialize() for oi in self.order_ingredients]
-        }
+# class BurgertoIngredient(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
+#     ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredient.id'), nullable=False)
+#     quantity = db.Column(db.Integer, nullable=False)
+
+#     order = db.relationship('Order', backref=db.backref('order_ingredients', lazy=True))
+#     ingredient = db.relationship('Ingredient')
+
+#     def subtotal(self):
+#         return self.ingredient.price * self.quantity
+
+#     def __repr__(self):
+#         return f'<OrderIngredient {self.id}>'
+    
+#     def serialize(self):
+#         return {
+#             'id': self.id,
+#             'ingredient_id': self.ingredient_id,
+#             'ingredient_name': self.ingredient.name,
+#             'quantity': self.quantity,
+#             'subtotal': self.subtotal()
+#         }    
