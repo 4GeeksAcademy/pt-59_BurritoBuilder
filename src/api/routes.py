@@ -112,6 +112,27 @@ def add_ingredient_to_order():
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
 
+from flask import request
+
+@api.route('/remove-ingredient/<string:ingredient_name>', methods=['DELETE'])
+def remove_ingredient_from_order(ingredient_name):
+    try:
+        # Retrieve the ingredient from the database based on the provided name
+        ingredient = Ingredient.query.filter_by(name=ingredient_name).first()
+
+        if ingredient:
+            # If the ingredient exists, remove it from the database
+            db.session.delete(ingredient)
+            db.session.commit()
+            return jsonify({"message": f"Ingredient '{ingredient_name}' removed from order successfully"}), 200
+        else:
+            return jsonify({"error": f"Ingredient '{ingredient_name}' not found"}), 404
+    except Exception as e:
+        # Handle any errors that may occur
+        return jsonify({"error": str(e)}), 500
+
+
+
 
 @api.route('/orders', methods=['POST'])
 def create_order():

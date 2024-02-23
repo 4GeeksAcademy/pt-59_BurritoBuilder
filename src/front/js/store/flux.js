@@ -154,6 +154,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log("Error adding ingredient to order", error);
 			}
 		},
+		
+		removeIngredientFromOrder: async (data) => {
+			try {
+				// Perform a DELETE request to remove the ingredient from the order
+				const response = await fetch(process.env.BACKEND_URL + `/api/remove-ingredient/${data.name}`, {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json"
+					}
+				});
+				// Handle the response as needed
+			} catch (error) {
+				console.log("Error removing ingredient from order", error);
+			}
+		},
+		
 
 		createOrder: async (orderData, selectedIngredients) => {
 			try {

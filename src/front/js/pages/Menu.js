@@ -38,19 +38,33 @@ export const Menu = () => {
         { name: "Patty", imgSrc: pattyImg, price: 2.5 }
     ];
 
-    const handleIngredientSelect = (ingredient) => {
-        let updatedIngredients = [...burgerIngredients];
-        const index = updatedIngredients.findIndex(item => item.name === ingredient.name);
-        updatedIngredients[index].isSelected = !updatedIngredients[index].isSelected;
-        setBurgerIngredients(updatedIngredients);
-
-        // Call addIngredientToOrder action to add or remove the selected ingredient to/from the order
-        if (updatedIngredients[index].isSelected) {
-            actions.addIngredientToOrder({ name: ingredient.name, price: ingredient.price });
-        } else {
-            // Assuming you have a removeIngredientFromOrder action
-            actions.removeIngredientFromOrder({ name: ingredient.name });
+    const handleIngredientSelect = async (ingredient) => {
+        try {
+            // Check if the ingredient is stored in the backend
+            const response = await fetch(process.env.BACKEND_URL + `/api/ingredients/${ingredient.name}`);
+            if (response.ok) {
+                // If the ingredient exists in the backend, remove it
+                await actions.removeIngredientFromOrder({ name: ingredient.name });
+                removeIngredientFromPreview(ingredient);
+            } else {
+                // If the ingredient does not exist in the backend, add it
+                await actions.addIngredientToOrder({ name: ingredient.name, price: ingredient.price });
+                addIngredientToPreview(ingredient);
+            }
+        } catch (error) {
+            console.log("Error handling ingredient selection:", error);
         }
+    };
+
+    const addIngredientToPreview = (ingredient) => {
+        let updatedIngredients = [...burgerIngredients];
+        updatedIngredients.push({ ...ingredient, isSelected: true });
+        setBurgerIngredients(updatedIngredients);
+    };
+
+    const removeIngredientFromPreview = (ingredient) => {
+        let updatedIngredients = burgerIngredients.filter(item => item.name !== ingredient.name);
+        setBurgerIngredients(updatedIngredients);
     };
 
     const handleProceedToCart = () => {
@@ -69,11 +83,6 @@ export const Menu = () => {
 
     // Sort the ingredients based on their fixed z-index
     const sortedIngredients = burgerIngredients.sort((a, b) => zIndices[b.imgSrc] - zIndices[a.imgSrc]);
-
-    const hasBun = burgerIngredients.some(item => item.name === "Top Bun") && burgerIngredients.some(item => item.name === "Bottom Bun");
-    const hasCondiment = burgerIngredients.some(item => item.name === "Condiments");
-    const hasSauce = burgerIngredients.some(item => item.name === "Sauce");
-    const hasProtein = burgerIngredients.some(item => item.name === "Patty");
 
     return (
         <div className="card menu-card">
@@ -102,6 +111,7 @@ export const Menu = () => {
         </div>
     );
 };
+
 
 
 
