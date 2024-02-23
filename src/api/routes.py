@@ -83,6 +83,7 @@ def protected():
 # forgot password
 
 # routes for the burger builder webapp tool, IngredieBrugertoIngredientpi.route('/ingredients', methods=['GET'])
+@api.route("/ingredients", methods=["GET"])
 def get_ingredients():
     ingredients = Ingredient.query.all()
     serialized_ingredients = []
