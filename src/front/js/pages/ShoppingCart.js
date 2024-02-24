@@ -8,7 +8,7 @@ export const ShoppingCart = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        
+        //this is where git request for recieving burger info.
     }, []);
 
     return (

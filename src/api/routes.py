@@ -4,8 +4,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Ingredient
-# BurgertoIngredient, Burger 
+from api.models import db, User, Ingredient, Burger
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
@@ -83,6 +82,7 @@ def protected():
 # forgot password
 
 # routes for the burger builder webapp tool, IngredieBrugertoIngredientpi.route('/ingredients', methods=['GET'])
+# this will be used to populate your "create a burger" component with ingrdients
 @api.route("/ingredients", methods=["GET"])
 def get_ingredients():
     ingredients = Ingredient.query.all()
@@ -92,25 +92,74 @@ def get_ingredients():
     return jsonify(serialized_ingredients)
 
 
+@api.route("/burgers", methods=["GET"])
+def get_all_burger():
+    burgers = Burger.query.all()
+    return jsonify(
+        burgers=[burg.serialize() for burg in burgers]
+    )
 
+
+@api.route("/burgers", methods=["POST"])
+def create_burger():
+    burger = Burger()
+    db.session.add(burger)
+    db.session.commit()
+    db.session.refresh(burger)
+    return jsonify(burger.serialize())
+
+
+@api.route("/burgers/<int:burger_id>", methods=["PUT"])
+def edit_burger(burger_id):
+    """
+    {
+        ingredients: [1,2,3,4]
+    }
+    """
+    burger = Burger.query.filter_by(id=burger_id).first()
+    if not burger:
+        return jsonify(msg="Burger not found"), 404
+    ingredients = Ingredient.all()
+    # Look at request.json() for ingredients and add them to burger.ingredients
+    db.session.add(burger)
+    db.session.commit()
+    db.session.refresh(burger)
+    return jsonify(burger.serialize())
+
+
+# this will be used to post ingredients (From commands.py) for use in the front end
 @api.route('/add-ingredient', methods=['POST'])
 def add_ingredient_to_burger():
-    try:
-        data = request.get_json()
-        name = data.get('name')
-        price = data.get('price') 
+    """
+    User starts burger      -->     POST new burger to backend
+    Frontend finishes loading page    <--     Backend sends back burger details w/ burger.id
+    User edits burger --> PUT request /api/burger/<burger_id>
+    {
+        ingredients: [
+            # a list of ingredients from your frontend
+        ]
+    }
+    Backend sends back a 201 no content
+    """
+    # Get Burger() with id `burger_id` from the db.
+    # Get list of ingredients from the db.
+    # Turn request.ingredients into an array of Ingredient()
+    # Burger().ingredients = array of Ingredient()s
+    # db.session.merge(burger object)
+    # db.session.commit()
 
-        # Create a new Ingredient 
-        new_ingredient = Ingredient(name=name, price=price)
+    data = request.get_json()
+    name = data.get('name')
+    price = data.get('price') 
 
-        # Add the new ingredient to the database 
-        db.session.add(new_ingredient)
-        db.session.commit()
+    # Create a new Ingredient 
+    new_ingredient = Ingredient(name=name, price=price)
 
-        return jsonify({"message": "Ingredient added to burger successfully", "name": name, "price": price}), 200
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({"error": str(e)}), 500
+    # Add the new ingredient to the database 
+    db.session.add(new_ingredient)
+    db.session.commit()
+
+    return jsonify({"message": "Ingredient added to burger successfully", "name": name, "price": price}), 200
 
 @api.route('/remove-ingredient/<string:ingredient_name>', methods=['DELETE'])
 def remove_ingredient_from_burger(ingredient_name):
@@ -130,17 +179,8 @@ def remove_ingredient_from_burger(ingredient_name):
         return jsonify({"error": str(e)}), 500
 
 
-# @api.route("/Burgeringredient", methods=["GET"])
-# def get_ingredients():
-#     ingredients = Ingredient.query.all()
-#     serialized_ingredients = []
-#     for ingredient in ingredients:
-#         serialized_ingredients.append(ingredient.serialize())    
-#     return jsonify(serialized_ingredients)
-
-
 @api.route('/burgeringredient', methods=['POST'])
-def create_burger():
+def add_ing_to_burger():
     data = request.get_json()
     ingredients = data.get('ingredients', [])
     user_id = get_jwt_identity()

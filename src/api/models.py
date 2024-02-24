@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 db = SQLAlchemy()
 # This db class is used by jwt authentication
@@ -17,11 +18,37 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+
+
+burger_to_ingredient = db.Table(
+    "burger_to_ingredient",
+    db.metadata,
+    db.Column(
+        "burger_id",
+        db.ForeignKey("burger.id")
+    ),
+    db.Column(
+        "ingredient_id",
+        db.ForeignKey("ingredient.id")
+    ),
+)
+
+
 # These db classes represent the burger builder wep app tool
+# this will be posted to by admins, not users to create a db of ingredients for users to access
+# you can do this in commands.py - if you look at my sims IRL project you will see an example
+# so when the "make a burger" componet loads, it will GET these ingridents to populate it
 class Ingredient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
+    image = db.Column(db.String(256), default="/img/missing.png")
     price = db.Column(db.Float, nullable=False)
+    burgers = db.relationship(
+        "Burger",
+        secondary=burger_to_ingredient,
+        primaryjoin=(id==burger_to_ingredient.c.ingredient_id),
+        uselist=True,
+    )
 
     def __repr__(self):
         return f'<Ingredient {self.name}>'
@@ -30,32 +57,38 @@ class Ingredient(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'price': self.price
-        },
+            'image': self.image,
+            'price': self.price,
+        }
 
-# class Burger(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     burger_id=db.Column(db.Integer, nullable=False)
-#     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
-#     total_price = db.Column(db.Float, nullable=False, default=0.0)  
+
+# this will were you post user created burgers and store them
+# GET info from this route to recreate burgers
+class Burger(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    # total_price = db.Column(db.Float, nullable=False, default=0.0)
+    ingredients = db.relationship(
+        "Ingredient",
+        secondary=burger_to_ingredient,
+        primaryjoin=(id == burger_to_ingredient.c.burger_id),
+        uselist=True,
+    )
+
+    def calculate_total_price(self):
+        total_price = sum([bi.price for bi in self.ingredients])
+        return total_price
+
+    def __repr__(self):
+        return f'<Order {self.id}>'
     
-
-#     def calculate_total_price(self):
-#         total_price = sum(bi.subtotal() for bi in self.burger_to_ingredients)
-#         self.total_price = total_price
-#         db.session.commit()
-
-#     def __repr__(self):
-#         return f'<Order {self.id}>'
-    
-#     def serialize(self):
-#         return {
-#             'id': self.id,
-#             'burger_id': self.burger_id,
-#             'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-#             'total_price': self.total_price,
-#             'ingredients': list(map(lambda bi: bi.serialize(), self.burger_to_ingredients))
-#         }
+    def serialize(self):
+        return {
+            'id': self.id,
+            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'total_price': self.calculate_total_price(),
+            'ingredients': [bi.serialize() for bi in self.ingredients]
+        }
     
 # class BurgerIngredient(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)

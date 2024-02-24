@@ -104,7 +104,8 @@ export const Menu = () => {
 
     
     // Sort the ingredients based on their fixed z-index
-    const sortedIngredients = burgerIngredients.sort((a, b) => zIndices[b.imgSrc] - zIndices[a.imgSrc]); // Sort by z-index
+    const sortedIngredients = burgerIngredients.sort((a, b) =>
+         zIndices[b.imgSrc] - zIndices[a.imgSrc]);
     
    
     return (
