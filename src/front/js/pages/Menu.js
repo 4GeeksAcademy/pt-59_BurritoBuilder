@@ -89,7 +89,7 @@ export const Menu = () => {
     const handleProceedToCart = () => {
         // Step 3: Create a burger and navigate to the cart page
         // actions.createBurger({}, burgerIngredients);
-        actions.createIngredientstoBurger({}, burgerIngredients)
+        // actions.createIngredientstoBurger({}, burgerIngredients)
         navigate("/shoppingcart"); // This link is for the cart page i designed
     };
 

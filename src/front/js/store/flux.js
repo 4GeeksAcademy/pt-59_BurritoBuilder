@@ -182,7 +182,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				orderData.ingredients = selectedIngredients;
 
 				// Send the order data to the backend to create a new order
-				const response = await fetch(process.env.BACKEND_URL + "/api/burger", {
+				const response = await fetch(process.env.BACKEND_URL + "/api/burgers", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
@@ -217,10 +217,41 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log("Error creating order", error);
 			}
 		},
-            // Add more actions for interacting with orders as needed
-            // Example: getOrders, updateOrder, deleteOrder, etc.
+
+		finalizeBurger: async (burgerId, selectedIngredients) => {
+			const ingredientIds = selectedIngredients.map(ing => ing.id);
+			const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/${burgerId}`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+					// "Authorization": "Bearer " + getStore().token // If needed
+				},
+				body: JSON.stringify({ ingredients: ingredientIds })
+			});
+			if (response.ok) {
+				const updatedBurger = await response.json();
+				setStore(prevStore => {
+					const burgerIndex = prevStore.orders.findIndex(burger => burger.id === updatedBurger.id);
+					let newOrders = [...prevStore.orders];
+		
+					if (burgerIndex !== -1) {
+						newOrders[burgerIndex] = updatedBurger;
+					} else {
+						newOrders.push(updatedBurger);
+					}
+		
+					return {
+						...prevStore,
+						orders: newOrders,
+					};
+				});
+			} else {
+				console.log("Failed to finalize burger:", await response.text());
+			}
 		}
-	};
-};
+	} 
+}; 
+}; 
 
 export default getState;
+

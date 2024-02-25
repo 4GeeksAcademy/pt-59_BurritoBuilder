@@ -4,7 +4,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Ingredient, Burger
+from api.models import db, User, Ingredient, Burger, burger_to_ingredient
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
@@ -110,22 +110,18 @@ def create_burger():
 
 
 @api.route("/burgers/<int:burger_id>", methods=["PUT"])
-def edit_burger(burger_id):
-    """
-    {
-        ingredients: [1,2,3,4]
-    }
-    """
-    burger = Burger.query.filter_by(id=burger_id).first()
+def update_burger(burger_id):
+    burger = Burger.query.get(burger_id)
     if not burger:
-        return jsonify(msg="Burger not found"), 404
-    ingredients = Ingredient.all()
-    # Look at request.json() for ingredients and add them to burger.ingredients
-    db.session.add(burger)
+        return jsonify({"error": "Burger not found"}), 404
+    
+    data = request.get_json()
+    ingredient_ids = data.get('ingredients', [])
+    
+    burger.update_ingredients(ingredient_ids)
+    
     db.session.commit()
-    db.session.refresh(burger)
-    return jsonify(burger.serialize())
-
+    return jsonify({"message": "Burger updated successfully"}), 200
 
 # this will be used to post ingredients (From commands.py) for use in the front end
 @api.route('/add-ingredient', methods=['POST'])
@@ -182,35 +178,25 @@ def remove_ingredient_from_burger(ingredient_name):
 @api.route('/burgeringredient', methods=['POST'])
 def add_ing_to_burger():
     data = request.get_json()
-    ingredients = data.get('ingredients', [])
+    ingredients_data = data.get('ingredients', [])
     user_id = get_jwt_identity()
 
+    # Create a new Burger instance for the user
     burger = Burger(user_id=user_id)
     db.session.add(burger)
     db.session.commit()
-# list of burg.s user has
-    burgers=Burger.query.filter_by(user_id=user_id)
-    # gets last item from line 137.
-    burger=burgers[len(burgers)-1]
 
+    # Retrieve all ingredients IDs from the request
+    ingredient_ids = [ingredient['id'] for ingredient in ingredients_data]
 
-    for ingredient_data in ingredients:
-        ingredient_id = ingredient_data['id']
-        quantity = ingredient_data['quantity']
-        ingredient = Ingredient.query.get(ingredient_id)
-        if ingredient:
-            burger_to_ingredient= BurgertoIngredient(
-                burger_id=burger.id, 
-                ingredient_id=ingredient.id, 
-                quantity=quantity
-                )
-            db.session.add(burger_to_ingredient)
-            db.session.commit()
-            
-    
-    burger.calculate_total_price()
-    # db.session.commit() <--redundant
-    
+    # Query for all Ingredients objects by IDs
+    ingredients = Ingredient.query.filter(Ingredient.id.in_(ingredient_ids)).all()
+
+    # Add queried Ingredient objects to the Burger's ingredients relationship
+    burger.ingredients.extend(ingredients)
+
+    db.session.commit()
+
     return jsonify(burger.serialize()), 201
 
 @api.route('/burgers/<int:burger_id>', methods=['GET'])
@@ -219,3 +205,37 @@ def get_burger(burger_id):
     if not burger:
         return jsonify({'error': 'Burger not found'}), 404
     return jsonify(burger.serialize()) 
+
+# @api.route('/burgeringredient', methods=['POST'])
+# def add_ing_to_burger():
+#     data = request.get_json()
+#     ingredients = data.get('ingredients', [])
+#     user_id = get_jwt_identity()
+
+#     burger = Burger(user_id=user_id)
+#     db.session.add(burger)
+#     db.session.commit()
+# # list of burg.s user has
+#     burgers=Burger.query.filter_by(user_id=user_id)
+#     # gets last item from line 137.
+#     burger=burgers[len(burgers)-1]
+
+
+#     for ingredient_data in ingredients:
+#         ingredient_id = ingredient_data['id']
+#         quantity = ingredient_data['quantity']
+#         ingredient = Ingredient.query.get(ingredient_id)
+#         if ingredient:
+#             burger_to_ingredient= BurgertoIngredient(
+#                 burger_id=burger.id, 
+#                 ingredient_id=ingredient.id, 
+#                 quantity=quantity
+#                 )
+#             db.session.add(burger_to_ingredient)
+#             db.session.commit()
+            
+    
+#     burger.calculate_total_price()
+#     # db.session.commit() <--redundant
+    
+#     return jsonify(burger.serialize()), 201
