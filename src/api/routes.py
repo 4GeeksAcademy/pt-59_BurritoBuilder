@@ -86,7 +86,7 @@ def protected():
 
 # create_burger route works <--2/26/24
 @api.route("/burgers", methods=["POST"])
-@jwt_required
+@jwt_required(protected)
 def create_burger():
     user_id = get_jwt_identity()
     burger = Burger(user_id=user_id)

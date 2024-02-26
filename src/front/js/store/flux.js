@@ -128,12 +128,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 	// createBurger works <--2/26/24
 	createBurger: async () => {
 		try {
+			const store = getStore();
 			// orderData.ingredients = selectedIngredients;
 			const response = await fetch(process.env.BACKEND_URL + "/api/burgers", {
+				
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					"Authorization": "Bearer " + store.token, 
+					"Authorization": "Bearer " + store.token 
 				},
 				
 			});
