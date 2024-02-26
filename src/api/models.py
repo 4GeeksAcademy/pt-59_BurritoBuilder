@@ -64,8 +64,7 @@ class Ingredient(db.Model):
         }
 
 
-# this will were you post user created burgers and store them
-# GET info from this route to recreate burgers
+
 class Burger(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
