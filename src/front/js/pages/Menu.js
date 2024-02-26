@@ -12,87 +12,37 @@ export const Menu = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
     const [burgerIngredients, setBurgerIngredients] = useState([]);
+    const [ingredients, setIngredients] = useState([]);
 
     useEffect(() => {
-        // Fetch Ingredients when component mounts
+        // Fetch "Burgers" when component mounts
+        actions.getBurgers();
+        // Fetch "Burger to edit" when component mounts
+        actions.getBurger();
+        // Fetch "Ingredients" when component mounts
         actions.getIngredients();
+
     }, []);
 
-    useEffect(() => {
-        // Set selected ingredients based on fetched ingredient names
-        if (store.ingredients.length > 0) {
-            const selectedIngredients = ingredients.map(ingredient => {
-                return {
-                    ...ingredient,
-                    isSelected: store.ingredients.includes(ingredient.name)
-                };
-            });
-            setBurgerIngredients(selectedIngredients);
-            
-        }
-        
-    }, [store.ingredients]);
+    // useEffect(() => {
+    //     // Set ingredients state when ingredients are fetched
+    //     setIngredients(store.ingredients);
+    // }, [store.ingredients]);
 
-    const ingredients = [
-        { name: "Bun", imgSrc: topBunImg, price: 1.99 },
-        { name: "Condiments", imgSrc: condimentsImg, price: 0.5 },
-        { name: "Sauce", imgSrc: sauceImg, price: 0.75 },
-        { name: "Patty", imgSrc: pattyImg, price: 2.5 },
-        ,
-    ];
-    
+    // useEffect(() => {
+    //     // Set burger ingredients state when burger is fetched
+    //     setBurgerIngredients(store.burger.ingredients);
+    // }, [store.burger]);
 
     const handleIngredientSelect = async (ingredient) => {
-        const ingredientExists = burgerIngredients.some(bi => bi.name === ingredient.name);
-    
-        try {
-            if (ingredientExists) {
-                // If the ingredient exists in local state, remove it
-                await fetch(`${process.env.BACKEND_URL}/api/remove-ingredient/${ingredient.name}`, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-                removeIngredientFromPreview(ingredient);
-            } else {
-                // Ingredient does not exist in local state, add it
-                await fetch(`${process.env.BACKEND_URL}/api/add-ingredient`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ name: ingredient.name, price: ingredient.price })
-                });
-                addIngredientToPreview(ingredient);
-            }
-        } catch (error) {
-            console.log("Error handling ingredient selection:", error);
-        }
-    };
-
-    const addIngredientToPreview = (ingredient) => {
-        let updatedIngredients = [...burgerIngredients];
-        if (ingredient.name === "Bun") {
-            updatedIngredients.push({ name: "Bottom Bun", imgSrc: bottomBunImg, zIndex: 0 });
-        }
-        updatedIngredients.push({ ...ingredient, isSelected: true });
-        setBurgerIngredients(updatedIngredients);
-
-    };
-
-    const removeIngredientFromPreview = (ingredient) => {
-        let updatedIngredients = burgerIngredients.filter(item => item.name !== ingredient.name);
-        setBurgerIngredients(updatedIngredients);
+        // Implement your logic for handling ingredient selection here
     };
 
     const handleProceedToCart = () => {
-        // Step 3: Create a burger and navigate to the cart page
-        // actions.createBurger({}, burgerIngredients);
-        // actions.createIngredientstoBurger({}, burgerIngredients)
-        navigate("/shoppingcart"); // This link is for the cart page i designed
+        // Implement your logic for proceeding to cart here
     };
 
+    // Define the z-indices for burger ingredients
     const zIndices = {
         [topBunImg]: 4,
         [condimentsImg]: 3,
@@ -101,31 +51,33 @@ export const Menu = () => {
         [bottomBunImg]: 0
     };
 
-
-    
-    // Sort the ingredients based on their fixed z-index
-    const sortedIngredients = burgerIngredients.sort((a, b) =>
-         zIndices[b.imgSrc] - zIndices[a.imgSrc]);
-    
-   
     return (
         <div className="card menu-card">
             <div className="card-body">
                 <div className="burger-container container mt-5">
                     <h2>Build Your Burger</h2>
                     <div className="burger-preview">
-                        {sortedIngredients.map((ingredient, index) => (
+                        {/* {sortedIngredients.map((ingredient, index) => (
                             <img key={index} src={ingredient.imgSrc} alt={ingredient.name} style={{ zIndex: zIndices[ingredient.imgSrc] }} />
-                        ))}
+                        ))} */}
                     </div>
                     <div className="ingredient-options">
                         <h3>Choose Your Ingredients</h3>
                         {ingredients.map((ingredient, index) => (
+                <div key={index} className="ingredient-option">
+                    <img src={ingredient.image} alt={ingredient.name} />
+                    <div>
+                        <span>{ingredient.name}</span>
+                        <span>${ingredient.price.toFixed(2)}</span>
+                    </div>
+                </div>
+            ))}
+                        {/* {ingredients.map((ingredient, index) => (
                             <div key={index} className="ingredient-option" onClick={() => handleIngredientSelect(ingredient)}>
                                 <img src={ingredient.imgSrc} alt={ingredient.name} />
-                                <span>{ingredient.name}</span>
+                                <span>{ingredient.name} - ${ingredient.price.toFixed(2)}</span>
                             </div>
-                        ))}
+                        ))} */}
                     </div>
                     <button className="btn btn-primary mt-3" onClick={handleProceedToCart}>
                         Go to Cart
@@ -135,6 +87,7 @@ export const Menu = () => {
         </div>
     );
 };
+
 
 
 

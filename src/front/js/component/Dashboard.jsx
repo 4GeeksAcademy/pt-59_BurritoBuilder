@@ -6,8 +6,11 @@ const Dashboard = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
 
-    const handleNewOrder = () => {
-        alert("Create New Order clicked!");
+
+    // Functionality for creating a new burger
+    const handlepostaBurger = () => {
+       actions.createBurger();
+        navigate("/menu");;
     };
 
     const handleFavorites = () => {
@@ -26,7 +29,7 @@ const Dashboard = () => {
             </div>
 
             <div className="button-container">
-                <button onClick={handleNewOrder}>Create New Order</button>
+                <button onClick={handlepostaBurger}>Create A Burger</button>
                 <button onClick={handleFavorites}>Favorites</button>
                 <button onClick={handleOrderHistory}>Order History</button>
             </div>
@@ -35,3 +38,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

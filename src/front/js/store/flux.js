@@ -5,6 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			token: null,
 			user: null,
 			ingredients: [],
+			burger: [],
 			orders: [],
 			//we can add more state properties as needed
 		},
@@ -124,9 +125,55 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 	//Burger Builder Actions Start Here
 	
-		getIngredients: async () => {
+	createBurger: async (orderData, selectedIngredients) => {
+		try {
+			
+			// orderData.ingredients = selectedIngredients;
+
+			const response = await fetch(process.env.BACKEND_URL + "/api/burgers", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(orderData)
+			});
+			const data = await response.json();
+			// Handle response data as needed, such as updating state or navigating to the cart page
+			console.log("Burger created:", data);
+		} catch (error) {
+			console.log("Error creating order", error);
+		}
+	},
+	getBurgers: async () => { 
+		try {
+			const response = await fetch(`${process.env.BACKEND_URL}/api/burgers`); 
+			if (!response.ok) {
+				throw new Error('Failed to fetch burgersss');
+			}
+			const data = await response.json();
+			return data; // Return the fetched burgers data
+		} catch (error) {
+			console.error("Error loading burgerssss data from backend:", error);
+			throw error; // Re-throw the error to be handled elsewhere if needed
+		} 
+	},	
+	getBurger: async (burger_id) => { 
+		try {
+			const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/${burger_id}`); 
+			if (!response.ok) {
+				throw new Error('Failed to fetch burger');
+			}
+			const data = await response.json();
+			return data; // Return the fetched burger data
+		} catch (error) {
+			console.error("Error loading burger data from backend:", error);
+			throw error; // Re-throw the error to be handled elsewhere if needed
+		} 
+	},
+	
+	getIngredients: async () => {
 			try {
-				const response = await fetch(process.env.BACKEND_URL + "/api/ingredients");
+				const response = await fetch(process.env.BACKEND_URL + "/api/ingredient");
 				const data = await response.json();
 				
 				// Extracting only the names from the fetched data
@@ -134,7 +181,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				
 				// Setting the store with the extracted names
 				setStore({ ingredients: ingredientNames });
-			} catch (successfull) {
+			} catch (error) {
 				console.log("Error loading ingredient names from backend", error);
 			}
 		},
@@ -176,26 +223,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		
 
-		createBurger: async (orderData, selectedIngredients) => {
-			try {
-				// Add selected ingredients to order data
-				orderData.ingredients = selectedIngredients;
-
-				// Send the order data to the backend to create a new order
-				const response = await fetch(process.env.BACKEND_URL + "/api/burgers", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify(orderData)
-				});
-				const data = await response.json();
-				// Handle response data as needed, such as updating state or navigating to the cart page
-				console.log("Order created:", data);
-			} catch (error) {
-				console.log("Error creating order", error);
-			}
-		},	
+			
 
 		createIngredientstoBurger: async (orderData, selectedIngredients) => {
 			try {
@@ -218,37 +246,37 @@ const getState = ({ getStore, getActions, setStore }) => {
 			}
 		},
 
-		finalizeBurger: async (burgerId, selectedIngredients) => {
-			const ingredientIds = selectedIngredients.map(ing => ing.id);
-			const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/${burgerId}`, {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-					// "Authorization": "Bearer " + getStore().token // If needed
-				},
-				body: JSON.stringify({ ingredients: ingredientIds })
-			});
-			if (response.ok) {
-				const updatedBurger = await response.json();
-				setStore(prevStore => {
-					const burgerIndex = prevStore.orders.findIndex(burger => burger.id === updatedBurger.id);
-					let newOrders = [...prevStore.orders];
+		// finalizeBurger: async (burgerId, selectedIngredients) => {
+		// 	const ingredientIds = selectedIngredients.map(ing => ing.id);
+		// 	const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/${burgerId}`, {
+		// 		method: "PUT",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 			// "Authorization": "Bearer " + getStore().token // If needed
+		// 		},
+		// 		body: JSON.stringify({ ingredients: ingredientIds })
+		// 	});
+		// 	if (response.ok) {
+		// 		const updatedBurger = await response.json();
+		// 		setStore(prevStore => {
+		// 			const burgerIndex = prevStore.orders.findIndex(burger => burger.id === updatedBurger.id);
+		// 			let newOrders = [...prevStore.orders];
 		
-					if (burgerIndex !== -1) {
-						newOrders[burgerIndex] = updatedBurger;
-					} else {
-						newOrders.push(updatedBurger);
-					}
+		// 			if (burgerIndex !== -1) {
+		// 				newOrders[burgerIndex] = updatedBurger;
+		// 			} else {
+		// 				newOrders.push(updatedBurger);
+		// 			}
 		
-					return {
-						...prevStore,
-						orders: newOrders,
-					};
-				});
-			} else {
-				console.log("Failed to finalize burger:", await response.text());
-			}
-		}
+		// 			return {
+		// 				...prevStore,
+		// 				orders: newOrders,
+		// 			};
+		// 		});
+		// 	} else {
+		// 		console.log("Failed to finalize burger:", await response.text());
+		// 	}
+		// }
 	} 
 }; 
 }; 

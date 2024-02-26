@@ -48,6 +48,7 @@ class Ingredient(db.Model):
         secondary=burger_to_ingredient,
         primaryjoin=(id==burger_to_ingredient.c.ingredient_id),
         uselist=True,
+        
     )
 
     def __repr__(self):

@@ -15,6 +15,8 @@ const Private = () => {
             authenticate(navigate)}, 500)        
     }, [])
 
+// createBurger Functionality for button that take you to menu
+
     return (
         <div className="container text-center">
             <h1>User Informtation</h1>
