@@ -126,15 +126,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 	//Burger Builder Actions Start Here
 	
 	// createBurger works <--2/26/24
-	createBurger: async (orderData, selectedIngredients) => {
+	createBurger: async () => {
 		try {
 			// orderData.ingredients = selectedIngredients;
 			const response = await fetch(process.env.BACKEND_URL + "/api/burgers", {
 				method: "POST",
 				headers: {
-					"Content-Type": "application/json"
+					"Content-Type": "application/json",
+					"Authorization": "Bearer " + store.token, 
 				},
-				body: JSON.stringify(orderData)
+				
 			});
 			const data = await response.json();
 			// Handle response data as needed, such as updating state or navigating to the cart page

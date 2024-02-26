@@ -8,6 +8,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    burgers= db.relationship("Burger", back_populates="user")
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -68,6 +69,8 @@ class Ingredient(db.Model):
 class Burger(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', back_populates="burgers")
     # total_price = db.Column(db.Float, nullable=False, default=0.0)
     ingredients = db.relationship(
         "Ingredient",
@@ -105,6 +108,15 @@ class Burger(db.Model):
 
 #     def __repr__(self):
 #         return f'<OrderIngredient {self.id}>'
+    
+#     def serialize(self):
+#         return {
+#             'id': self.id,
+#             'ingredient_id': self.ingredient_id,
+#             'ingredient_name': self.ingredient.name,
+#             'quantity': self.quantity,
+#             'subtotal': self.subtotal()
+#         }    
     
 #     def serialize(self):
 #         return {

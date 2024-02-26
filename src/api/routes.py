@@ -4,7 +4,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Ingredient, Burger
+from api.models import db, User, Burger, Ingredient
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
@@ -86,10 +86,13 @@ def protected():
 
 # create_burger route works <--2/26/24
 @api.route("/burgers", methods=["POST"])
+@jwt_required
 def create_burger():
-    burger = Burger()
+    user_id = get_jwt_identity()
+    burger = Burger(user_id=user_id)
     db.session.add(burger)
     db.session.commit()
+# list of burg.s user has
     db.session.refresh(burger)
     return jsonify(burger.serialize())
 
