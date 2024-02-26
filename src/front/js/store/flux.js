@@ -125,11 +125,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 	//Burger Builder Actions Start Here
 	
+	// createBurger works <--2/26/24
 	createBurger: async (orderData, selectedIngredients) => {
 		try {
-			
 			// orderData.ingredients = selectedIngredients;
-
 			const response = await fetch(process.env.BACKEND_URL + "/api/burgers", {
 				method: "POST",
 				headers: {
@@ -144,9 +143,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 			console.log("Error creating order", error);
 		}
 	},
+	// getIngredients Kindof works <--2/26/24
+	getIngredients: async () => { 
+		try {
+			const response = await fetch(process.env.BACKEND_URL + "/api/ingredients");
+			const data = await response.json();
+						
+			// Setting the store with the extracted names
+			setStore({ ingredients: data });
+		} catch (error) {
+			console.log("Error loading ingredient names from backend", error);
+		}
+	},
+	// need to work on adding selected ingredients to burger
+
+	addIngredienttoBurger:async () => { 
+	
+	},
+	//need to work on displaying the ingredients for the burger
+	
+
 	getBurgers: async () => { 
 		try {
-			const response = await fetch(`${process.env.BACKEND_URL}/api/burgers`); 
+			const response = await fetch(`${process.env.BACKEND_URL}/api/burgers${burger_id}`); 
 			if (!response.ok) {
 				throw new Error('Failed to fetch burgersss');
 			}
@@ -170,21 +189,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			throw error; // Re-throw the error to be handled elsewhere if needed
 		} 
 	},
-	
-	getIngredients: async () => {
-			try {
-				const response = await fetch(process.env.BACKEND_URL + "/api/ingredient");
-				const data = await response.json();
-				
-				// Extracting only the names from the fetched data
-				const ingredientNames = data.map(ingredient => ingredient.name);
-				
-				// Setting the store with the extracted names
-				setStore({ ingredients: ingredientNames });
-			} catch (error) {
-				console.log("Error loading ingredient names from backend", error);
-			}
-		},
+
 
 		addIngredientToOrder: async (ingredient) => {
 			try {

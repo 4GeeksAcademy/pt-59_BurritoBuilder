@@ -11,28 +11,14 @@ import condimentsImg from "../../img/condiments.png";
 export const Menu = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
-    const [burgerIngredients, setBurgerIngredients] = useState([]);
     const [ingredients, setIngredients] = useState([]);
 
     useEffect(() => {
-        // Fetch "Burgers" when component mounts
-        actions.getBurgers();
-        // Fetch "Burger to edit" when component mounts
-        actions.getBurger();
-        // Fetch "Ingredients" when component mounts
-        actions.getIngredients();
+       
 
     }, []);
 
-    // useEffect(() => {
-    //     // Set ingredients state when ingredients are fetched
-    //     setIngredients(store.ingredients);
-    // }, [store.ingredients]);
-
-    // useEffect(() => {
-    //     // Set burger ingredients state when burger is fetched
-    //     setBurgerIngredients(store.burger.ingredients);
-    // }, [store.burger]);
+    
 
     const handleIngredientSelect = async (ingredient) => {
         // Implement your logic for handling ingredient selection here
@@ -61,15 +47,16 @@ export const Menu = () => {
                             <img key={index} src={ingredient.imgSrc} alt={ingredient.name} style={{ zIndex: zIndices[ingredient.imgSrc] }} />
                         ))} */}
                     </div>
+                   
                     <div className="ingredient-options">
                         <h3>Choose Your Ingredients</h3>
-                        {ingredients.map((ingredient, index) => (
-                <div key={index} className="ingredient-option">
-                    <img src={ingredient.image} alt={ingredient.name} />
-                    <div>
+                        {store.ingredients.map((ingredient, index) => (
+                        <div key={index} className="ingredient-option">
+                             <img src={ingredient.image} alt={ingredient.name} />
+                         <div>
                         <span>{ingredient.name}</span>
-                        <span>${ingredient.price.toFixed(2)}</span>
-                    </div>
+                        <span>{ingredient.price}</span>
+                    </div> 
                 </div>
             ))}
                         {/* {ingredients.map((ingredient, index) => (

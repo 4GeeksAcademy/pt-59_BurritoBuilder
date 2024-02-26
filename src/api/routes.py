@@ -84,7 +84,7 @@ def protected():
 # routes for the burger builder webapp tool, IngredieBrugertoIngredientpi.route('/ingredients', methods=['GET'])
 # this will be used to populate your "create a burger" component with ingrdients
 
-
+# create_burger route works <--2/26/24
 @api.route("/burgers", methods=["POST"])
 def create_burger():
     burger = Burger()
@@ -92,6 +92,15 @@ def create_burger():
     db.session.commit()
     db.session.refresh(burger)
     return jsonify(burger.serialize())
+
+# get ingredients route works 90% sure <-- 2/26/24
+@api.route("/ingredients", methods=["GET"])
+def get_ingredients():
+    ingredients = Ingredient.query.all()
+    serialized_ingredients = []
+    for ingredient in ingredients:
+        serialized_ingredients.append(ingredient.serialize())    
+    return jsonify(serialized_ingredients)
 
 @api.route('/burgers/<int:burger_id>', methods=['GET'])
 def get_burger(burger_id):
@@ -107,13 +116,7 @@ def get_all_burger():
         burgers=[burg.serialize() for burg in burgers]
     )
 
-@api.route("/ingredients", methods=["GET"])
-def get_ingredients():
-    ingredients = Ingredient.query.all()
-    serialized_ingredients = []
-    for ingredient in ingredients:
-        serialized_ingredients.append(ingredient.serialize())    
-    return jsonify(serialized_ingredients)
+
 
 
 
