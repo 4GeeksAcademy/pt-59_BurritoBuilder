@@ -105,6 +105,9 @@ def get_ingredients():
         serialized_ingredients.append(ingredient.serialize())    
     return jsonify(serialized_ingredients)
 
+
+
+
 @api.route('/burgers/<int:burger_id>', methods=['GET'])
 def get_burger(burger_id):
     burger = Burger.query.get(burger_id)
