@@ -41,6 +41,7 @@ class Ingredient(db.Model):
     name = db.Column(db.String(100), unique=True, nullable=False)
     image = db.Column(db.String(256), default="/img/missing.png")
     price = db.Column(db.Float, nullable=False)
+    z_index=db.Column(db.Integer, nullable=False)
     burgers = db.relationship(
         "Burger",
         secondary=burger_to_ingredient,
