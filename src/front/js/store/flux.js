@@ -5,7 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			token: null,
 			user: null,
 			ingredients: [],
-			burger: [],
+			burgers: [],
 			orders: [],
 			//we can add more state properties as needed
 		},
@@ -123,13 +123,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({token: null});
 				navigate("/");
 			},
-	//Burger Builder Actions Start Here
+	//--> Burger Builder Actions Start Here <--
 	
-	// createBurger works <--2/26/24
+	// createBurger works <--2/26/24 added Authorization that calls stored token
 	createBurger: async () => {
 		try {
-			const store = getStore();
-			// orderData.ingredients = selectedIngredients;
+			const store = getStore(); 
 			const response = await fetch(process.env.BACKEND_URL + "/api/burgers", {
 				
 				method: "POST",
@@ -141,11 +140,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			});
 			const data = await response.json();
 			// Handle response data as needed, such as updating state or navigating to the cart page
+			setStore({ Burgers: data})
 			console.log("Burger created:", data);
 		} catch (error) {
 			console.log("Error creating order", error);
 		}
 	},
+	
+	
 	// getIngredients Kindof works <--2/26/24
 	getIngredients: async () => { 
 		try {
@@ -158,27 +160,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			console.log("Error loading ingredient names from backend", error);
 		}
 	},
-	// need to work on adding selected ingredients to burger
-
-	addIngredienttoBurger:async () => { 
 	
-	},
-	//need to work on displaying the ingredients for the burger
-	
-
-	getBurgers: async () => { 
-		try {
-			const response = await fetch(`${process.env.BACKEND_URL}/api/burgers${burger_id}`); 
-			if (!response.ok) {
-				throw new Error('Failed to fetch burgersss');
-			}
-			const data = await response.json();
-			return data; // Return the fetched burgers data
-		} catch (error) {
-			console.error("Error loading burgerssss data from backend:", error);
-			throw error; // Re-throw the error to be handled elsewhere if needed
-		} 
-	},	
 	getBurger: async (burger_id) => { 
 		try {
 			const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/${burger_id}`); 
@@ -186,33 +168,117 @@ const getState = ({ getStore, getActions, setStore }) => {
 				throw new Error('Failed to fetch burger');
 			}
 			const data = await response.json();
-			return data; // Return the fetched burger data
+			
+
+			setStore({ burgers: data });
 		} catch (error) {
 			console.error("Error loading burger data from backend:", error);
 			throw error; // Re-throw the error to be handled elsewhere if needed
 		} 
 	},
 
-
-		addIngredientToOrder: async (ingredient) => {
-			try {
-				const response = await fetch(`${process.env.BACKEND_URL}/api/add-ingredient`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						name: ingredient.name, 
-						price: ingredient.price,
-						is_selected: true, 
-						ingredientImg: ingredient.imgSrc 
-					})
-				});
+	addIngredientToBurger:async (burger_id, ingredient) => {
+		try {
+			const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/${ingredient}/add_ingredient`, {
+			  method: "PUT",
+			  headers: {
+				"Content-Type": "application/json"
+			  },
+			  
+			  body: JSON.stringify({
+				id: burger_id,
+				name: burger_id.name, 
+				price: burger_id.price,
 				
-			} catch (error) {
-				console.log("Error adding ingredient to order", error);
+			  })
+			});
+			
+			// Handle the response as needed
+			if (!response.ok) {
+			  throw new Error('Failed to add ingredient to burger');
 			}
+		
+			// Return any data from the response if needed
+			const data = await response.json();
+			return data;
+		
+		  } catch (error) {
+			console.log(burger_id),
+			console.log("Error adding ingredient to burger", error);
+			throw error;
+		  }
 		},
+	// Add Ingredient to Burger
+	// addIngredienttoBurger:async (ingredientId) => { 
+	// 	try {
+	// 		const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/<int:burger_id>/add_ingredient`, {
+	// 			method: "PUT",
+	// 			headers: {
+	// 				"Content-Type": "application/json"
+	// 			},
+	// 			body: JSON.stringify({ 
+	// 				ingredient_id: ingredientId
+	// 			 })
+	// 		});
+			
+	// 	} catch (error) {
+	// 		console.log("Error adding ingredient to order", error);
+	// 	}
+	// },
+	// removeIngredientfromBurger:async (burgerId, ingredientId) => { 
+	// 	try {
+	// 		const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/<int:burger_id>/remove_ingredient`, {
+	// 			method: "DELETE",
+	// 			headers: {
+	// 				"Content-Type": "application/json"
+	// 			},
+	// 			body: JSON.stringify({ ingredient_id: ingredientId }) // Send ingredientId for removal
+	// 		});
+
+	// 		} catch (error) {
+	// 		  console.log("Error removing ingredient from burger", error);
+	// 		  throw error;
+	// 		}
+	// 	  },
+	// Remove Ingredient from Burger
+
+
+	//need to work on displaying the ingredients for the burger
+	// getBurgers: async () => { 
+	// 	try {
+	// 		const response = await fetch(`${process.env.BACKEND_URL}/api/burgers${burger_id}`); 
+	// 		if (!response.ok) {
+	// 			throw new Error('Failed to fetch burgersss');
+	// 		}
+	// 		const data = await response.json();
+	// 		return data; // Return the fetched burgers data
+	// 	} catch (error) {
+	// 		console.error("Error loading burgerssss data from backend:", error);
+	// 		throw error; // Re-throw the error to be handled elsewhere if needed
+	// 	} 
+	// },	
+	
+
+
+		// addIngredientToOrder: async (ingredient) => {
+		// 	try {
+		// 		const response = await fetch(`${process.env.BACKEND_URL}/api/add-ingredient`, {
+		// 			method: "POST",
+		// 			headers: {
+		// 				"Content-Type": "application/json"
+		// 			},
+		// 			body: JSON.stringify({
+		// 				name: ingredient.name, 
+		// 				price: ingredient.price,
+		// 				is_selected: true, 
+		// 				ingredientImg: ingredient.imgSrc 
+		// 			})
+		// 		});
+				
+		// 	} catch (error) {
+		// 		console.log("Error adding ingredient to order", error);
+		// 	}
+		// },
 		
 		
 		removeIngredientFromOrder: async (ingredient) => {

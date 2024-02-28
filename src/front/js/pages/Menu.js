@@ -2,40 +2,43 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
-import topBunImg from "../../img/top_bun.png";
-import bottomBunImg from "../../img/bottom_bun.png";
-import pattyImg from "../../img/patty.png";
-import sauceImg from "../../img/sauce.png";
-import condimentsImg from "../../img/condiments.png";
+
+import IngredientComponent from "../component/IngredientComponent";
+
+
 
 export const Menu = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
-    const [ingredients, setIngredients] = useState([]);
+    const [burgerIngredients, setBurgerIngredients] = useState([]);
+    const [burgerId, setBurgerId] = useState(null);
 
     useEffect(() => {
        
-
+        // actions.getBurger();
+   
     }, []);
-
+    
+    const handleIngredientClick = (burger_id, ingredient) => {
+        // Call the action to add the ingredient to the burger
+        actions.addIngredientToBurger(burger_id, ingredient);
+    };
+    
     
 
-    const handleIngredientSelect = async (ingredient) => {
-        // Implement your logic for handling ingredient selection here
-    };
-
     const handleProceedToCart = () => {
-        // Implement your logic for proceeding to cart here
+        // Navigate to the cart page
+        navigate("/cart");
     };
 
     // Define the z-indices for burger ingredients
-    const zIndices = {
-        [topBunImg]: 4,
-        [condimentsImg]: 3,
-        [sauceImg]: 2,
-        [pattyImg]: 1,
-        [bottomBunImg]: 0
-    };
+    // const zIndices = {
+    //     [topBunImg]: 4,
+    //     [condimentsImg]: 3,
+    //     [sauceImg]: 2,
+    //     [pattyImg]: 1,
+    //     [bottomBunImg]: 0
+    // };
 
     return (
         <div className="card menu-card">
@@ -43,28 +46,27 @@ export const Menu = () => {
                 <div className="burger-container container mt-5">
                     <h2>Build Your Burger</h2>
                     <div className="burger-preview">
-                        {/* {sortedIngredients.map((ingredient, index) => (
-                            <img key={index} src={ingredient.imgSrc} alt={ingredient.name} style={{ zIndex: zIndices[ingredient.imgSrc] }} />
-                        ))} */}
+                        {/* Render burger ingredients based on the selected ingredients */}
+                        {burgerIngredients.map((ingredientId, index) => {
+                            const ingredient = store.ingredients.find(item => item.id === ingredientId);
+                            return ingredient ? (
+                                <img key={index} src={ingredient.image} alt={ingredient.name} style={{ zIndex: zIndices[ingredient.image] }} />
+                            ) : null;
+                        })}
                     </div>
                    
                     <div className="ingredient-options">
                         <h3>Choose Your Ingredients</h3>
+                        {/* Render ingredient options */}
                         {store.ingredients.map((ingredient, index) => (
-                        <div key={index} className="ingredient-option">
-                             <img src={ingredient.image} alt={ingredient.name} />
-                         <div>
-                        <span>{ingredient.name}</span>
-                        <span>{ingredient.price}</span>
-                    </div> 
-                </div>
-            ))}
-                        {/* {ingredients.map((ingredient, index) => (
-                            <div key={index} className="ingredient-option" onClick={() => handleIngredientSelect(ingredient)}>
-                                <img src={ingredient.imgSrc} alt={ingredient.name} />
-                                <span>{ingredient.name} - ${ingredient.price.toFixed(2)}</span>
-                            </div>
-                        ))} */}
+                            console.log(ingredient),
+                            <IngredientComponent  
+                            key={index}
+                            ingredient={ingredient}
+                            onIngredientClick={() => handleIngredientClick()}
+                          />
+                        ))}
+                        
                     </div>
                     <button className="btn btn-primary mt-3" onClick={handleProceedToCart}>
                         Go to Cart

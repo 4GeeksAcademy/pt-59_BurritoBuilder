@@ -2,13 +2,14 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 db = SQLAlchemy()
+
 # This db class is used by jwt authentication
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    burgers= db.relationship("Burger", back_populates="user")
+    burgers = db.relationship("Burger", back_populates="user")
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -17,7 +18,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            # do not serialize the password, its a security breach
+            # do not serialize the password, it's a security breach
         }
 
 
@@ -35,10 +36,6 @@ burger_to_ingredient = db.Table(
 )
 
 
-# These db classes represent the burger builder wep app tool
-# this will be posted to by admins, not users to create a db of ingredients for users to access
-# you can do this in commands.py - if you look at my sims IRL project you will see an example
-# so when the "make a burger" componet loads, it will GET these ingridents to populate it
 class Ingredient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
@@ -47,14 +44,13 @@ class Ingredient(db.Model):
     burgers = db.relationship(
         "Burger",
         secondary=burger_to_ingredient,
-        primaryjoin=(id==burger_to_ingredient.c.ingredient_id),
+        primaryjoin=(id == burger_to_ingredient.c.ingredient_id),
         uselist=True,
-        
     )
 
     def __repr__(self):
         return f'<Ingredient {self.name}>'
-    
+
     def serialize(self):
         return {
             'id': self.id,
@@ -64,13 +60,11 @@ class Ingredient(db.Model):
         }
 
 
-
 class Burger(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', back_populates="burgers")
-    # total_price = db.Column(db.Float, nullable=False, default=0.0)
     ingredients = db.relationship(
         "Ingredient",
         secondary=burger_to_ingredient,
@@ -82,9 +76,19 @@ class Burger(db.Model):
         total_price = sum([bi.price for bi in self.ingredients])
         return total_price
 
+    def add_ingredient(self, ingredient):
+        if ingredient not in self.ingredients:
+            self.ingredients.append(ingredient)
+            db.session.commit()
+
+    def remove_ingredient(self, ingredient):
+        if ingredient in self.ingredients:
+            self.ingredients.remove(ingredient)
+            db.session.commit()
+
     def __repr__(self):
-        return f'<Order {self.id}>'
-    
+        return f'<Burger {self.id}>'
+
     def serialize(self):
         return {
             'id': self.id,
@@ -92,6 +96,7 @@ class Burger(db.Model):
             'total_price': self.calculate_total_price(),
             'ingredients': [bi.serialize() for bi in self.ingredients]
         }
+
     
 # class BurgerIngredient(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
