@@ -31,28 +31,42 @@ export const Menu = () => {
         navigate("/cart");
     };
 
-    // Define the z-indices for burger ingredients
     // const zIndices = {
     //     [topBunImg]: 4,
     //     [condimentsImg]: 3,
     //     [sauceImg]: 2,
     //     [pattyImg]: 1,
-    //     [bottomBunImg]: 0
+    //     //if the ingredients zindex is equal to 0 its at the
+    //     [ingredient.z_index]: 0
     // };
+
+    // // Sort the ingredients based on their fixed z-index
+    // const sortedIngredients = burgerIngredients.sort((a, b) => zIndices[b.imgSrc] - zIndices[a.imgSrc]);
 
     return (
         <div className="card menu-card">
             <div className="card-body">
                 <div className="burger-container container mt-5">
-                <h2>Build Your Burger</h2>
-                    <div>
-                        {store.current_burger?.ingredients
-                            ?.sort((ingredient) => ingredient.z_index ) // Sort ingredients based on zIndex
-                            .map((ingredient, index) => (
-                                <img key={index} src={ingredient.image} alt={ingredient.name} />
-                            ))}
+                    <h2>Build Your Burger</h2>
+                    {/* Burger Previewer Div */}
+                    <div className="burger-previewer" style={{ width: '250px', height: '250px', overflow: 'hidden', position: 'relative' }}>
+                        {store.current_burger?.ingredients && Array.isArray(store.current_burger.ingredients) && store.current_burger.ingredients.map((ingredient, index) => (
+                            <img 
+                                key={index} 
+                                src={ingredient.image} 
+                                alt={ingredient.name} 
+                                style={{ 
+                                    zIndex: ingredient.z_index, 
+                                    position: 'absolute', 
+                                    width: '100%', 
+                                    height: '100%', 
+                                    top: 0, 
+                                    left: 0 
+                                }}
+                            />
+                        ))}
                     </div>
-
+    
                     <div className="ingredient-options">
                         <h3>Choose Your Ingredients</h3>
                         {/* Render ingredient options */}
@@ -71,6 +85,7 @@ export const Menu = () => {
             </div>
         </div>
     );
+    
 };
 
 
