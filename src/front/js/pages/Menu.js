@@ -11,18 +11,18 @@ export const Menu = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
     const [burgerIngredients, setBurgerIngredients] = useState([]);
-    const [burgerId, setBurgerId] = useState(null);
+    const [burger_id, setBurgerId] = useState(null);
 
     useEffect(() => {
-       
-        // actions.getBurger();
-   
+        actions.getBurgers(burger_id);
+        actions.fetchBurgerIngredients();
+        // actions.createBurger();
     }, []);
     
-    const handleIngredientClick = (burger_id, ingredient) => {
+    const handleIngredientClick = (burger, ingredient) => {
         // Call the action to add the ingredient to the burger
-        actions.addIngredientToBurger(burger_id, ingredient);
-    };
+        actions.addIngredientToBurger(burger.id, ingredient.id);
+    };;
     
     
 
@@ -45,28 +45,24 @@ export const Menu = () => {
             <div className="card-body">
                 <div className="burger-container container mt-5">
                     <h2>Build Your Burger</h2>
-                    <div className="burger-preview">
-                        {/* Render burger ingredients based on the selected ingredients */}
-                        {burgerIngredients.map((ingredientId, index) => {
-                            const ingredient = store.ingredients.find(item => item.id === ingredientId);
-                            return ingredient ? (
-                                <img key={index} src={ingredient.image} alt={ingredient.name} style={{ zIndex: zIndices[ingredient.image] }} />
-                            ) : null;
+                    <div>
+                        {store.current_burger?.ingredients?.map((ing, index) => {
+                            // burger.ingredients.map((ingredient,index) => (
+                            //     console.log(ingredient)
+                            // ))
+                            return `<span>${JSON.stringify(ing)}</span>`
                         })}
                     </div>
-                   
                     <div className="ingredient-options">
                         <h3>Choose Your Ingredients</h3>
                         {/* Render ingredient options */}
                         {store.ingredients.map((ingredient, index) => (
-                            console.log(ingredient),
                             <IngredientComponent  
-                            key={index}
-                            ingredient={ingredient}
-                            onIngredientClick={() => handleIngredientClick()}
-                          />
+                                key={index}
+                                ingredient={ingredient}
+                                onIngredientClick={() => handleIngredientClick(store.current_burger, ingredient)} // Pass burger_id and ingredient to the handler
+                            />
                         ))}
-                        
                     </div>
                     <button className="btn btn-primary mt-3" onClick={handleProceedToCart}>
                         Go to Cart

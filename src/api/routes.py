@@ -96,7 +96,7 @@ def create_burger():
     db.session.refresh(burger)
     return jsonify(burger.serialize())
 
-# ***use for favorites
+# ***use for favorites ***works <--2/28/24
 @api.route("/burgers/reorder/<int:burger_id>", methods=["POST"])
 @jwt_required(protected)
 def reorder_burger(burger_id):
@@ -154,7 +154,7 @@ def get_burger_ingredients(burger_id):
     serialized_ingredients = [ingredient.serialize() for ingredient in ingredients] 
     return jsonify(serialized_ingredients)
 
-# put changes in burger to burgers(edit burgers route) <--
+# put changes in burger to burgers(edit burgers route) <-- ***works
 @api.route("/burgers/<int:burger_id>", methods=["PUT"])
 def update_burger(burger_id):
     data = request.get_json()
