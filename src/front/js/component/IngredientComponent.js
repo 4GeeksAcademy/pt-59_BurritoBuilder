@@ -9,7 +9,7 @@ const IngredientComponent = ({ ingredient, onIngredientClick }) => {
   return (
     <div onClick={handleClick}>
       {/* Render your ingredient */}
-      <img src={ingredient.image} alt={ingredient.name} />
+      <img src={ingredient.image} alt={ingredient.name} style={{ width: '100px', height: '100px' }}/>
       <p>{ingredient.name}</p>
     </div>
   );

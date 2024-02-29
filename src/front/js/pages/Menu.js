@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
@@ -48,8 +48,9 @@ export const Menu = () => {
             <div className="card-body">
                 <div className="burger-container container mt-5">
                     <h2>Build Your Burger</h2>
+                    <div style={{ display: 'flex' }}>
                     {/* Burger Previewer Div */}
-                    <div className="burger-previewer" style={{ width: '250px', height: '250px', overflow: 'hidden', position: 'relative' }}>
+                    <div className="burger-previewer" style={{ width: '250px', height: '250px', overflow: 'hidden', position: 'relative', border: '2px solid #3b85fb', borderRadius: '10px' }}>
                         {store.current_burger?.ingredients && Array.isArray(store.current_burger.ingredients) && store.current_burger.ingredients.map((ingredient, index) => (
                             <img 
                                 key={index} 
@@ -66,8 +67,40 @@ export const Menu = () => {
                             />
                         ))}
                     </div>
-    
-                    <div className="ingredient-options">
+                        {/* Buttons for Profile, Cart, and Favorites */}
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginLeft: '20px' }}>
+    <Link to="/private" style={{ textDecoration: 'none' }}>
+        <button className="btn btn-primary btn-icon" style={{ width: '60px', height: '60px', marginBottom: '10px', position: 'relative', border: '1px solid #3b85fb', borderRadius: '8px' }}>
+            <div style={{ width: '30px', height: '30px', backgroundColor: 'white', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', borderRadius: '5px' }}>
+                <img src="https://img.icons8.com/fluency/48/000000/gender-neutral-user.png" alt="Profile" style={{ width: '29px', height: '29px' }} />
+            </div>
+        </button>
+    </Link>
+    <Link to="/shoppingcart" style={{ textDecoration: 'none' }}>
+        <button className="btn btn-primary btn-icon" style={{ width: '60px', height: '60px', marginBottom: '10px', position: 'relative', border: '1px solid #3b85fb', borderRadius: '8px' }}>
+            <div style={{ width: '30px', height: '30px', backgroundColor: 'white', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', borderRadius: '5px' }}>
+                <img src="https://img.icons8.com/fluency/48/000000/shopping-cart.png" alt="Cart" style={{ width: '29px', height: '29px' }} />
+            </div>
+        </button>
+    </Link>
+    <button className="btn btn-primary btn-icon" style={{ width: '60px', height: '60px', marginBottom: '10px', position: 'relative', border: '1px solid #3b85fb', borderRadius: '8px' }}>
+        <div style={{ width: '30px', height: '30px', backgroundColor: 'white', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', borderRadius: '5px' }}>
+            <img src="https://img.icons8.com/fluency/48/000000/like.png" alt="Favorites" style={{ width: '29px', height: '29px' }} />
+        </div>
+    </button>
+</div>
+
+
+
+
+
+
+
+
+
+                    </div>
+
+                    <div className="ingredient-options" style={{ width: '500px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '10px' }}>
                         <h3>Choose Your Ingredients</h3>
                         {/* Render ingredient options */}
                         {store.ingredients.map((ingredient, index) => (
