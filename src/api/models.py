@@ -58,6 +58,7 @@ class Ingredient(db.Model):
             'name': self.name,
             'image': self.image,
             'price': self.price,
+            'z_index': self.z_index
         }
 
 

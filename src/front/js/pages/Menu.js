@@ -44,15 +44,15 @@ export const Menu = () => {
         <div className="card menu-card">
             <div className="card-body">
                 <div className="burger-container container mt-5">
-                    <h2>Build Your Burger</h2>
+                <h2>Build Your Burger</h2>
                     <div>
-                        {store.current_burger?.ingredients?.map((ing, index) => {
-                            // burger.ingredients.map((ingredient,index) => (
-                            //     console.log(ingredient)
-                            // ))
-                            return `<span>${JSON.stringify(ing)}</span>`
-                        })}
+                        {store.current_burger?.ingredients
+                            ?.sort((ingredient) => ingredient.z_index ) // Sort ingredients based on zIndex
+                            .map((ingredient, index) => (
+                                <img key={index} src={ingredient.image} alt={ingredient.name} />
+                            ))}
                     </div>
+
                     <div className="ingredient-options">
                         <h3>Choose Your Ingredients</h3>
                         {/* Render ingredient options */}
