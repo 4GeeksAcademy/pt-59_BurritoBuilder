@@ -6,6 +6,32 @@
     filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(100%) hue-rotate(20deg);
 }
 
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 75px); /* Adjust the spacing between the square and the dropdown */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px; /* Adjust the width of the dropdown menu */
+    background-color: #3b85fb; /* Set background color */
+    border-radius: 8px; /* Add border radius */
+    padding: 8px; /* Add padding */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.square-with-icon:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 5px); /* Adjust Y offset for sliding effect */
+}
+
+.dropdown-item img {
+    width: 24px; /* Adjust size of icons */
+    height: 24px;
+    margin-right: 8px;
+}
+
 
 Menu.js CSS
 .menu-card {
