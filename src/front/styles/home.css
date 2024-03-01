@@ -1,6 +1,12 @@
 .bronze-border {
     border: 6px solid #cd7f32; /* Bronze color */
 }
+
+.icon:hover {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(100%) hue-rotate(20deg);
+}
+
+
 Menu.js CSS
 .menu-card {
     max-width: 500px; /* Adjust as needed */
