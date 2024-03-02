@@ -87,7 +87,7 @@ Menu.js CSS
 }
 
 .whiteLeftSlide:hover {
-    width: 100px; /* Increase the width on hover */
+    width: 175px; /* Increase the width on hover */
 }
 .blueMenuButton {
     align-items: left;
@@ -99,10 +99,11 @@ Menu.js CSS
     background: #3b85fb;
     box-shadow: none;
     z-index: 4;
-    transition: left 0.5s ease-out; /* Apply transition to width property */
+    transition: width 0.5s ease-out; /* Apply transition to width property */
     right:0px;
     top:0px;
+    left:0px;
 }
 .blueMenuButton:hover {
-    left: -100px; /* Increase the width on hover */
+    width: 0px; /* Increase the width on hover */
 }

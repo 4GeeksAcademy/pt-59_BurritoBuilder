@@ -45,10 +45,11 @@ export const Menu = () => {
                     <div className="modual for preview-contaner and util buttons" style={{ display: 'flex', justifyContent:'center',}}>
                         {/* Buttons for Profile, Cart, and Favorites */}
                         <div className="MenuPagesSlider" style={{ position: 'relative' }}>
-                            <button className="blueMenuButton"  onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
+                            
+                            <div className="whiteLeftSlide" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
+                            <button className="blueMenuButton"  >
                                 <img src="https://img.icons8.com/material-outlined/24/FFFFFF/menu.png"  alt="Menu" style={{ width: '22px', height: '24px', position: 'absolute', top: '50%', left: '55%', transform: 'translate(-50%, -50%)' }} />
                             </button>
-                            <div className="whiteLeftSlide" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
                             </div>
                         </div>
                         {/* Burger Preview Div */}
