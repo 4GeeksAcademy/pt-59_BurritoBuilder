@@ -72,18 +72,21 @@ Menu.js CSS
     width: 60px; /* Adjust size as needed */
     height: 60px; /* Adjust size as needed */
 }
+
+/* The following css effect MenuPageSlider.js */
 .whiteLeftSlide {
     width: 32px;
     height: 60px;
     margin-bottom: 0px;
     position: absolute;
-    border: 1px solid #3b85fb;
-    border-radius: 10px 0 0 10px;
+    border: 2px solid #3b85fb;
+    border-radius: 12px 0 0 12px;
     background: white;
     box-shadow: none;
     transition: width 0.5s ease-out; /* Apply transition to width property */
     right:0px;
     top:0px;
+    
 }
 
 .whiteLeftSlide:hover {
@@ -101,9 +104,45 @@ Menu.js CSS
     z-index: 4;
     transition: width 0.5s ease-out; /* Apply transition to width property */
     right:0px;
-    top:0px;
+    top:-2px;
     left:0px;
 }
 .blueMenuButton:hover {
     width: 0px; /* Increase the width on hover */
+}
+.greySquare {
+    width: 20px;
+    height: 20px;
+    background-color: grey;
+    position: absolute;
+    top: 50%;
+    left: 10px; /* Adjust the position as needed */
+    transform: translate(-50%, -50%);
+}
+.Profile {
+    width: 20px;
+    height: 20px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 62px; /* Adjust the position as needed */
+    transform: translate(-50%, -50%);
+}
+.ShoppingCart {
+    width: 20px;
+    height: 20px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 103px; /* Adjust the position as needed */
+    transform: translate(-50%, -50%);
+}
+.Favorites {
+    width: 20px;
+    height: 20px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 144px; /* Adjust the position as needed */
+    transform: translate(-50%, -50%);
 }
