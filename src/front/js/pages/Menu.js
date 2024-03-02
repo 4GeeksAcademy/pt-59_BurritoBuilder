@@ -48,37 +48,16 @@ export const Menu = () => {
                     <div className="modual for preview-contaner and util buttons" style={{ display: 'flex', justifyContent:'center',}}>
                         {/* Buttons for Profile, Cart, and Favorites */}
                         <div className="MenuPagesSlider" style={{ position: 'relative', zIndex: '1' }}>
-    <MenuPageSlider />
-</div>
-{/* Burger Preview Div */}
-<div className="burger-previewer-container" style={{ position: 'relative', zIndex: '2' }}>
-    <BurgerPreviewer currentBurger={store.current_burger}/>
-</div>
-
-
-                        {/* These will be for different functions */}
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginLeft: '20px' }}>
-                            <Link to="/private" style={{ textDecoration: 'none' }}>
-                                <button className="btn btn-primary btn-icon" style={{ width: '60px', height: '60px', marginBottom: '10px', position: 'relative', border: '1px solid #3b85fb', borderRadius: '8px' }}>
-                                    <div style={{ width: '30px', height: '40px', backgroundColor: 'white', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', borderRadius: '5px' }}>
-                                        
-                                    </div>
-                                </button>
-                            </Link>
-                            <Link to="/shoppingcart" style={{ textDecoration: 'none' }}>
-                                <button className="btn btn-primary btn-icon" style={{ width: '60px', height: '60px', marginBottom: '10px', position: 'relative', border: '1px solid #3b85fb', borderRadius: '8px' }}>
-                                    <div style={{ width: '30px', height: '40px', backgroundColor: 'white', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', borderRadius: '5px' }}>
-                                        <img src="https://img.icons8.com/fluency/48/AAAAAA/shopping-cart.png" alt="Cart" style={{ width: '29px', height: '29px', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
-                                    </div>
-                                </button>
-                            </Link>
-                            <button className="btn btn-primary btn-icon" style={{ width: '60px', height: '60px', marginBottom: '10px', position: 'relative', border: '1px solid #3b85fb', borderRadius: '8px' }}>
-                                <div style={{ width: '30px', height: '40px', backgroundColor: 'white', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', borderRadius: '5px' }}>
-                                    <img src="https://img.icons8.com/fluency/48/AAAAAA/like.png" alt="Favorites" style={{ width: '29px', height: '29px', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
-                                </div>
-                            </button>
+                            <MenuPageSlider />
                         </div>
+                        {/* Burger Preview Div */}
+                        <div className="burger-previewer-container" style={{ position: 'relative', zIndex: '2' }}>
+                            <BurgerPreviewer currentBurger={store.current_burger}/>
+                        </div>
+                         {/* These will be for different functions */}
+                        <div class="cart-tab"></div>
                     </div>
+                    
                     {/* <-- End of "TopHalf of page" burger preview and buttons-->  */}
                     {/* Builder Tools Tab */}
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '72px' }}>

@@ -146,3 +146,9 @@ Menu.js CSS
     left: 144px; /* Adjust the position as needed */
     transform: translate(-50%, -50%);
 }
+.cart-tab {
+    width: 32px;
+    height: 80px;
+    background-color: #3b85fb;
+    border-radius: 0px 10px 10px 0px;
+}
