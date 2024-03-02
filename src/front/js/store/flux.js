@@ -202,6 +202,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 		const data = await response.json();
 		setStore({current_burger: data.burger});
 		},
+
+
+		
 	// Add Ingredient to Burger
 	// addIngredienttoBurger:async (ingredientId) => { 
 	// 	try {

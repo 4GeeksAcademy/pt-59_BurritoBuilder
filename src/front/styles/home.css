@@ -72,5 +72,37 @@ Menu.js CSS
     width: 60px; /* Adjust size as needed */
     height: 60px; /* Adjust size as needed */
 }
+.whiteLeftSlide {
+    width: 32px;
+    height: 60px;
+    margin-bottom: 0px;
+    position: absolute;
+    border: 1px solid #3b85fb;
+    border-radius: 10px 0 0 10px;
+    background: white;
+    box-shadow: none;
+    transition: width 0.5s ease-out; /* Apply transition to width property */
+    right:0px;
+    top:0px;
+}
 
-
+.whiteLeftSlide:hover {
+    width: 100px; /* Increase the width on hover */
+}
+.blueMenuButton {
+    align-items: left;
+    width: 32px;
+    height: 60px;
+    position: absolute;
+    border: 1px solid #3b85fb;
+    border-radius: 10px 0 0 10px;
+    background: #3b85fb;
+    box-shadow: none;
+    z-index: 4;
+    transition: left 0.5s ease-out; /* Apply transition to width property */
+    right:0px;
+    top:0px;
+}
+.blueMenuButton:hover {
+    left: -100px; /* Increase the width on hover */
+}
