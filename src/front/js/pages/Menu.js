@@ -7,34 +7,44 @@ import { Collapse } from 'react-bootstrap';
 import IngredientComponent from "../component/IngredientComponent";
 import MenuPageSlider from "../component/MenuPageSlider";
 import BurgerPreviewer from "../component/BurgerPreviewer";
+import context from "react-bootstrap/esm/AccordionContext";
 
 export const Menu = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
     const [burgerIngredients, setBurgerIngredients] = useState([]);
     const [burger_id, setBurgerId] = useState(null);
-    const [isHovered, setIsHovered] = useState(false);
-    
+   
     useEffect(() => {
-        actions.getBurgers(burger_id);
+        // actions.getCurrentBurger(burger_id);
+        // actions.getIngredients();
         
-        actions.fetchBurgerIngredients();
-        // actions.createBurger();
     }, []);
     
+    // test('Check store state', () => {
+    //     // Access the store or context directly and inspect its state
+    //     console.log(store.getState()); // Log the state to the console
+    // });
+    // useEffect(() => {
+    //     // Store current burger in local storage when it changes
+    //     localStorage.setItem("current_burger", JSON.stringify(store.current_burger));
+    // }, [store.current_burger]);
+
     const handleIngredientClick = (burger, ingredient) => {
         // Call the action to add the ingredient to the burger
         actions.addIngredientToBurger(burger.id, ingredient.id);
+        
     };
     
-    // const handleMouseEnter = () => {
-    //     setIsHovered(true);
-    // };
+        const handleAddToShoppingCart = () => {
+            actions.addToShoppingCart();
+        };
 
-    // const handleMouseLeave = () => {
-    //     setIsHovered(false);
-    // };
-
+        const handleClearIngredients = () => {
+            // Call the clearIngredients function here
+            actions.clearIngredients();
+        };
+  
    
     const handleProceedToCart = () => {
         // Navigate to the cart page
@@ -52,18 +62,23 @@ export const Menu = () => {
                         </div>
                         {/* Burger Preview Div */}
                         <div className="burger-previewer-container" style={{ position: 'relative', zIndex: '2' }}>
-                            <BurgerPreviewer currentBurger={store.current_burger}/>
+                            <BurgerPreviewer currentBurger={store.current_burger} />
                         </div>
                          {/* These will be for different functions */}
-                        <div class="cart-tab"></div>
+                        <div className="cart-tab"></div>
                     </div>
                     
                     {/* <-- End of "TopHalf of page" burger preview and buttons-->  */}
                     {/* Builder Tools Tab */}
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '72px' }}>
                         <div style={{ width: '100px', height: '30px', backgroundColor: '#3b85fb', display: 'flex', justifyContent: 'center', alignItems: 'center', clipPath: 'polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%)', borderRadius: '0 0 25px 25px', }}>
-                            <img src="https://img.icons8.com/material-outlined/24/FFFFFF/plus--v1.png" alt="Add" style={{ width: '24px', height: '24px', marginRight: '10px' }} />
-                            <img src="https://img.icons8.com/material-outlined/24/FFFFFF/trash--v1.png" alt="Delete" style={{ width: '24px', height: '24px' }} />
+                            <img
+                                src="https://img.icons8.com/material-outlined/24/FFFFFF/plus--v1.png"
+                                alt="Add"
+                                style={{ width: '24px', height: '24px', marginRight: '10px', cursor: 'pointer' }}
+                                onClick={handleAddToShoppingCart}
+                            />
+                            <img src="https://img.icons8.com/material-outlined/24/FFFFFF/trash--v1.png" alt="Delete" onClick={handleClearIngredients} style={{ width: '24px', height: '24px', cursor: 'pointer' }} />
                         </div>
                     </div>
                     

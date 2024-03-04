@@ -113,37 +113,37 @@ Menu.js CSS
 .greySquare {
     width: 20px;
     height: 20px;
-    background-color: grey;
+    background-color: rgb(255, 255, 255);
     position: absolute;
     top: 50%;
     left: 10px; /* Adjust the position as needed */
     transform: translate(-50%, -50%);
 }
 .Profile {
-    width: 20px;
-    height: 20px;
+    width: 8px;
+    height: 8px;
     background-color: rgb(255, 255, 255);
     position: absolute;
-    top: 50%;
-    left: 62px; /* Adjust the position as needed */
+    top: 22%;
+    left: 45px; /* Adjust the position as needed */
     transform: translate(-50%, -50%);
 }
 .ShoppingCart {
-    width: 20px;
-    height: 20px;
+    width: 8px;
+    height: 8px;
     background-color: rgb(255, 255, 255);
     position: absolute;
-    top: 50%;
-    left: 103px; /* Adjust the position as needed */
+    top: 22%;
+    left: 85px; /* Adjust the position as needed */
     transform: translate(-50%, -50%);
 }
 .Favorites {
-    width: 20px;
-    height: 20px;
+    width: 8px;
+    height: 8px;
     background-color: rgb(255, 255, 255);
     position: absolute;
-    top: 50%;
-    left: 144px; /* Adjust the position as needed */
+    top: 22%;
+    left: 130px; /* Adjust the position as needed */
     transform: translate(-50%, -50%);
 }
 .cart-tab {

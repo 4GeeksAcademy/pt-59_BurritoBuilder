@@ -99,7 +99,37 @@ class Burger(db.Model):
             'ingredients': [bi.serialize() for bi in self.ingredients]
         }
 
-    
+class ShoppingCart(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    burger_id = db.Column(db.Integer, db.ForeignKey('burger.id'), nullable=False)
+    # Define any additional columns as needed
+
+    # Define the relationship to the User table
+    user = db.relationship('User', backref='shopping_cart')
+    # Define the relationship to the Burger table
+    burger = db.relationship('Burger', backref='shopping_cart')
+
+    def __repr__(self):
+        return f'<ShoppingCart user_id={self.user_id}, burger_id={self.burger_id}>'
+
+
+class FavoriteBurger(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    burger_id = db.Column(db.Integer, db.ForeignKey('burger.id'), nullable=False)
+    # Define any additional columns as needed
+
+    # Define the relationship to the User table
+    user = db.relationship('User', backref='favorite_burgers')
+    # Define the relationship to the Burger table
+    burger = db.relationship('Burger', backref='favorite_burgers')
+
+    def __repr__(self):
+        return f'<FavoriteBurger user_id={self.user_id}, burger_id={self.burger_id}>'
+
+
+#<--Do not use below this line. This is an example of my previous thought on how to handle this data.-->
 # class BurgerIngredient(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
 #     burger_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)

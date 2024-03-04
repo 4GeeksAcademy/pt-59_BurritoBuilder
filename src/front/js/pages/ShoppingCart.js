@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
@@ -8,7 +8,7 @@ export const ShoppingCart = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        //this is where git request for recieving burger info.
+        //this is where the info from the request for recieving burger .
     }, []);
 
     return (
@@ -24,6 +24,9 @@ export const ShoppingCart = () => {
             <button className="btn btn-primary" onClick={() => navigate("/checkout")}>
                 Proceed to Checkout
             </button>
+            <Link to="/Menu" style={{ textDecoration: 'none' }}>
+            <button>Go back to Menu</button>
+        </Link>
         </div>
     );
 };

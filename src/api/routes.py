@@ -4,7 +4,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Burger, Ingredient
+from api.models import db, User, Burger, Ingredient, ShoppingCart, FavoriteBurger
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
@@ -117,7 +117,7 @@ def reorder_burger(burger_id):
 def get_all_burger():
     burgers = Burger.query.all()
     return jsonify(
-        burgers=[burg.serialize() for burg in burgers])
+        burgers=[burger.serialize() for burger in burgers])
 
 # get a burger by using id ***works
 @api.route('/burgers/<int:burger_id>', methods=['GET'])
@@ -207,24 +207,105 @@ def add_ingredient_to_burger(burger_id, ingredient_id):
     else:
         return jsonify({"error": "Ingredient already exists in burger"}), 400 
 
+# Work this delete Define a route to clear all ingredients from a specific burger
+@api.route('/burgers/<int:burger_id>/ingredients', methods=['DELETE'])
+def clear_burger_ingredients(burger_id):
+    try:
+        # Find the burger with the given burger_id
+        burger = Burger.query.get(burger_id)
+        if burger:
+            # Clear the ingredients associated with the burger
+            burger.ingredients.clear()
+            # Commit changes to the database
+            db.session.commit()
+            return jsonify({'message': f'Ingredients cleared from burger with ID {burger_id}'}), 200
+        else:
+            return jsonify({'error': f'Burger with ID {burger_id} not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
-#delete ingredient -->
-@api.route("/burgers/<int:burger_id>/remove_ingredient", methods=["PUT"])
-def remove_ingredient_from_burger(burger_id):
+# get shoppingCart
+@api.route('/api/shopping-cart/<int:user_id>/burgers', methods=['GET'])
+def get_shopping_cart_burgers(user_id):
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify({'error': 'User not found'}), 404
+    
+    shopping_cart_burgers = user.shopping_cart
+    return jsonify([burger.serialize() for burger in shopping_cart_burgers])
+
+# post a burger
+@api.route('/api/shopping-cart/<int:user_id>/burgers', methods=['POST'])
+def add_burger_to_shopping_cart(user_id):
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify({'error': 'User not found'}), 404
+    
+    data = request.json
+    burger_id = data.get('burger_id')
+    if burger_id is None:
+        return jsonify({'error': 'Burger ID not provided'}), 400
+    
     burger = Burger.query.get(burger_id)
-    if not burger:
-        return jsonify({"error": "Burger not found"}), 404
+    if burger is None:
+        return jsonify({'error': 'Burger not found'}), 404
     
-    data = request.get_json()
-    ingredient_id = data.get('ingredient_id')
-    ingredient = Ingredient.query.get(ingredient_id)
-    if not ingredient:
-        return jsonify({"error": "Ingredient not found"}), 404
-
-    burger.remove_ingredient(ingredient)
-    
+    shopping_cart_item = ShoppingCart(user_id=user.id, burger_id=burger.id)
+    db.session.add(shopping_cart_item)
     db.session.commit()
-    return jsonify({"message": "Ingredient removed from burger successfully"}), 200
+    
+    return jsonify({'message': 'Burger added to shopping cart successfully'})
+
+# Get favorite burgers
+@api.route('/api/favorite-burgers/<int:user_id>', methods=['GET'])
+def get_favorite_burgers(user_id):
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify({'error': 'User not found'}), 404
+    
+    favorite_burgers = user.favorite_burgers
+    return jsonify([burger.serialize() for burger in favorite_burgers])
+
+@api.route('/api/favorite-burgers/<int:user_id>', methods=['POST'])
+def add_burger_to_favorite_burgers(user_id):
+    user = User.query.get(user_id)
+    if user is None:
+        return jsonify({'error': 'User not found'}), 404
+    
+    data = request.json
+    burger_id = data.get('burger_id')
+    if burger_id is None:
+        return jsonify({'error': 'Burger ID not provided'}), 400
+    
+    burger = Burger.query.get(burger_id)
+    if burger is None:
+        return jsonify({'error': 'Burger not found'}), 404
+    
+    favorite_burger = FavoriteBurger(user_id=user.id, burger_id=burger.id)
+    db.session.add(favorite_burger)
+    db.session.commit()
+    
+    return jsonify({'message': 'Burger added to favorite burgers successfully'})
+
+
+
+# #delete ingredient --> nope
+# @api.route("/burgers/<int:burger_id>/remove_ingredient", methods=["PUT"])
+# def remove_ingredient_from_burger(burger_id):
+#     burger = Burger.query.get(burger_id)
+#     if not burger:
+#         return jsonify({"error": "Burger not found"}), 404
+    
+#     data = request.get_json()
+#     ingredient_id = data.get('ingredient_id')
+#     ingredient = Ingredient.query.get(ingredient_id)
+#     if not ingredient:
+#         return jsonify({"error": "Ingredient not found"}), 404
+
+#     burger.remove_ingredient(ingredient)
+    
+#     db.session.commit()
+#     return jsonify({"message": "Ingredient removed from burger successfully"}), 200
 
 
 
@@ -329,7 +410,7 @@ def remove_ingredient_from_burger(burger_id):
 
     return jsonify({"message": "Ingredient added to burger successfully", "name": name, "price": price}), 200
 
-# @api.route('/remove-ingredient/<string:ingredient_name>', methods=['DELETE'])
+# @api.route('/remove-ingredients/<string:ingredient_name>', methods=['DELETE'])
 # def remove_ingredient_from_burger(ingredient_name):
 #     try:
 #         # Retrieve the ingredient from the database based on the provided name

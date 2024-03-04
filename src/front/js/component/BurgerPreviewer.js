@@ -4,23 +4,22 @@ import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
 
+
 const BurgerPreviewer = ({ currentBurger }) => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
-    const [burgerIngredients, setBurgerIngredients] = useState([]);
     const [burger_id, setBurgerId] = useState(null);
-    const [isHovered, setIsHovered] = useState(false);
-    useEffect(() => {
-        actions.getBurgers(burger_id);
-        actions.fetchBurgerIngredients();
-        // actions.createBurger();
-    }, []);
-console.log(currentBurger)
+   
+    
+    
+
+// console.log(burger_id)
+
     return (
-        <div className="burger-previewer" style={{ width: '250px', height: '250px', overflow: 'hidden', position: 'relative', border: '4px solid #3b85fb', borderRadius: '0px 10px 0px 10px', backgroundColor: 'white' }}>
+        <div className="burger-previewer" style={{ width: '250px', height: '250px', overflow: 'hidden', position: 'relative', border: '4px solid #3b85fb', borderRadius: '0px 0px 10px 10px', backgroundColor: 'white' }}>
             {currentBurger?.ingredients && Array.isArray(currentBurger.ingredients) && currentBurger.ingredients.map((ingredient, index) => (
-             console.log(burgerIngredients),
-             console.log(currentBurger),  
+            //  console.log(burgerIngredients),
+            //  console.log(currentBurger),  
                 <img
                     key={index}
                     src={ingredient.image}
