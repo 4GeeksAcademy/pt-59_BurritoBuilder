@@ -10,7 +10,9 @@ const BurgerPreviewer = ({ currentBurger }) => {
     const navigate = useNavigate();
     const [burger_id, setBurgerId] = useState(null);
    
-    
+ useEffect(()=>{
+    actions.getBurgers()
+ },[])   
     
 
 // console.log(burger_id)

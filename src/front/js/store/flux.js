@@ -153,7 +153,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	getBurgers: async () => { 
 		const response = await fetch(process.env.BACKEND_URL + "/api/burgers"); 
 		const data = await response.json();
-		setStore({ burgers: data });	
+		setStore({ burgers: data.burgers });	
 	},
 	
 	fetchBurgerIngredients: async (ingredients) => {
@@ -168,7 +168,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 	const data = await response.json();
 		setStore({ current_burger: data.burger });
 	},
-
 	//this does not work as intended
 	getCurrentBurger: async (burger_id) => { 
 		try {
@@ -183,6 +182,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 		}
 	},
 	addIngredientToBurger:async (burger_id, ingredient_id) => {
+		if (typeof(burger_id)=="undefined"){
+			let burger = getStore().burgers[getStore().burgers.length - 1]
+			// console.log(burger)	
+			burger_id=burger.id
+		}
 		const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/${burger_id}`, {
 			method: "PUT",
 			headers: {
