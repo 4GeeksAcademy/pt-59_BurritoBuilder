@@ -205,7 +205,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 		setStore({current_burger: data.burger});
 		
 		},
-		clearIngredients: async (burger_id, setBurgerIngredients, store) => {
+		
+		clearIngredients: async (burger_id, store) => {
+			if (typeof(burger_id) === "undefined") {
+				let burger = getStore().burgers[getStore().burgers.length - 1];
+				burger_id = burger.id;
+			}
 			try {   
 				const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/${burger_id}/ingredients`, {
 					method: 'DELETE',
@@ -219,9 +224,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw new Error('Failed to clear ingredients from the burger');
 				}
 				// Clear ingredients from the global state if needed
-				setBurgerIngredients([]);
+				
 				// Return the response data if needed
 				const responseData = await response.json();
+				// Reload the page after receiving the response
+				window.location.reload();
 				return responseData;
 			} catch (error) {
 				// Handle any errors that occur during the fetch request
@@ -229,7 +236,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				throw error;
 			}
 		},
+		
 		// Fetch to post the burger ID and user ID to the shopping cart:
+		
 		addToShoppingCart:  async (userId, burgerId) => {
 			try {
 				const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/shopping-cart/${userId}/burgers`, {
@@ -253,7 +262,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			}
 		},
 		// Fetch to post the burger ID and user ID to favorites:
-		 addToFavorites: async (userId, burgerId) => {
+		 
+		addToFavorites: async (userId, burgerId) => {
 			try {
 				const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/favorite-burgers/${userId}`, {
 					method: 'POST',

@@ -19,6 +19,7 @@ export const Menu = () => {
         // actions.getCurrentBurger(burger_id);
         // actions.getIngredients();
         
+        
     }, []);
     
     // test('Check store state', () => {
