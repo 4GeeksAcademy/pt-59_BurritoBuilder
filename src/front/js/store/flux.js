@@ -239,7 +239,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 					body: JSON.stringify({ 
 						burger_id: burgerId
-						
 					}),
 
 				});
