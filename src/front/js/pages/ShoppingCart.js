@@ -8,7 +8,7 @@ export const ShoppingCart = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        //this is where the info from the request for recieving burger .
+        actions.get//this is where the info from the request for recieving burger .
     }, []);
 
     return (

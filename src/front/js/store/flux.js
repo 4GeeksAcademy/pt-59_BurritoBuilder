@@ -239,15 +239,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 		
 		// Fetch to post the burger ID and user ID to the shopping cart:
 		
-		addToShoppingCart:  async (userId, burgerId) => {
+		addToShoppingCart:  async (user_id, burger_id) => {
 			try {
-				const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/shopping-cart/${userId}/burgers`, {
+				const store = getStore();
+				const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/shopping-cart/${user_id}/burgers`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
+						"Authorization": "Bearer " + store.token
 					},
 					body: JSON.stringify({ 
-						burger_id: burgerId
+						burger_id: burger_id
 					}),
 
 				});
@@ -261,6 +263,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 				throw error;
 			}
 		},
+		
+		getShoppingCart: async (user_id) => {
+			try {
+				const store = getStore();
+				const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/shopping-cart/${user_id}/burgers`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						"Authorization": "Bearer " + store.token
+					}
+				});
+				if (!response.ok) {
+					throw new Error('Failed to get shopping cart');
+				}
+				const responseData = await response.json();
+				return responseData;
+			} catch (error) {
+				console.error('Error getting shopping cart:', error);
+				throw error;
+			}
+		},
+		
 		// Fetch to post the burger ID and user ID to favorites:
 		 
 		addToFavorites: async (userId, burgerId) => {

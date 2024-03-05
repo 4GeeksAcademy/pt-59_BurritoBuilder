@@ -64,6 +64,7 @@ export const Menu = () => {
                         {/* Burger Preview Div */}
                         <div className="burger-previewer-container" style={{ position: 'relative', zIndex: '2' }}>
                             <BurgerPreviewer currentBurger={store.current_burger} />
+                            
                         </div>
                          {/* These will be for different functions */}
                         <div className="cart-tab"></div>
