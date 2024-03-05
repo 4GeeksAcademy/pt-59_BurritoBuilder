@@ -69,7 +69,7 @@ class Burger(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    shopping_cart_id = db.Column(db.Integer, db.ForeignKey('shoppingcart.id'), nullable=False)
+    shopping_cart_id = db.Column(db.Integer, db.ForeignKey('shopping_cart.id'), nullable=False)
     user = db.relationship('User', back_populates="burgers")
     is_favorite = db.Column(db.Boolean(), unique=False, nullable=False)
     
@@ -78,7 +78,10 @@ class Burger(db.Model):
         secondary=burger_to_ingredient,
         primaryjoin=(id == burger_to_ingredient.c.burger_id),
         uselist=True,
+        overlaps="burgers"
     )
+    
+    shopping_cart = db.relationship('ShoppingCart', backref='burgers')
 
     def calculate_total_price(self):
         total_price = sum([bi.price for bi in self.ingredients])
@@ -109,21 +112,16 @@ class ShoppingCart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
    
-    # Define any additional columns as needed
-
     # Define the relationship to the User table
     user = db.relationship('User', back_populates='shopping_carts')
-    # Define the relationship to the Burger table
-    burgers = db.relationship('Burger')
-
+    
     def __repr__(self):
         return f'<ShoppingCart id={self.id}>'
     
     def serialize(self):
         return {
             'id': self.id,
-            'user_id': self.user_id,
-            'burgers': [burger.serialize() for burger in self.burgers]
+            'user_id': self.user_id
         }
 
 
