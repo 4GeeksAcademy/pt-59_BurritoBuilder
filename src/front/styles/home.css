@@ -177,7 +177,7 @@ Menu.js CSS
 
 .white-square {
     width: 30px; /* Adjust width to fit the blue square */
-    height: 30px; /* Adjust height to fit the blue square */
+    height: 40px; /* Adjust height to fit the blue square */
     background-color: rgb(255, 255, 255);
    
     top: 15px; /* Position the square at the bottom of the blue square */

@@ -35,7 +35,7 @@ const RobotEyes = () => {
                                 borderRadius: '50%', 
                                 position: 'absolute', 
                                  left: `calc(${mousePosition.x / window.innerWidth * 95}% - 3px)`, // Calculate the position of the eye center
-                            top: `calc(${mousePosition.y / window.innerHeight * 95}% + 8px)` // Calculate the position of the eye center 
+                            top: `calc(${mousePosition.y / window.innerHeight * 50}% + 8px)` // Calculate the position of the eye center 
                                 }}></div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@ const RobotEyes = () => {
                                 borderRadius: '50%', 
                                 position: 'absolute', 
                                 left: `calc(${mousePosition.x / window.innerWidth * 95}% - 7px)`, // Calculate the position of the eye center
-                                top: `calc(${mousePosition.y / window.innerHeight * 95}% + 8px)` // Calculate the position of the eye center 
+                                top: `calc(${mousePosition.y / window.innerHeight * 50}% + 8px)` // Calculate the position of the eye center 
                                 }}></div>
                     </div>
                 </div>
