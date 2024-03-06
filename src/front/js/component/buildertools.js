@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Buildertools = ({ handleAddToShoppingCart, handleClearIngredients }) => {
+const Buildertools = ({ handleAddNewBruger, handleClearIngredients }) => {
   return (
     <div style={{ 
         display: 'flex', 
@@ -27,7 +27,7 @@ const Buildertools = ({ handleAddToShoppingCart, handleClearIngredients }) => {
           src="https://img.icons8.com/material-outlined/24/FFFFFF/plus--v1.png"
           alt="Add"
           style={{ width: '24px', height: '24px', marginRight: '10px', cursor: 'pointer' }}
-          onClick={handleAddToShoppingCart}
+          onClick={handleAddNewBruger}
         />
         <img
           src="https://img.icons8.com/material-outlined/24/FFFFFF/trash--v1.png"

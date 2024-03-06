@@ -39,8 +39,8 @@ export const Menu = () => {
         
     };
     
-        const handleAddToShoppingCart = () => {
-            actions.addToShoppingCart();
+        const handleAddNewBruger = () => {
+            // actions.addToShoppingCart();
         };
 
         const handleClearIngredients = () => {
@@ -84,7 +84,7 @@ export const Menu = () => {
                     {/* <-- End of "TopHalf of page" burger preview and buttons-->  */}
                     {/* Builder Tools Tab */}
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '72px' }}>
-                        <Buildertools handleAddToShoppingCart={handleAddToShoppingCart} handleClearIngredients={handleClearIngredients} />
+                        <Buildertools handleAddNewBrugert={handleAddNewBruger} handleClearIngredients={handleClearIngredients} />
                      </div>
                    
                     
