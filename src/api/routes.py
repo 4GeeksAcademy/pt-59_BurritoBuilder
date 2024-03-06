@@ -4,7 +4,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Burger, Ingredient, ShoppingCart
+from api.models import db, User, Burger, Ingredient
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
@@ -224,19 +224,7 @@ def clear_burger_ingredients(burger_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# create a shopping cart
-@api.route ('/api/shopping-cart/', methods=['POST'] )
-@jwt_required()
-def create_shopping_cart():
-   user = User.query.filter_by(email=get_jwt_identity()).first()
-   if user is None:
-       return jsonify({"message": "User not found"}), 404
-   shoppingcart = ShoppingCart(user_id=user.id)
-   db.session.add(shoppingcart)
-   db.session.commit()
-   db.session.refresh(shoppingcart)
-   return jsonify({"message":"you created shoppingcart", "shoppingcart": shoppingcart.serialize() })
-# get shoppingCart
+# get shoppingCart (Burgers)
 @api.route('/api/shopping-cart/<int:user_id>/burgers', methods=['GET'])
 @jwt_required()
 def get_shopping_cart_burgers(user_id):

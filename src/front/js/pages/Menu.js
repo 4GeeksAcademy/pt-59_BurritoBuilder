@@ -4,6 +4,8 @@ import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Collapse } from 'react-bootstrap';
 
+import Buildertools from "../component/buildertools";
+
 import IngredientComponent from "../component/IngredientComponent";
 import MenuPageSlider from "../component/MenuPageSlider";
 import BurgerPreviewer from "../component/BurgerPreviewer";
@@ -57,32 +59,34 @@ export const Menu = () => {
             <div className="card-body">
                 <div className="burger-container container mt-5">
                     <div className="modual for preview-contaner and util buttons" style={{ display: 'flex', justifyContent:'center',}}>
+                        
                         {/* Buttons for Profile, Cart, and Favorites */}
-                        <div className="MenuPagesSlider" style={{ position: 'relative', zIndex: '1' }}>
+                        <div className="MenuPagesSlider" style={{ position: 'relative', top:'105px', zIndex: '1' }}>
                             <MenuPageSlider />
                         </div>
+                        
                         {/* Burger Preview Div */}
-                        <div className="burger-previewer-container" style={{ position: 'relative', zIndex: '2' }}>
+                        <div className="burger-previewer-container" style={{ 
+                            position: 'relative', 
+                            zIndex: '2' 
+                            }}>
+                            
                             <BurgerPreviewer currentBurger={store.current_burger} />
                             
                         </div>
+                        
                          {/* These will be for different functions */}
-                        <div className="cart-tab"></div>
+                        <div className="cart-tab" style={{ position: 'relative', top:'25px', zIndex: '1' }}></div>
                     </div>
                     
+                    
+                        
                     {/* <-- End of "TopHalf of page" burger preview and buttons-->  */}
                     {/* Builder Tools Tab */}
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '72px' }}>
-                        <div style={{ width: '100px', height: '30px', backgroundColor: '#3b85fb', display: 'flex', justifyContent: 'center', alignItems: 'center', clipPath: 'polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%)', borderRadius: '0 0 25px 25px', }}>
-                            <img
-                                src="https://img.icons8.com/material-outlined/24/FFFFFF/plus--v1.png"
-                                alt="Add"
-                                style={{ width: '24px', height: '24px', marginRight: '10px', cursor: 'pointer' }}
-                                onClick={handleAddToShoppingCart}
-                            />
-                            <img src="https://img.icons8.com/material-outlined/24/FFFFFF/trash--v1.png" alt="Delete" onClick={handleClearIngredients} style={{ width: '24px', height: '24px', cursor: 'pointer' }} />
-                        </div>
-                    </div>
+                        <Buildertools handleAddToShoppingCart={handleAddToShoppingCart} handleClearIngredients={handleClearIngredients} />
+                     </div>
+                   
                     
                     {/* Ingredient Choices Tab */}
                     <div className="ingredientMenu" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '275px' }}>

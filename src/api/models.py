@@ -10,7 +10,6 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     burgers = db.relationship("Burger", back_populates="user")
-    shopping_carts = db.relationship("ShoppingCart", back_populates="user")
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -19,8 +18,6 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            'burgers': [burger.serialize() for burger in self.burgers],
-            'shopping_carts': [cart.serialize() for cart in self.shopping_carts]
             # do not serialize the password, it's a security breach
         }
 
@@ -69,10 +66,7 @@ class Burger(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    shopping_cart_id = db.Column(db.Integer, db.ForeignKey('shopping_cart.id'), nullable=False)
     user = db.relationship('User', back_populates="burgers")
-    is_favorite = db.Column(db.Boolean(), unique=False, nullable=False)
-    
     ingredients = db.relationship(
         "Ingredient",
         secondary=burger_to_ingredient,
@@ -80,8 +74,6 @@ class Burger(db.Model):
         uselist=True,
         overlaps="burgers"
     )
-    
-    shopping_cart = db.relationship('ShoppingCart', backref='burgers')
 
     def calculate_total_price(self):
         total_price = sum([bi.price for bi in self.ingredients])
@@ -108,25 +100,21 @@ class Burger(db.Model):
             'ingredients': [bi.serialize() for bi in self.ingredients]
         }
 
-class ShoppingCart(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-   
-    # Define the relationship to the User table
-    user = db.relationship('User', back_populates='shopping_carts')
-    
-    def __repr__(self):
-        return f'<ShoppingCart id={self.id}>'
-    
-    def serialize(self):
-        return {
-            'id': self.id,
-            'user_id': self.user_id
-        }
+# class ShoppingCart(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+#     burger_id = db.Column(db.Integer, db.ForeignKey('burger.id'), nullable=False)
+#     # Define any additional columns as needed
+
+#     # Define the relationship to the User table
+#     user = db.relationship('User', backref='shopping_cart')
+#     # Define the relationship to the Burger table
+#     burger = db.relationship('Burger', backref='shopping_cart')
+
+#     def __repr__(self):
+#         return f'<ShoppingCart user_id={self.user_id}, burger_id={self.burger_id}>'
 
 
-
-#<--Do not use below this line. This is an example of my previous thought on how to handle this data.-->
 # class FavoriteBurger(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
 #     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -142,7 +130,7 @@ class ShoppingCart(db.Model):
 #         return f'<FavoriteBurger user_id={self.user_id}, burger_id={self.burger_id}>'
 
 
-
+#<--Do not use below this line. This is an example of my previous thought on how to handle this data.-->
 # class BurgerIngredient(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
 #     burger_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
@@ -174,4 +162,4 @@ class ShoppingCart(db.Model):
 #             'ingredient_name': self.ingredient.name,
 #             'quantity': self.quantity,
 #             'subtotal': self.subtotal()
-#         }    
+#         }     

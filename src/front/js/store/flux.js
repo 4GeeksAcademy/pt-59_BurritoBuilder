@@ -8,8 +8,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			burgers: [],
 			// orders: [],
 			current_burger: {},
-			ShoppingCart: [],
-			FavoriteBurger: [], 
+			
 			//we can add more state properties as needed
 		},
 		actions: {
