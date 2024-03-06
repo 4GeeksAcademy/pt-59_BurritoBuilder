@@ -17,7 +17,7 @@ const MenuPageSlider = () => {
     return (
         <div className="whiteLeftSlide" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <div className="greySquare"></div>
-                <Link to="/profile" className="nav-link">
+                <Link to="/private" className="nav-link">
                     <div className="Profile">
                         <img src="https://img.icons8.com/fluency/48/AAAAAA/gender-neutral-user.png" alt="Profile" style={{ width: '40px', height: '40px'}}/>
                     </div>

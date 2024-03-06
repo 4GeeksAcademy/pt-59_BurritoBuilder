@@ -152,3 +152,37 @@ Menu.js CSS
     background-color: #3b85fb;
     border-radius: 0px 10px 10px 0px;
 }
+/* robo eyes from menu.js */
+.robo-eyes {
+    display: flex;
+    justify-content: center; /* Center the eyes horizontally */
+}
+
+.eye {
+    position: relative;
+    margin: 0 10px;
+    top: 5px; /* Adjust the margin between the eyes */
+}
+
+.blue-square {
+    width: 60px;
+    height: 60px;
+    background-color: #3b85fb;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.white-square {
+    width: 30px; /* Adjust width to fit the blue square */
+    height: 30px; /* Adjust height to fit the blue square */
+    background-color: rgb(255, 255, 255);
+   
+    top: 15px; /* Position the square at the bottom of the blue square */
+    left: 15px; /* Position the square in the center horizontally */
+    border-radius: 5px; /* Apply border radius to match the blue square */
+}
+
+

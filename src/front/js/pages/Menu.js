@@ -2,14 +2,16 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
+
 import { Collapse } from 'react-bootstrap';
 
 import Buildertools from "../component/buildertools";
-
+import RobotEyes from "../component/RobotEyes";
 import IngredientComponent from "../component/IngredientComponent";
 import MenuPageSlider from "../component/MenuPageSlider";
 import BurgerPreviewer from "../component/BurgerPreviewer";
 import context from "react-bootstrap/esm/AccordionContext";
+
 
 export const Menu = () => {
     const { store, actions } = useContext(Context);
@@ -40,7 +42,8 @@ export const Menu = () => {
     };
     
         const handleAddNewBruger = () => {
-            // actions.addToShoppingCart();
+            actions.createBurger();
+            window.location.reload();
         };
 
         const handleClearIngredients = () => {
@@ -58,7 +61,11 @@ export const Menu = () => {
         <div className="card menu-card">
             <div className="card-body">
                 <div className="burger-container container mt-5">
-                    <div className="modual for preview-contaner and util buttons" style={{ display: 'flex', justifyContent:'center',}}>
+                
+                    <RobotEyes style={{ zIndex:'0'}}></RobotEyes> 
+
+
+                    <div className="modual for preview-contaner and util buttons" style={{ display: 'flex', justifyContent:'center',zIndex:'1'}}>
                         
                         {/* Buttons for Profile, Cart, and Favorites */}
                         <div className="MenuPagesSlider" style={{ position: 'relative', top:'105px', zIndex: '1' }}>
