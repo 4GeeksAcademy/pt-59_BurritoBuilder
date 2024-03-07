@@ -40,6 +40,7 @@ export const ShoppingCart = () => {
                         {burger.ingredients.map((ingredient, i) => (
                             
                                 <img
+                                    key={i}
                                     src={ingredient.image}
                                     alt={ingredient.name}
                                     style={{

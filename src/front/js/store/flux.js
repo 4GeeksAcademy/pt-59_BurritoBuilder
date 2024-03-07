@@ -180,6 +180,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			console.log("Error loading current burger from backend", error);
 		}
 	},
+	getNextBurger: async (burger_id) => { 
+		const index = getStore().burgers.findIndex(burger => burger[id] === burger_id);
+		const thisBurger = getStore().burgers[index + 1]
+		setStore({current_burger: thisBurger})
+	},
 	addIngredientToBurger:async (burger_id, ingredient_id) => {
 		if (typeof(burger_id)=="undefined"){
 			let burger = getStore().burgers[getStore().burgers.length - 1]
@@ -206,8 +211,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		
 		clearIngredients: async (burger_id, store) => {
+			
 			if (typeof(burger_id) === "undefined") {
 				let burger = getStore().burgers[getStore().burgers.length - 1];
+				console.log(burger)
 				burger_id = burger.id;
 			}
 			try {   
