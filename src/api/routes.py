@@ -96,6 +96,23 @@ def create_burger():
     db.session.refresh(burger)
     return jsonify(burger.serialize())
 
+# delete a burger
+@api.route('/burgers/<int:burger_id>', methods=['DELETE'])
+def delete_burger(burger_id):
+    try:
+        # Find the burger with the given burger_id
+        burger = Burger.query.get(burger_id)
+        if burger:
+            # Delete the burger
+            db.session.delete(burger)
+            # Commit changes to the database
+            db.session.commit()
+            return jsonify({'message': f'Burger with ID {burger_id} deleted successfully'}), 200
+        else:
+            return jsonify({'error': f'Burger with ID {burger_id} not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 # ***use for favorites ***works <--2/28/24
 @api.route("/burgers/reorder/<int:burger_id>", methods=["POST"])
 @jwt_required(protected)

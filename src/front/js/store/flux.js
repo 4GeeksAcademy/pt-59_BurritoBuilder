@@ -142,6 +142,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 			setStore({ burgers: data });
 			console.log("Burger created:", data);
 	},
+
+	deleteBurgerID: async (burger_id) => {
+		try {
+            const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/${burger_id}`, {
+                method: 'DELETE',
+                headers: {
+                    // 'Authorization': `Bearer ${getStore().token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete burger');
+            }
+			console.log('Burger deleted successfully');
+			actions.getBurgers();
+
+            
+            
+
+            console.log('Burger deleted successfully');
+        } catch (error) {
+            console.error('Error deleting burger:', error.message);
+        }
+	},
 	// getIngredients works <--2/26/24
 	getIngredients: async () => { 
 		const response = await fetch(process.env.BACKEND_URL + "/api/ingredients");
