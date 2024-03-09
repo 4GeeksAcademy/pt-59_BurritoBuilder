@@ -185,4 +185,14 @@ Menu.js CSS
     border-radius: 5px; /* Apply border radius to match the blue square */
 }
 
-
+.weatherAPIcontainer {
+    width: 150px; 
+    height: 150px; 
+    border-radius: 10px; 
+    position: absolute;
+    background: white;
+    box-shadow: none;
+    transition: width 0.5s ease-out; /* Apply transition to width property */
+    right:0px;
+    top:0px;
+}

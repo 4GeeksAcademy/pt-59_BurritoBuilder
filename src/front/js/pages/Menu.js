@@ -60,7 +60,7 @@ export const Menu = () => {
     return (
         <div className="card menu-card">
             <div className="card-body">
-                <div><OpenWeatherMap/> </div>
+                
                 <div className="burger-container container mt-5">
                 
                     <RobotEyes style={{ zIndex:'0'}}></RobotEyes> 
@@ -69,22 +69,27 @@ export const Menu = () => {
                     <div className="modual for preview-contaner and util buttons" style={{ display: 'flex', justifyContent:'center',zIndex:'1'}}>
                         
                         {/* Buttons for Profile, Cart, and Favorites */}
-                        <div className="MenuPagesSlider" style={{ position: 'relative', top:'105px', zIndex: '1' }}>
+                        <div className="MenuPagesSlider" style={{ position: 'relative', top:'105px', zIndex: '2' }}>
                             <MenuPageSlider />
                         </div>
                         
                         {/* Burger Preview Div */}
                         <div className="burger-previewer-container" style={{ 
                             position: 'relative', 
-                            zIndex: '2' 
+                            zIndex: '3' 
                             }}>
                             
                             <BurgerPreviewer currentBurger={store.current_burger} />
                             
                         </div>
                         
-                         {/* These will be for different functions */}
-                        <div className="cart-tab" style={{ position: 'relative', top:'25px', zIndex: '1' }}></div>
+                        {/* Weather Fetch Slider */}
+                        <div className="WeatherSlider"style={{ position: 'relative', top:'25px', zIndex: '1' }}>
+                            <OpenWeatherMap/> 
+                        </div>
+                        
+                    
+                    
                     </div>
                     
                     
