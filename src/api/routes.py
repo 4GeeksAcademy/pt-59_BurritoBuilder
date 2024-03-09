@@ -8,6 +8,8 @@ from api.models import db, User, Burger, Ingredient
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
+import os
+import requests
 #new
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
@@ -83,6 +85,46 @@ def protected():
 
 # routes for the burger builder webapp tool, IngredieBrugertoIngredientpi.route('/ingredients', methods=['GET'])
 # this will be used to populate your "create a burger" component with ingrdients
+
+# Kaci, Valerie -- use for stripe webhook < -- use to determine if customer has paid
+@api.route('/webhook', methods=['POST'])
+def webhook():
+    event = None
+    payload = request.data
+    endpoint_secret= os.getenv("STRIPE_SECRET")
+    sig_header = request.environ.get['HTTP_STRIPE_SIGNATURE']
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        # Invalid payload
+        print('INVALID PAYLOAD')
+        return {}, 400
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        print('INVALID SIGNATURE')
+        return {}, 400
+
+    # Handle the event
+    print('Unhandled event type {}'.format(event['type']))
+
+    return jsonify(success=True)
+# openweathermap api
+@api.route('/weather', methods=['GET'])
+def get_weather():
+    city = 'Hamburg'
+    country_code = 'DE'
+    api_key = '9cf29c08ac230ef0b12c893bc75755fa'
+    url = f'http://api.openweathermap.org/data/2.5/weather?q={city},{country_code}&appid={api_key}&units=metric'
+    
+    response = requests.get(url)  # Corrected typo: requests.get instead of request.get
+    data = response.json()
+
+    return jsonify(data)
+
+
 
 # post a burger route ***works <--2/26/24
 @api.route("/burgers", methods=["POST"])

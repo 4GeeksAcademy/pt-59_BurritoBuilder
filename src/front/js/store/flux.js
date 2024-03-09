@@ -337,6 +337,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 			}
 		},
 		
+		fetchWeatherData: async () => {
+			try {
+				const response = await fetch('https://orange-space-halibut-jj5w55qrw4pr3jg55-3001.app.github.dev/api/weather');
+				if (!response.ok) {
+					throw new Error('Failed to fetch weather data');
+				}
+				const data = await response.json();
+				return data;
+			} catch (error) {
+				console.error('Error fetching weather data:', error);
+				throw error;
+			}
+		},
 		
 
 

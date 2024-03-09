@@ -11,7 +11,7 @@ import IngredientComponent from "../component/IngredientComponent";
 import MenuPageSlider from "../component/MenuPageSlider";
 import BurgerPreviewer from "../component/BurgerPreviewer";
 import context from "react-bootstrap/esm/AccordionContext";
-
+import OpenWeatherMap from "../component/openweathermap";
 
 export const Menu = () => {
     const { store, actions } = useContext(Context);
@@ -60,6 +60,7 @@ export const Menu = () => {
     return (
         <div className="card menu-card">
             <div className="card-body">
+                <div><OpenWeatherMap/> </div>
                 <div className="burger-container container mt-5">
                 
                     <RobotEyes style={{ zIndex:'0'}}></RobotEyes> 
