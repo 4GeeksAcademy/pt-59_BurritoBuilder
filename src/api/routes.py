@@ -10,11 +10,15 @@ from flask_cors import CORS
 
 import os
 import requests
+import stripe
 #new
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 
 api = Blueprint('api', __name__)
+
+stripe.api_key = "STRIPE_SECRET"
+
 
 #new
 #app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this "super secret" with something else!
@@ -85,6 +89,28 @@ def protected():
 
 # routes for the burger builder webapp tool, IngredieBrugertoIngredientpi.route('/ingredients', methods=['GET'])
 # this will be used to populate your "create a burger" component with ingrdients
+# Stripe Payment PRocessing
+@api.route("/process_payment", methods=["POST"])
+def process_payment():
+    # Retrieve payment details from request
+    data = request.json
+    burgers = data.get("burgers")
+    total_amount = data.get("total_amount")
+    
+    try:
+        # Create a charge using Stripe API
+        charge = stripe.Charge.create(
+            total_amount=total_amount,
+            currency="usd",
+            source="STRIPE_SECRET",
+            description="Payment for order"
+        )
+        
+        # Payment was successful
+        return jsonify({"message": "Payment successful", "charge": charge}), 200
+    except stripe.error.StripeError as e:
+        # Payment failed
+        return jsonify({"error": str(e)}), 400
 
 # Kaci, Valerie -- use for stripe webhook < -- use to determine if customer has paid
 @api.route('/webhook', methods=['POST'])

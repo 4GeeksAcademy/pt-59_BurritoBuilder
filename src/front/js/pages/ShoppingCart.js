@@ -3,6 +3,8 @@ import { useNavigate , Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
+import CheckoutButton from "../component/CheckOutButton";
+
 export const ShoppingCart = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
@@ -10,6 +12,8 @@ export const ShoppingCart = () => {
     useEffect(() => {
         actions.getBurgers(); // Assuming this is the function to fetch burgers from the API
     }, []);
+
+    // const totalAmount = burgers.reduce((total, burger) => total + (burger.price * burger.quantity), 0);
 
     const handledeleteBurgerID =(burger_id)=> {
         // Call your deleteBurgerID action here with burgerId as an argument
@@ -66,11 +70,13 @@ export const ShoppingCart = () => {
                     </div>
                 ))}
             </div>
-    
-            <button className="btn btn-primary" onClick={() => navigate("/checkout")}>
-                Proceed to Checkout
-            </button>
-            <Link to="/Menu" style={{ textDecoration: 'none' }}>
+                 
+            <CheckoutButton burgers={store.burgers} totalAmount={store.totalAmount} /> 
+                 {/* <link to="/burgercheckout">
+                    <CheckoutButton  />
+                </link> */}
+            
+            <Link to="/menu" style={{ textDecoration: 'none' }}>
                 <button>Go back to Menu</button>
             </Link>
         </div>

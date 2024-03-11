@@ -12,11 +12,12 @@ import Private from "./component/Private.jsx";
 import injectContext from "./store/appContext";
 import { Menu } from "./pages/Menu.js";
 import { ShoppingCart } from "./pages/ShoppingCart.js";
-import Checkout from "./pages/CheckoutPage.js";
+
 import { EditFavorites } from "./pages/EditFavorties.js";
 import { FavoriteBurgers } from "./pages/FavoriteBurgers.js";
 import { OrderHistory } from "./pages/OrderHistory.js";
 import ShoppingApp from './component/ShoppingApp';
+import BurgerCheckout from "./pages/BurgerCheckout.js";
 // import { StripeContainer } from "./component/StripeContainer.js";
 
 import { Navbar } from "./component/navbar";
@@ -44,7 +45,7 @@ const Layout = () => {
                         <Route element={<Private />} path="/private" />
                         <Route element={<Menu />} path="/menu" />
                         <Route element={<ShoppingCart />} path="/shoppingcart" />
-                        <Route element={<Checkout />} path="/checkout" />
+                        <Route element={<BurgerCheckout />} path="/burgercheckout" />
                         <Route element={<EditFavorites />} path="/editfavorites" />
                         <Route element={<FavoriteBurgers />} path="/favoriteburgers" />
                         <Route element={<OrderHistory />} path="/orderhistory" />
