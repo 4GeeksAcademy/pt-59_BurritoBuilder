@@ -9,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// orders: [],
 			current_burger: {},
 			
+			
 			//we can add more state properties as needed
 		},
 		actions: {
