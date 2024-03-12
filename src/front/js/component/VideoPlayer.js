@@ -1,11 +1,12 @@
 import React from 'react';
+import BurgerWalkAnimation from "src/front/img/BurgerWalkAnimation.gif";
 
 const VideoPlayer = () => {
   return (
-    <video autoPlay loop muted>
-      <source src />
-      Your browser does not support the video tag.
-    </video>
+    
+      <BurgerWalkAnimation />
+      
+    
   );
 };
 

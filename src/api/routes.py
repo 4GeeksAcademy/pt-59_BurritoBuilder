@@ -110,7 +110,7 @@ def process_payment():
         return jsonify({"message": "Payment successful", "charge": charge}), 200
     except stripe.error.StripeError as e:
         # Payment failed
-        return jsonify({"error": str(e)}), 400
+        return jsonify({"error": str(e)}), 500
 
 # Kaci, Valerie -- use for stripe webhook < -- use to determine if customer has paid
 @api.route('/webhook', methods=['POST'])
