@@ -42,18 +42,11 @@ export const Navbar = () => {
 							<Link to="/shoppingcart">
 								<button className="btn btn-primary me-1">Shop Cart</button>
 							</Link>
-							<Link to="/checkout">
-								<button className="btn btn-primary me-1">Checkout</button>
-							</Link>
+							
 							<Link to="/favoriteburgers">
 								<button className="btn btn-primary me-1">Favorites</button>
 							</Link>
-							<Link to="/editfavorites">
-								<button className="btn btn-primary me-1">Edit Favs.</button>
-							</Link>
-							<Link to="/orderhistory">
-								<button className="btn btn-primary me-1">Order Hist.</button>
-							</Link>
+							
 							<button className="btn btn-primary" onClick={() => actions.logout(navigate)}>Log out</button>
 							
 						</>

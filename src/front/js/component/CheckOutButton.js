@@ -8,18 +8,14 @@ const CheckoutButton = ({ burgers, totalAmount }) => {
         setLoading(true);
 
         try {
-            const response = await fetch('https://orange-space-halibut-jj5w55qrw4pr3jg55-3001.app.github.dev/api/process_payment', {
+            const response = await fetch(process.env.BACKEND_URL + '/api/process_payment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    burgers: burgers.map(burger => ({
-                        id: burger.id,
-                        price: burger.price,
-                        quantity: burger.quantity
-                    })),
-                    total_amount: totalAmount
+                    
+                    total_price: totalAmount
                 })
             });
 

@@ -18,11 +18,12 @@ const BurgerCheckout = () => {
     const fetchBurgers = async () => {
         setLoading(true);
         try {
-            const response = await fetch('https://orange-space-halibut-jj5w55qrw4pr3jg55-3001.app.github.dev/api/burgers');
+            const response = await fetch(process.env.BACKEND_URL + '/api/burgers');
             if (!response.ok) {
                 throw new Error('Failed to fetch burgers');
             }
             const data = await response.json();
+            console.log(data)
             setBurgers(data.burgers);
             calculateTotalAmount(data.burgers); // Calculate total amount
             setLoading(false);
@@ -33,10 +34,25 @@ const BurgerCheckout = () => {
     };
 
     const calculateTotalAmount = (burgers) => {
-        const total = burgers.reduce((acc, burger) => acc + burger.price, 0);
+        const total = burgers.reduce((acc, burger) => acc + burger.total_price, 0);
         setTotalAmount(total);
     };
-
+    // return (
+    //     <div>
+    //         <h2>Checkout Summary</h2>
+    //         <ul>
+    //             {burgers.map((burger, index) => (
+    //                 <li key={index}>
+    //                     Burger ID: {burger.id}<br />
+    //                     {/* Add null check for price */}
+    //                     Price: {burger.total_price ? burger.total_price.toFixed(2) : "N/A"}<br />
+    //                     {/* Add null check for quantity */}
+                        
+    //                 </li>
+    //             ))}
+    //         </ul>
+    //     </div>
+    // );
     return (
         <div>
             <h1>Checkout</h1>
@@ -47,7 +63,7 @@ const BurgerCheckout = () => {
                 <ul>
                     {burgers.map((burger) => (
                         <li key={burger.id}>
-                            {burger.name} - ${burger.price.toFixed(2)}
+                            {burger.id} - ${burger.total_price?.toFixed(2)}
                         </li>
                     ))}
                 </ul>

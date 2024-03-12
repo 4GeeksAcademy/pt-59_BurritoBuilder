@@ -95,12 +95,12 @@ def process_payment():
     # Retrieve payment details from request
     data = request.json
     burgers = data.get("burgers")
-    total_amount = data.get("total_amount")
+    total_price = data.get("total_price")
     
     try:
         # Create a charge using Stripe API
         charge = stripe.Charge.create(
-            total_amount=total_amount,
+            total_price=total_price,
             currency="usd",
             source="STRIPE_SECRET",
             description="Payment for order"
