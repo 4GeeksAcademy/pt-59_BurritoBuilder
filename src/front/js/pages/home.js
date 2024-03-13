@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css"; // Import your custom CSS styles if needed
 import theclassichamburger from "../../img/theclassichamburger.png";
@@ -7,9 +7,8 @@ import blueclassichamburger from "../../img/blueclassichamburger.png";
 import greenclassichamburger from "../../img/greenclassichamburger.png";
 import whiteclassichamburger from "../../img/whiteclassichamburger.png";
 import burgerbitelogo from "../../img/burgerbitelogo.jpg";
-
 import { Carousel } from "react-bootstrap";
-import VideoPlayer from "../component/VideoPlayer";
+import burgerwalkanimation from "../../img/burgerwalkanimation.gif"; // Corrected import path
 
 export const Home = () => {
     const { store, actions } = useContext(Context);
@@ -49,18 +48,19 @@ export const Home = () => {
 
     return (
         <div className="container mt-5">
-            <div>
-            <VideoPlayer />
+            <div style={{ width: '1500px', height: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                {/* Use img tag to display the animated GIF */}
+                <img src={burgerwalkanimation} alt="Burger Walk Animation" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div className="row">
                 {/* Left column for login form */}
                 <div className="col-md-6">
                     <h4>About Us</h4>
                     <div>
-                    Welcome to our burger builder web app, where we believe that every bite should be a personalized delight! At Burger Bite, our robot is passionate about crafting the perfect burger tailored to your specific taste buds.  
+                        Welcome to our burger builder web app, where we believe that every bite should be a personalized delight! At Burger Bite, our robot is passionate about crafting the perfect burger tailored to your specific taste buds.
                     </div>
                 </div>
-    
+
                 {/* Right column for feature's table with centered carousel */}
                 <div className="col-md-6 d-flex justify-content-center align-items-center">
                     <div className="features-table-wrapper border p-3 rounded">
@@ -89,6 +89,7 @@ export const Home = () => {
 };
 
 export default Home;
+
 
 
 

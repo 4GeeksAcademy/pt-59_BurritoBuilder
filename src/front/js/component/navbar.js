@@ -19,7 +19,7 @@ export const Navbar = () => {
 			<div className="container">
 				<Link to="/">
 					<img src={burgerbitelogo} alt="BurgerBite Logo" style={{ height: "75px" }} />
-					<span className="navbar-brand mb-0 h1">Home</span>
+					<span className="navbar-brand mb-0 h1">Buger Bite Home</span>
 				</Link>
 				<div className="ml-auto">					
 					{!store.token ?

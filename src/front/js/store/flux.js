@@ -141,6 +141,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		const data = await response.json();
 			setStore({ current_burger: data });
 			setStore({ burgers: data });
+			localStorage.setItem("burgers", JSON.stringify(data));
 			console.log("Burger created:", data);
 	},
 

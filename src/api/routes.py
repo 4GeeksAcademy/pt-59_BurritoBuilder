@@ -11,6 +11,7 @@ from flask_cors import CORS
 import os
 import requests
 import stripe
+import json
 #new
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
@@ -19,6 +20,13 @@ api = Blueprint('api', __name__)
 
 stripe.api_key = "STRIPE_SECRET"
 
+def calculate_order_amount(burgers):
+    # Replace this constant with a calculation of the order's amount
+    # Calculate the order total on the server to prevent
+    # people from directly manipulating the amount on the client
+    total_price = burger.calculate_total_price()
+    amount=int(total_price * 100)
+    return amount, 1400
 
 #new
 #app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this "super secret" with something else!
@@ -137,7 +145,41 @@ def webhook():
     print('Unhandled event type {}'.format(event['type']))
 
     return jsonify(success=True)
+
+@api.route('/create-payment-intent', methods=['POST'])
+def create_payment():
+    try:
+        data = json.loads(request.data)
+        # Create a PaymentIntent with the order amount and currency
+        # Assuming data contains the burger_id or some other identifier
+        burger_id = data.get('burger_id')
+        if not burger_id:
+            return jsonify(error='Burger ID not provided'), 400
+        
+        # Fetch the burger from the database
+        burger = Burger.query.get(burger_id)
+        if not burger:
+            return jsonify(error='Burger not found'), 404
+       
+        # Calculate the total price of the burger
+        
+       
+        # Create a PaymentIntent with the order amount and currency
+        intent = stripe.PaymentIntent.create(
+            amount=calculate_order_amount,  # Amount in cents
+            currency='usd',
+            automatic_payment_methods={
+                'enabled': True,
+            },
+        )
+        return jsonify({
+            'STRIPE_SECRET': intent['STRIPE_SECRET']
+        })
+    except Exception as e:
+        return jsonify(error=str(e)), 403
+
 # openweathermap api
+
 @api.route('/weather', methods=['GET'])
 def get_weather():
     city = 'Hamburg'
@@ -320,28 +362,28 @@ def get_shopping_cart_burgers(user_id):
     shopping_cart_burgers = user.shopping_cart
     return jsonify([burger.serialize() for burger in shopping_cart_burgers])
 
-# post a burger to shopping cart
-@api.route('/api/shopping-cart/<int:user_id>/burgers', methods=['POST'])
-@jwt_required()
-def add_burger_to_shopping_cart(user_id):
-    user = User.query.get(user_id)
-    if user is None:
-        return jsonify({'error': 'User not found'}), 404
+# # post a burger to shopping cart
+# @api.route('/api/shopping-cart/<int:user_id>/burgers', methods=['POST'])
+# @jwt_required()
+# def add_burger_to_shopping_cart(user_id):
+#     user = User.query.get(user_id)
+#     if user is None:
+#         return jsonify({'error': 'User not found'}), 404
     
-    data = request.json
-    burger_id = data.get('burger_id')
-    if burger_id is None:
-        return jsonify({'error': 'Burger ID not provided'}), 400
+#     data = request.json
+#     burger_id = data.get('burger_id')
+#     if burger_id is None:
+#         return jsonify({'error': 'Burger ID not provided'}), 400
     
-    burger = Burger.query.get(burger_id)
-    if burger is None:
-        return jsonify({'error': 'Burger not found'}), 404
+#     burger = Burger.query.get(burger_id)
+#     if burger is None:
+#         return jsonify({'error': 'Burger not found'}), 404
     
-    shopping_cart_item = ShoppingCart(user_id=user.id, burger_id=burger.id)
-    db.session.add(shopping_cart_item)
-    db.session.commit()
+#     shopping_cart_item = ShoppingCart(user_id=user.id, burger_id=burger.id)
+#     db.session.add(shopping_cart_item)
+#     db.session.commit()
     
-    return jsonify({'message': 'Burger added to shopping cart successfully'})
+#     return jsonify({'message': 'Burger added to shopping cart successfully'})
 
 # Get favorite burgers
 @api.route('/api/favorite-burgers/<int:user_id>', methods=['GET'])
@@ -353,26 +395,26 @@ def get_favorite_burgers(user_id):
     favorite_burgers = user.favorite_burgers
     return jsonify([burger.serialize() for burger in favorite_burgers])
 
-@api.route('/api/favorite-burgers/<int:user_id>', methods=['POST'])
-def add_burger_to_favorite_burgers(user_id):
-    user = User.query.get(user_id)
-    if user is None:
-        return jsonify({'error': 'User not found'}), 404
+# @api.route('/api/favorite-burgers/<int:user_id>', methods=['POST'])
+# def add_burger_to_favorite_burgers(user_id):
+#     user = User.query.get(user_id)
+#     if user is None:
+#         return jsonify({'error': 'User not found'}), 404
     
-    data = request.json
-    burger_id = data.get('burger_id')
-    if burger_id is None:
-        return jsonify({'error': 'Burger ID not provided'}), 400
+#     data = request.json
+#     burger_id = data.get('burger_id')
+#     if burger_id is None:
+#         return jsonify({'error': 'Burger ID not provided'}), 400
     
-    burger = Burger.query.get(burger_id)
-    if burger is None:
-        return jsonify({'error': 'Burger not found'}), 404
+#     burger = Burger.query.get(burger_id)
+#     if burger is None:
+#         return jsonify({'error': 'Burger not found'}), 404
     
-    favorite_burger = FavoriteBurger(user_id=user.id, burger_id=burger.id)
-    db.session.add(favorite_burger)
-    db.session.commit()
+#     favorite_burger = FavoriteBurger(user_id=user.id, burger_id=burger.id)
+#     db.session.add(favorite_burger)
+#     db.session.commit()
     
-    return jsonify({'message': 'Burger added to favorite burgers successfully'})
+#     return jsonify({'message': 'Burger added to favorite burgers successfully'})
 
 
 
