@@ -7,30 +7,31 @@ const CheckoutButton = ({ burgers, totalAmount }) => {
     const handleCheckout = async () => {
         setLoading(true);
 
-        try {
-            const response = await fetch(process.env.BACKEND_URL + '/api/create-payment-intent', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    
-                    totalAmount: totalAmount
-                })
-            });
+        let total = 0;
 
-            if (!response.ok) {
-                throw new Error('Failed to initiate checkout');
-            }
-
-            const responseData = await response.json();
-            console.log(responseData); // Handle response data accordingly
-
-            setLoading(false);
-        } catch (error) {
-            console.error('Error initiating checkout:', error);
-            setLoading(false);
+        for (let burger of burgers) {
+            total += burger.total_price;
         }
+
+        const response = await fetch(process.env.BACKEND_URL + '/api/create-payment-intent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                amount: total,
+                burger_id: 0
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to initiate checkout');
+        }
+
+        const responseData = await response.json();
+        console.log(responseData); // Handle response data accordingly
+
+        setLoading(false);
     };
 
     return (

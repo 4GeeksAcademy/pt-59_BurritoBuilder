@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from uuid import uuid4
 
 db = SQLAlchemy()
 
@@ -99,6 +100,18 @@ class Burger(db.Model):
             'total_price': self.calculate_total_price(),
             'ingredients': [bi.serialize() for bi in self.ingredients]
         }
+
+
+# class Order(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     state = db.Column(db.String, default=uuid4)
+#     status = db.Column(db.String, default="PI_CREATED")
+
+#     def serialize(self):
+#         return {
+#             "state": self.state,
+#             "status": self.status
+#         }
 
 # class ShoppingCart(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)

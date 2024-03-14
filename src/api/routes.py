@@ -18,9 +18,9 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 
 api = Blueprint('api', __name__)
 
-stripe.api_key = "STRIPE_SECRET"
+stripe.api_key = os.getenv("STRIPE_SECRET")
 
-def calculate_order_amount(burgers):
+def calculate_order_amount(burger):
     # Replace this constant with a calculation of the order's amount
     # Calculate the order total on the server to prevent
     # people from directly manipulating the amount on the client
@@ -125,13 +125,25 @@ def process_payment():
 def webhook():
     event = None
     payload = request.data
-    endpoint_secret= os.getenv("STRIPE_SECRET")
-    sig_header = request.environ.get['HTTP_STRIPE_SIGNATURE']
+    endpoint_secret= os.getenv("STRIPE_WEBHOOK")
+    sig_header = request.environ.get('HTTP_STRIPE_SIGNATURE')
 
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
         )
+        if event['type'] == 'checkout.session.async_payment_failed':
+            session = event['data']['object']
+        elif event['type'] == 'checkout.session.async_payment_succeeded':
+            session = event['data']['object']
+        elif event['type'] == 'checkout.session.completed':
+            session = event['data']['object']
+        elif event['type'] == 'checkout.session.expired':
+            session = event['data']['object']
+            # ... handle other event types
+        else:
+            print('Unhandled event type {}'.format(event['type']))
+        print(event)
     except ValueError as e:
         # Invalid payload
         print('INVALID PAYLOAD')
@@ -148,35 +160,38 @@ def webhook():
 
 @api.route('/create-payment-intent', methods=['POST'])
 def create_payment():
-    try:
-        data = json.loads(request.data)
-        # Create a PaymentIntent with the order amount and currency
-        # Assuming data contains the burger_id or some other identifier
-        burger_id = data.get('burger_id')
-        if not burger_id:
-            return jsonify(error='Burger ID not provided'), 400
-        
-        # Fetch the burger from the database
-        burger = Burger.query.get(burger_id)
-        if not burger:
-            return jsonify(error='Burger not found'), 404
-       
-        # Calculate the total price of the burger
-        
-       
-        # Create a PaymentIntent with the order amount and currency
-        intent = stripe.PaymentIntent.create(
-            amount=calculate_order_amount,  # Amount in cents
-            currency='usd',
-            automatic_payment_methods={
-                'enabled': True,
-            },
-        )
-        return jsonify({
-            'STRIPE_SECRET': intent['STRIPE_SECRET']
-        })
-    except Exception as e:
-        return jsonify(error=str(e)), 403
+    data = request.json
+    print(data)
+    # Create a PaymentIntent with the order amount and currency
+    # Assuming data contains the burger_id or some other identifier
+    # burger_id = data.get('burger_id')
+    # if not burger_id:
+    #     return jsonify(error='Burger ID not provided'), 400
+    
+    # # Fetch the burger from the database
+    # burger = Burger.query.get(burger_id)
+    # if not burger:
+    #     return jsonify(error='Burger not found'), 404
+    
+    # Calculate the total price of the burger
+    
+    # order = Order()
+    # db.session.merge(order)
+    # db.session.commit()
+    # db.session.refresh(order)
+    
+    # Create a PaymentIntent with the order amount and currency
+    intent = stripe.PaymentIntent.create(
+        amount=int(data.get("amount") * 100),  # Amount in cents
+        currency='usd',
+        automatic_payment_methods={
+            'enabled': True,
+        },
+    )
+
+    return jsonify({
+        'clientSecret': intent['client_secret']
+    })
 
 # openweathermap api
 

@@ -48,11 +48,15 @@ export const Home = () => {
 
     return (
         <div className="container mt-5">
-            <div style={{ width: '1500px', height: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="fun-font">
+                Welcome To Burger Bite
+            </div>
+
+            <div style={{ width: '1150px', height: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 {/* Use img tag to display the animated GIF */}
                 <img src={burgerwalkanimation} alt="Burger Walk Animation" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
-            <div className="row">
+            <div className="row" style={{display:'flex',}}>
                 {/* Left column for login form */}
                 <div className="col-md-6">
                     <h4>About Us</h4>
@@ -62,8 +66,12 @@ export const Home = () => {
                 </div>
 
                 {/* Right column for feature's table with centered carousel */}
-                <div className="col-md-6 d-flex justify-content-center align-items-center">
+                <div className="col-md-6 "style={{textAlign:'center'}}>
+                    <h5>Featured Burgers</h5>
+                <div className=" d-flex justify-content-center align-items-center">
+                
                     <div className="features-table-wrapper border p-3 rounded">
+                        
                         <div id="carouselExampleCaptions" className="carousel slide rounded bronze-border" style={{ maxWidth: "300px" }}>
                             <Carousel>
                                 {images.map((imageUrl, index) => (
@@ -82,6 +90,7 @@ export const Home = () => {
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
         </div>

@@ -196,3 +196,10 @@ Menu.js CSS
     right:0px;
     top:0px;
 }
+.fun-font {
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 36px; /* Adjust the font size as needed */
+    font-weight: bold; /* Make the font bold */
+    text-align: center; /* Center align the text */
+  }
+  
