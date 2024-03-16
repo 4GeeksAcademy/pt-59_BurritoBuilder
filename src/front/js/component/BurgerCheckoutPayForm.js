@@ -1,10 +1,11 @@
 import React from 'react';
+import { useNavigate , Link } from "react-router-dom";
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 const CheckoutForm = ({ totalAmount }) => {
     const stripe = useStripe();
     const elements = useElements();
-
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -25,14 +26,19 @@ const CheckoutForm = ({ totalAmount }) => {
             console.log('PaymentMethod:', paymentMethod);
             // Proceed with payment processing, e.g., sending paymentMethod.id to your server
         }
+
+        
     };
+    
 
     return (
         <form onSubmit={handleSubmit}>
             <CardElement />
-            <button type="submit" disabled={!stripe}>
-                Pay ${totalAmount.toFixed(2)}
-            </button>
+            {/* <Link to="/paymentsuccess"> */}
+                <button type="submit" disabled={!stripe}>
+                    Pay ${totalAmount.toFixed(2)}
+                </button>
+            {/* </Link> */}
         </form>
     );
 };

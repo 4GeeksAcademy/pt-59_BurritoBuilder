@@ -158,6 +158,8 @@ def webhook():
 
     return jsonify(success=True)
 
+
+
 @api.route('/create-payment-intent', methods=['POST'])
 def create_payment():
     data = request.json

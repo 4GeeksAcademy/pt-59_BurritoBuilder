@@ -18,6 +18,7 @@ import { FavoriteBurgers } from "./pages/FavoriteBurgers.js";
 import { OrderHistory } from "./pages/OrderHistory.js";
 import ShoppingApp from './component/ShoppingApp';
 import BurgerCheckout from "./pages/BurgerCheckout.js";
+import PaymentSuccessPopup from './component/paymentsuccessful.jsx';
 // import { StripeContainer } from "./component/StripeContainer.js";
 
 import { Navbar } from "./component/navbar";
@@ -49,6 +50,7 @@ const Layout = () => {
                         <Route element={<EditFavorites />} path="/editfavorites" />
                         <Route element={<FavoriteBurgers />} path="/favoriteburgers" />
                         <Route element={<OrderHistory />} path="/orderhistory" />
+                        <Route element={<PaymentSuccessPopup />} path="/paymentsuccess" />
                         {/* <Route element={<StripeContainer />} path="/react-stripe" /> */}
                         {/* Error on line above. Need to mold these files untill they fit  */}
                         <Route element={<ShoppingApp />} path="/component/ShoppingApp" />

@@ -15,17 +15,21 @@ export const ShoppingCart = () => {
 
     // const totalAmount = burgers.reduce((total, burger) => total + (burger.price * burger.quantity), 0);
 
-    const handledeleteBurgerID =(burger_id)=> {
-        // Call your deleteBurgerID action here with burgerId as an argument
-        actions.deleteBurgerID(burger_id);
+    const handledeleteBurgerID = async (burger_id) => {
+        // Call deleteBurgerID action here with burgerId as an argument
+        await actions.deleteBurgerID(burger_id);
+    
+        // Fetch updated list of burgers after deletion
+        actions.getBurgers();
     };
+    
     
     return (
         <div className="container mt-5">
             <h2>Shopping Cart</h2>
             
             <div className="row">
-                {store.burgers.map((burger, index) => (
+                {store.checkoutBurger?.map((burger, index) => (
                     <div key={index} className="col-md-3 mb-3">
                         <div className="card">
                             <div className="card-header" style={{ display: 'flex', position: 'relative' }}>

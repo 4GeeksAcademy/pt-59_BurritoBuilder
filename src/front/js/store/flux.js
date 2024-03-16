@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: null,
 			ingredients: [],
 			burgers: [],
+			checkoutBurger: [],
 			// orders: [],
 			current_burger: {},
 			
@@ -147,26 +148,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 	deleteBurgerID: async (burger_id) => {
 		try {
-            const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/${burger_id}`, {
-                method: 'DELETE',
-                headers: {
-                    // 'Authorization': `Bearer ${getStore().token}`
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to delete burger');
-            }
+			const response = await fetch(`${process.env.BACKEND_URL}/api/burgers/${burger_id}`, {
+				method: 'DELETE',
+				headers: {
+					// 'Authorization': `Bearer ${getStore().token}`
+				}
+			});
+	
+			if (!response.ok) {
+				throw new Error('Failed to delete burger');
+			}
 			console.log('Burger deleted successfully');
-			actions.getBurgers();
+			
+			// Fetch updated list of burgers after deletion
+			
 
-            
-            
-
-            console.log('Burger deleted successfully');
-        } catch (error) {
-            console.error('Error deleting burger:', error.message);
-        }
+		} catch (error) {
+			// Handle error if deletion fails
+			console.error('Error deleting burger:', error.message);
+		}
 	},
 	// getIngredients works <--2/26/24
 	getIngredients: async () => { 
@@ -178,7 +178,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 	getBurgers: async () => { 
 		const response = await fetch(process.env.BACKEND_URL + "/api/burgers"); 
 		const data = await response.json();
-		setStore({ burgers: data.burgers });	
+		// let burgerArray = [];
+		// data.burger?.map((burger) => (
+		// 	burgerArray.push(burger)
+		// ))
+		setStore({ burgers: data.burgers });
+		setStore({ checkoutBurger: data.burgers });
 	},
 	
 	fetchBurgerIngredients: async (ingredients) => {
