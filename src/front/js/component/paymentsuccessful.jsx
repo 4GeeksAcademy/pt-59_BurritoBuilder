@@ -6,7 +6,7 @@ function PaymentSuccessPopup() {
       <div className="popup">
         <h2>Payment Successful!</h2>
         <p>Thank you for your purchase.</p>
-        <button onClick={() => window.location.href = '/'}>Close</button>
+        <button onClick={() => window.location.href = '/private'}>Close</button>
       </div>
     </div>
   );

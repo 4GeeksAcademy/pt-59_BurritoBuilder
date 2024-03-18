@@ -197,9 +197,15 @@ Menu.js CSS
     top:0px;
 }
 .fun-font {
-    font-family: 'Comic Sans MS', cursive;
-    font-size: 36px; /* Adjust the font size as needed */
-    font-weight: bold; /* Make the font bold */
-    text-align: center; /* Center align the text */
+    font-family: "Exo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
   }
+  .fun-font-400 {
+    font-family: "Exo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  } 
   

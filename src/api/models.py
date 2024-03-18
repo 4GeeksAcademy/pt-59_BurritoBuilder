@@ -67,6 +67,7 @@ class Burger(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # is_favorite = db.Column(db.Boolean(), unique=False, nullable=False)
     user = db.relationship('User', back_populates="burgers")
     ingredients = db.relationship(
         "Ingredient",

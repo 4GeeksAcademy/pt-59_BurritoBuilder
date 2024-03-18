@@ -29,11 +29,11 @@ const MenuPageSlider = () => {
                     </div>
                 </Link>
                 {/* Favorites Link */}
-                <Link to="/favorites" className="nav-link">
+                {/* <Link to="/favorites" className="nav-link">
                     <div className="Favorites">
                         <img src="https://img.icons8.com/fluency/48/AAAAAA/like.png" alt="Favorites" style={{ width: '40px', height: '40px'}} />
                     </div>
-                </Link>
+                </Link> */}
             <button className="blueMenuButton">
                 <img src="https://img.icons8.com/material-outlined/24/FFFFFF/menu.png"  alt="Menu" style={{ width: '22px', height: '24px', position: 'absolute', top: '50%', left: '55%', transform: 'translate(-50%, -50%)' }} />
             </button>
