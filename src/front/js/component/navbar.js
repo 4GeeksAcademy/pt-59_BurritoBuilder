@@ -51,9 +51,9 @@ export const Navbar = () => {
 								<button className="btn btn-primary me-1">Shop Cart</button>
 							</Link>
 							
-							<Link to="/favoriteburgers">
+							{/* <Link to="/favoriteburgers">
 								<button className="btn btn-primary me-1">Favorites</button>
-							</Link>
+							</Link> */}
 							
 							<button className="btn btn-primary" onClick={() => actions.logout(navigate)}>Log out</button>
 							

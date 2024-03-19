@@ -96,28 +96,26 @@ export const Menu = () => {
                         
                     {/* <-- End of "TopHalf of page" burger preview and buttons-->  */}
                     {/* Builder Tools Tab */}
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '72px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',margin: "0 auto", }}>
                         <Buildertools handleAddNewBruger={handleAddNewBruger} handleClearIngredients={handleClearIngredients} />
                      </div>
                    
                     
-                    {/* Ingredient Choices Tab */}
-                    <div className="ingredientMenu" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginRight: '275px' }}>
-                        <div style={{ width: '225px', height: '40px', backgroundColor: '#3b85fb', clipPath: 'polygon(0% 100%, 100% 100%, 95% 0%, 0% 0%)', borderRadius: '4px 20px 0px 0px', display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-                            <img src="https://img.icons8.com/fluency/48/000000/hamburger.png" alt="Hamburger" style={{ width: '24px', height: '24px' }} />
-                            <img src="https://img.icons8.com/fluency/48/000000/bread.png" alt="Bread" style={{ width: '24px', height: '24px' }} />
-                            <div className="Protein" style={{ position: 'relative', bottom: '8px', right: '15px' }}>
-                                <img src="https://img.icons8.com/fluency/48/000000/steak-medium.png" alt="Steak" style={{ width: '24px', height: '24px', position: 'absolute', top: 0, left: 0 }} />
-                                <img src="https://img.icons8.com/fluency/48/000000/fish-food.png" alt="Fish" style={{ width: '24px', height: '24px', position: 'absolute', top: -7, left: 10 }} />
-                            </div>
-                            <img src="https://img.icons8.com/fluency/48/000000/ketchup.png" alt="Condiments" style={{ width: '24px', height: '24px' }} />
-                            <img src="https://img.icons8.com/fluency/48/000000/tomato.png" alt="Tomato" style={{ width: '24px', height: '24px' }} />
-                        </div>
-                    </div>
                     
+                    {/* <-- End of "ingredient choices"-->  */}            
+                </div>
+                {/* <-- End of "burger-container container mt-5"-->  */}
+
+                <div className="ingredient component"  style={{ display: 'flex', flexDirection: 'column' }} >
+                    {/* Ingredient Choices Tab */}
+                    
+                    <div style={{ position: "relative", margin: "0 auto", width: '156px', height: '40px', backgroundColor: '#3875ce', clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)', borderRadius: '4px 20px 0px 0px', }}>
+                        {/* Your menu items */}
+                    </div>
+
                     {/* Ingredient Choices Viewer */}
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className="ingredient-options" style={{ width: '500px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '0px', border: '4px solid #3b85fb', borderRadius: '0px 10px 10px 10px', padding: '10px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', right:'10px', }}>
+                        <div className="ingredient-options" style={{ width: '440px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '0px', border: '8px solid #3b85fb', borderRadius: '10px 10px 10px 10px', padding: '10px' }}>
                             {/* Render ingredient options */}
                             {store.ingredients.map((ingredient, index) => (
                                 <IngredientComponent
@@ -128,9 +126,7 @@ export const Menu = () => {
                             ))}
                         </div>
                     </div>
-                    {/* <-- End of "ingredient choices"-->  */}            
                 </div>
-                {/* <-- End of "burger-container container mt-5"-->  */}
             </div>
             {/* <-- End of "card body"-->  */}
         </div>
