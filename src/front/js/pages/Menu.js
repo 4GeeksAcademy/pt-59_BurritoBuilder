@@ -18,7 +18,7 @@ export const Menu = () => {
     const navigate = useNavigate();
     const [burgerIngredients, setBurgerIngredients] = useState([]);
     const [burger_id, setBurgerId] = useState(null);
-   
+
     useEffect(() => {
         // actions.getCurrentBurger(burger_id);
         // actions.getIngredients();
@@ -43,12 +43,13 @@ export const Menu = () => {
     
         const handleAddNewBruger = () => {
             actions.createBurger();
-            // window.location.reload();
+            
         };
 
         const handleClearIngredients = () => {
             // Call the clearIngredients function here
             actions.clearIngredients();
+            
         };
   
    
@@ -132,4 +133,5 @@ export const Menu = () => {
         </div>
         // {/* <-- End of "Menu Card"-->  */}
     );
+    
 };

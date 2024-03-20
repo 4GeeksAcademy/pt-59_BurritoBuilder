@@ -13,6 +13,7 @@ const BurgerPreviewer = ({ currentBurger }) => {
    
  useEffect(()=>{
     actions.getBurgers()
+    //    window.location.reload();
  },[])   
     
 

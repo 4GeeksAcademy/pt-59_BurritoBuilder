@@ -244,7 +244,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		clearIngredients: async (burger_id, store) => {
 			
 			if (typeof(burger_id) === "undefined") {
-				let burger = getStore().burgers[getStore().burgers.length - 1];
+				let burger = getStore().burgers[getStore().burgers.length-1];
 				console.log(burger)
 				burger_id = burger.id;
 			}
@@ -261,12 +261,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw new Error('Failed to clear ingredients from the burger');
 				}
 				// Clear ingredients from the global state if needed
-				
+				// localStorage.setItem("burgers", JSON.stringify(data));
 				// Return the response data if needed
 				const responseData = await response.json();
 				// Reload the page after receiving the response
 				window.location.reload();
+				// setStore({current_burger: responseData.burger});
 				return responseData;
+				
 			} catch (error) {
 				// Handle any errors that occur during the fetch request
 				console.error('Error clearing ingredients:', error);
