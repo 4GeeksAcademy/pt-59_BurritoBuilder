@@ -54,26 +54,32 @@ const BurgerCheckout = () => {
     //     </div>
     // );
     return (
-        <div>
-            <h1>Checkout</h1>
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error}</p>}
-            <div>
-                <h2>Order Summary</h2>
-                <ul>
-                    {burgers.map((burger) => (
-                        <li key={burger.id}>
-                            {burger.id} - ${burger.total_price?.toFixed(2)}
-                        </li>
-                    ))}
-                </ul>
-                <p>Total Amount: ${totalAmount.toFixed(2)}</p>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', minHeight: '100vh' }}>
+            <div style={{ border: '8px solid #3b85fb', padding: '20px', borderRadius: '8px', width: 'fit-content', marginBottom: '20px' }}>
+                <h1>Checkout</h1>
+                <div>
+                    <h2>Order Summary</h2>
+                    <ul>
+                        {burgers.map((burger) => (
+                            <li key={burger.id}>
+                               Burger #{burger.id} - ${burger.total_price?.toFixed(2)}
+                            </li>
+                        ))}
+                    </ul>
+                    <p>Total Amount: ${totalAmount.toFixed(2)}</p>
+                </div>
             </div>
-            <Elements stripe={stripePromise}>
-                <CheckoutForm totalAmount={totalAmount} />
-            </Elements>
+            <div style={{ border: '8px solid #3b85fb', padding: '20px', borderRadius: '8px', width: '500px' }}> {/* Adjusted width */}
+                {loading && <p>Loading...</p>}
+                {error && <p>Error: {error}</p>}
+                <h2>Payment Form</h2>
+                <Elements stripe={stripePromise}>
+                    <CheckoutForm totalAmount={totalAmount} />
+                </Elements>
+            </div>
         </div>
     );
+
 };
 
 export default BurgerCheckout;
