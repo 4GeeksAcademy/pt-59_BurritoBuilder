@@ -208,4 +208,10 @@ Menu.js CSS
     font-weight: 400;
     font-style: normal;
   } 
-  
+  .red-check-pattern {
+    background-image: repeating-conic-gradient(#F70000 0% 25%, #E4E4ED 0% 50%);
+    height: 100px; /* Adjust the height as needed */
+    background-position: 0 0, 20px 20px;
+    background-size: 64px 64px;
+    
+}

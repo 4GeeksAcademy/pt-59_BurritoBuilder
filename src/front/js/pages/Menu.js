@@ -59,8 +59,41 @@ export const Menu = () => {
     };
     
     return (
-        <div className="card menu-card">
-            <div className="card-body">
+        <div className="card menu-card mt-3" style={{...customPatternStyle}}>
+          <div style={{ 
+    width: '150px',
+    height: '75px', 
+    paddingTop: '225px',
+    paddingLeft: '125px',
+    position: 'absolute' 
+}}>
+    <div style={{ 
+        width: '146px', 
+        height: '72px', 
+        border: '5px double #F70000', 
+        boxSizing: 'border-box', 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        backgroundColor: '#000' // Set the background color to black
+    }}>
+        <h4 style={{ 
+            color: '#fff', // Set text color to white
+            width: '100%',
+            height: '100%',
+            textAlign: 'center',
+            lineHeight: '72px', // Center the text vertically
+            fontWeight: 'bold' // Make the text bold
+        }}>Menu Page</h4>
+    </div>
+</div>
+
+
+
+           
+           <div className="card-body" style={{ backgroundColor: 'white', width: '700px', height: '800px', justifyContent: 'center', alignItems: 'center', margin: '20px auto', border: '5px solid #777777' }}>
+                
+
                 
                 <div className="burger-container container mt-5">
                 
@@ -135,3 +168,13 @@ export const Menu = () => {
     );
     
 };
+const customPatternStyle = {
+    backgroundImage: "repeating-conic-gradient(#F70000 0% 25%, #E4E4ED 0% 50%)",
+    backgroundPosition: "0 0, 20px 20px",
+    backgroundSize: "64px 64px",
+    backgroundColor: "#E4E4ED",
+    width: "1500px", // Set the width to 80% of the viewport width
+    margin: "0 auto", // Center the element horizontally
+    position:'',
+};
+

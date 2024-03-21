@@ -18,8 +18,8 @@ const Private = () => {
 // createBurger Functionality for button that take you to menu
 
     return (
-        <div className="container text-center">
-            <h1>User Informtation</h1>
+        <div className="container text-center mt-3">
+            
             <Dashboard />
         </div>
     );

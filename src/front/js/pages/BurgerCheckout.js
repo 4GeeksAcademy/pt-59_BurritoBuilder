@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from '../component/BurgerCheckoutPayForm';
+import "../../styles/home.css";
 
 const stripePromise = loadStripe('pk_test_51OsCor073rU1HC30du5j5wPFuXxoDJRG3FG3I6YiYf5ug13vesiR3bDGMH0bMrEUATROpclHhKmnU3CiYipHHdIF000Nwacky9'); // Replace with your Stripe publishable key
 
@@ -54,8 +55,9 @@ const BurgerCheckout = () => {
     //     </div>
     // );
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', minHeight: '100vh' }}>
-            <div style={{ border: '8px solid #3b85fb', padding: '20px', borderRadius: '8px', width: 'fit-content', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start',  }}>
+            <div className="red-check-pattern mt-3" style={{width:'1200px'}}></div>
+            <div style={{ border: '8px solid #3b85fb', padding: '20px', borderRadius: '8px', width: 'fit-content', marginTop:'10px',marginBottom: '20px' }}>
                 <h1>Checkout</h1>
                 <div>
                     <h2>Order Summary</h2>
@@ -69,7 +71,7 @@ const BurgerCheckout = () => {
                     <p>Total Amount: ${totalAmount.toFixed(2)}</p>
                 </div>
             </div>
-            <div style={{ border: '8px solid #3b85fb', padding: '20px', borderRadius: '8px', width: '500px' }}> {/* Adjusted width */}
+            <div style={{ border: '8px solid #3b85fb', padding: '20px', borderRadius: '8px', width: '500px', marginBottom:'10px' }}> {/* Adjusted width */}
                 {loading && <p>Loading...</p>}
                 {error && <p>Error: {error}</p>}
                 <h2>Payment Form</h2>
@@ -77,6 +79,7 @@ const BurgerCheckout = () => {
                     <CheckoutForm totalAmount={totalAmount} />
                 </Elements>
             </div>
+            <div className="red-check-pattern "style={{width:'1200px'}}></div>
         </div>
     );
 

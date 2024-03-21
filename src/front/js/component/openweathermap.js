@@ -28,9 +28,10 @@ const OpenWeatherMap = () => {
         onMouseLeave={() => setHovered(false)}
         style={{ transform: hovered ? 'translateX(100%)' : 'translateX(0)', transition: 'transform 0.5s ease' }}
     >
-            <div className="cart-tab" style={{ position: 'absolute', top:'30px',left:'150px', zIndex: '1' }}>
-
+            <div className="cart-tab" style={{ position: 'absolute', top: '30px', left: '150px', zIndex: '1' }}>
+                <img src="https://img.icons8.com/ios-filled/30/FFFFFF/sun.png" alt="Sun Icon" style={{ position: 'absolute', top: '25px',  }} />
             </div>
+
             <div className="cardContent" style={{ 
                 width: '150px', 
                 height: '150px', 

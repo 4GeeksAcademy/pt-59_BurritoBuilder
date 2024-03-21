@@ -20,7 +20,7 @@ const Login = () => {
         }
     }
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '40vh' }}>
             <div className="login-wrapper  p-3" style={{ width: '500px', height: '350px', border: '8px solid #3b85fb', borderRadius: '10px' }}>
                 <div className="row justify-content-center">
                     <div className="col-md-12">

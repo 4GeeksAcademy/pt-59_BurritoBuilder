@@ -23,7 +23,7 @@ const Dashboard = () => {
 
     
         return (
-            <div className="container text-center" style={{ height: "100vw", margin: "100px auto", margin: "auto", marginTop: "50px auto", ...customPatternStyle }}>
+            <div className="container text-center" style={{ height: "840px", margin: "0px auto", margin: "auto", marginTop: "50px auto", ...customPatternStyle }}>
                 {store.user != null ?
                     <div style={{ position: 'relative', top: "10%",  border: "10px double #e72b37", borderRadius: "18px", boxShadow: "3px 5px 32px 3px rgba(219, 34, 55, 0.4)", background: "radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%)", }} className="p-5 text-light" >
                         <div className="p-5 d-flex justify-content-center" >

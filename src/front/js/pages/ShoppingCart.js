@@ -23,11 +23,10 @@ export const ShoppingCart = () => {
         actions.getBurgers();
     };
     
-    
     return (
-        <div className="container mt-5">
+        <div className="container mt-3">
+            <div className="red-check-pattern"></div> {/* Red checkered pattern div above Shopping Cart text */}
             <h2>Shopping Cart</h2>
-            
             <div className="row">
                 {store.checkoutBurger?.map((burger, index) => (
                     <div key={index} className="col-md-3 mb-3">
@@ -42,14 +41,16 @@ export const ShoppingCart = () => {
                                 />
                             </div>
                             <div className="card-body" style={{ width: '250px', height: '250px', overflow: 'hidden', position: 'relative', borderRadius: '0px 0px 10px 10px', top: '-15px', zIndex: '10', margin: '0', display: 'flex' }}>
-                                <p className="card-text">Ingredients:</p>
-                                <ul className="list-group list-group-flush">
-                                    {burger.ingredients.map((ingredient, index) => (
-                                        <li key={index} className="list-group-item">
-                                            {ingredient.name} - ${ingredient.price}
-                                        </li>
-                                    ))}
-                                </ul>
+                                    
+                                    <p className="card-text">Ingredients:</p>
+                                    <ul className="list-group list-group-flush" style={{ postion:'absolute', margin:"0"}}>
+                                        {burger.ingredients.map((ingredient, index) => (
+                                            <li key={index} className="list-group-item" style={{ fontSize: 'smaller' }}>
+                                                {ingredient.name} - ${ingredient.price}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    
                                 <ul className="list-group list-group-flush">
                                     {burger.ingredients.map((ingredient, i) => (
                                         <img
@@ -59,11 +60,11 @@ export const ShoppingCart = () => {
                                             style={{
                                                 width: '300px',
                                                 height: '300px',
-                                                marginRight: '5px',
+                                                marginRight: 'px',
                                                 position: 'absolute',
                                                 zIndex: ingredient.z_index,
                                                 top: 0,
-                                                left: 0
+                                                right: 0
                                             }}
                                         />
                                     ))}
@@ -75,15 +76,13 @@ export const ShoppingCart = () => {
                 ))}
             </div>
                  
-            <CheckoutButton burgers={store.burgers} totalAmount={store.totalAmount} /> 
-                 {/* <link to="/burgercheckout">
-                    <CheckoutButton  />
-                </link> */}
-            
-            <Link to="/menu" style={{ textDecoration: 'none' }}>
-                <button>Go back to Menu</button>
+            <CheckoutButton burgers={store.burgers} totalAmount={store.totalAmount}  /> 
+            <Link to="/menu" style={{ textDecoration: 'none',   }}>
+                <button style={{ backgroundColor: '#3b85fb', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', marginLeft:'10px',marginBottom:'10px' }}>Go back to Menu</button>
             </Link>
+            <div className="red-check-pattern"></div> {/* Red checkered pattern div above footer component */}
         </div>
     );
 };
+
 

@@ -36,7 +36,7 @@ const CheckoutButton = ({ burgers, totalAmount }) => {
 
     return (
         <Link to="/burgercheckout">
-            <button onClick={handleCheckout} disabled={loading}>
+            <button onClick={handleCheckout} disabled={loading} style={{ backgroundColor: '#3b85fb', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px' }}>
                 {loading ? 'Processing...' : 'Checkout'}
             </button>
         </Link>
