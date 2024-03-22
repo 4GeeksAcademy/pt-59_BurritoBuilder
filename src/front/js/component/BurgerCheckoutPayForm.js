@@ -38,9 +38,22 @@ const CheckoutForm = ({ totalAmount }) => {
     return (
         <form onSubmit={handleSubmit}>
             <CardElement />
-            <button type="submit" disabled={loading || !stripe}>
-                {loading ? 'Processing...' : `Pay $${totalAmount.toFixed(2)}`}
-            </button>
+            <button
+                type="submit"
+                disabled={loading || !stripe}
+                style={{
+                    backgroundColor: '#3b85fb',
+                    marginLeft: '150px',
+                    color: 'white',
+                    padding: '10px 20px',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: loading || !stripe ? 'not-allowed' : 'pointer' // Disable cursor if loading or stripe is not available
+                }}
+            >
+        {loading ? 'Processing...' : `Pay $${totalAmount.toFixed(2)}`}
+</button>
+
         </form>
     );
 };
