@@ -73,7 +73,9 @@
 		]
 	},
 	"dependencies": {
-		"bootstrap": "^5.3.2",
+		"@stripe/react-stripe-js": "^2.6.0",
+		"@stripe/stripe-js": "^3.0.8",
+		"bootstrap": "^5.3.3",
 		"prop-types": "^15.6.1",
 		"react": "^16.8.4",
 		"react-bootstrap": "^2.10.1",

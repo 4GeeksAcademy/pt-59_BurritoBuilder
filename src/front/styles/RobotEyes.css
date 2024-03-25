@@ -1,0 +1,26 @@
+.robo-eyes {
+    display: flex;
+    justify-content: space-between;
+}
+
+.eye {
+    position: relative;
+}
+
+.blue-square {
+    width: 60px;
+    height: 60px;
+    background-color: #3b85fb;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.white-triangle {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 30px solid white;
+}

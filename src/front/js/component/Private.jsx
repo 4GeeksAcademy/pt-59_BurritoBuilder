@@ -1,7 +1,7 @@
 import React, {useEffect, useContext} from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
-
+import Dashboard from "./Dashboard.jsx";
 
 const Private = () => {
     const {store, actions} = useContext(Context);
@@ -15,17 +15,12 @@ const Private = () => {
             authenticate(navigate)}, 500)        
     }, [])
 
+// createBurger Functionality for button that take you to menu
+
     return (
-        <div className="container text-center">
-            <h1>User Informtation</h1>
-            {store.user!= null ?
-                <div >
-                    <h2>Username: {store.user.username}</h2>
-                    <h2>Id: {store.user.id}</h2>
-                </div>
-                :
-                ''
-            }
+        <div className="container text-center mt-3">
+            
+            <Dashboard />
         </div>
     );
 }

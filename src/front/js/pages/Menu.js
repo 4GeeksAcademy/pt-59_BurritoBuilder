@@ -1,117 +1,180 @@
-// Menu.js
-
 import React, { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
-import topBunImg from "../../img/top_bun.png";
-import bottomBunImg from "../../img/bottom_bun.png";
-import pattyImg from "../../img/patty.png";
-import sauceImg from "../../img/sauce.png";
-import condimentsImg from "../../img/condiments.png";
+
+import { Collapse } from 'react-bootstrap';
+
+import Buildertools from "../component/buildertools";
+import RobotEyes from "../component/RobotEyes";
+import IngredientComponent from "../component/IngredientComponent";
+import MenuPageSlider from "../component/MenuPageSlider";
+import BurgerPreviewer from "../component/BurgerPreviewer";
+import context from "react-bootstrap/esm/AccordionContext";
+import OpenWeatherMap from "../component/openweathermap";
 
 export const Menu = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
     const [burgerIngredients, setBurgerIngredients] = useState([]);
+    const [burger_id, setBurgerId] = useState(null);
 
     useEffect(() => {
-        function authenticate() {
-            actions.authenticateUser(navigate);
-        }
-        setTimeout(authenticate, 500);
-    }, []);
-
-    const handleIngredientSelect = (ingredientImg) => {
-        // Check if the ingredient is already in the burgerIngredients array
-        const isIngredientSelected = burgerIngredients.includes(ingredientImg);
+        // actions.getCurrentBurger(burger_id);
+        // actions.getIngredients();
         
-        // If the ingredient is selected, remove it from the array
-        if (isIngredientSelected) {
-            // If the selected ingredient is the top bun, remove both top and bottom buns
-            if (ingredientImg === topBunImg) {
-                setBurgerIngredients(burgerIngredients.filter(img => img !== topBunImg && img !== bottomBunImg));
-            } else {
-                // If other ingredients are selected, remove only the selected ingredient
-                setBurgerIngredients(burgerIngredients.filter(img => img !== ingredientImg));
-            }
-        } else {
-            // If the ingredient is not selected
-            let updatedIngredients = [];
-            
-            if (ingredientImg === topBunImg) {
-                // If the top bun is selected, add both top and bottom bun images
-                updatedIngredients = [bottomBunImg, ...burgerIngredients, topBunImg];
-            } else {
-                // If other ingredients are selected, add them directly to the array
-                updatedIngredients = [...burgerIngredients, ingredientImg];
-            }
-            
-            setBurgerIngredients(updatedIngredients);
-        }
+        
+    }, []);
+    
+    // test('Check store state', () => {
+    //     // Access the store or context directly and inspect its state
+    //     console.log(store.getState()); // Log the state to the console
+    // });
+    // useEffect(() => {
+    //     // Store current burger in local storage when it changes
+    //     localStorage.setItem("current_burger", JSON.stringify(store.current_burger));
+    // }, [store.current_burger]);
+
+    const handleIngredientClick = (burger, ingredient) => {
+        // Call the action to add the ingredient to the burger
+        actions.addIngredientToBurger(burger.id, ingredient.id);
+        
     };
+    
+        const handleAddNewBruger = () => {
+            actions.createBurger();
+            
+        };
 
-    const zIndices = {
-        [topBunImg]: 4,
-        [condimentsImg]: 3,
-        [sauceImg]: 2,
-        [pattyImg]: 1,
-        [bottomBunImg]: 0
+        const handleClearIngredients = () => {
+            // Call the clearIngredients function here
+            actions.clearIngredients();
+            
+        };
+  
+   
+    const handleProceedToCart = () => {
+        // Navigate to the cart page
+        navigate("/cart");
     };
-
-    // Sort the ingredients based on their fixed z-index
-    const sortedIngredients = burgerIngredients.sort((a, b) => zIndices[b] - zIndices[a]);
-
-    const hasBun = burgerIngredients.includes(topBunImg) && burgerIngredients.includes(bottomBunImg);
-    const hasCondiment = burgerIngredients.includes(condimentsImg);
-    const hasSauce = burgerIngredients.includes(sauceImg);
-    const hasProtein = burgerIngredients.includes(pattyImg);
-
+    
     return (
-        <div className="card menu-card">
-            <div className="card-body">
+        <div className="card menu-card mt-3" style={{...customPatternStyle}}>
+          <div style={{ 
+    width: '150px',
+    height: '75px', 
+    paddingTop: '225px',
+    paddingLeft: '125px',
+    position: 'absolute' 
+}}>
+    <div style={{ 
+        width: '146px', 
+        height: '72px', 
+        border: '5px double #F70000', 
+        boxSizing: 'border-box', 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        backgroundColor: '#000' // Set the background color to black
+    }}>
+        <h4 style={{ 
+            color: '#fff', // Set text color to white
+            width: '100%',
+            height: '100%',
+            textAlign: 'center',
+            lineHeight: '72px', // Center the text vertically
+            fontWeight: 'bold' // Make the text bold
+        }}>Menu Page</h4>
+    </div>
+</div>
+
+
+
+           
+           <div className="card-body" style={{ backgroundColor: 'white', width: '700px', height: '800px', justifyContent: 'center', alignItems: 'center', margin: '20px auto', border: '5px solid #777777' }}>
+                
+
+                
                 <div className="burger-container container mt-5">
-                    <h2>Build Your Burger</h2>
-                    <div className="burger-preview">
-                        {sortedIngredients.map((ingredientImg, index) => (
-                            <img key={index} src={ingredientImg} alt={`Ingredient ${index + 1}`} style={{ zIndex: zIndices[ingredientImg] }} />
-                        ))}
+                
+                    <RobotEyes style={{ zIndex:'0'}}></RobotEyes> 
+
+
+                    <div className="modual for preview-contaner and util buttons" style={{ display: 'flex', justifyContent:'center',zIndex:'1'}}>
+                        
+                        {/* Buttons for Profile, Cart, and Favorites */}
+                        <div className="MenuPagesSlider" style={{ position: 'relative', top:'105px', zIndex: '2' }}>
+                            <MenuPageSlider />
+                        </div>
+                        
+                        {/* Burger Preview Div */}
+                        <div className="burger-previewer-container" style={{ 
+                            position: 'relative', 
+                            zIndex: '3' 
+                            }}>
+                            
+                            <BurgerPreviewer currentBurger={store.current_burger} />
+                            
+                        </div>
+                        
+                        {/* Weather Fetch Slider */}
+                        <div className="WeatherSlider"style={{ position: 'relative', top:'25px', zIndex: '1' }}>
+                            <OpenWeatherMap/> 
+                        </div>
+                        
+                    
+                    
                     </div>
-                    <div className="ingredient-options">
-                        <h3>Choose Your Ingredients</h3>
-                        <div className="ingredient-option" onClick={() => handleIngredientSelect(topBunImg)}>
-                            <img src={topBunImg} alt="Top Bun" />
-                            <span>Top Bun</span>
-                        </div>
-                        <div className="ingredient-option" onClick={() => handleIngredientSelect(condimentsImg)}>
-                            <img src={condimentsImg} alt="Condiments" />
-                            <span>Condiments</span>
-                        </div>
-                        <div className="ingredient-option" onClick={() => handleIngredientSelect(sauceImg)}>
-                            <img src={sauceImg} alt="Sauce" />
-                            <span>Sauce</span>
-                        </div>
-                        <div className="ingredient-option" onClick={() => handleIngredientSelect(pattyImg)}>
-                            <img src={pattyImg} alt="Patty" />
-                            <span>Patty</span>
+                    
+                    
+                        
+                    {/* <-- End of "TopHalf of page" burger preview and buttons-->  */}
+                    {/* Builder Tools Tab */}
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',margin: "0 auto", }}>
+                        <Buildertools handleAddNewBruger={handleAddNewBruger} handleClearIngredients={handleClearIngredients} />
+                     </div>
+                   
+                    
+                    
+                    {/* <-- End of "ingredient choices"-->  */}            
+                </div>
+                {/* <-- End of "burger-container container mt-5"-->  */}
+
+                <div className="ingredient component"  style={{ display: 'flex', flexDirection: 'column' }} >
+                    {/* Ingredient Choices Tab */}
+                    
+                    <div style={{ position: "relative", margin: "0 auto", width: '156px', height: '40px', backgroundColor: '#3875ce', clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)', borderRadius: '4px 20px 0px 0px', }}>
+                        {/* Your menu items */}
+                    </div>
+
+                    {/* Ingredient Choices Viewer */}
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', right:'10px', }}>
+                        <div className="ingredient-options" style={{ width: '440px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '0px', border: '8px solid #3b85fb', borderRadius: '10px 10px 10px 10px', padding: '10px' }}>
+                            {/* Render ingredient options */}
+                            {store.ingredients.map((ingredient, index) => (
+                                <IngredientComponent
+                                    key={index}
+                                    ingredient={ingredient}
+                                    onIngredientClick={() => handleIngredientClick(store.current_burger, ingredient)} // Pass burger_id and ingredient to the handler
+                                />
+                            ))}
                         </div>
                     </div>
-                    {hasBun && hasCondiment && hasSauce && hasProtein && (
-                        <button className="btn btn-primary mt-3" onClick={() => {
-                            actions.createOrder({}, burgerIngredients);
-                            navigate("/shoppingcart");
-                        }}>
-                            Go to Cart
-                        </button>
-                    )}
                 </div>
             </div>
+            {/* <-- End of "card body"-->  */}
         </div>
+        // {/* <-- End of "Menu Card"-->  */}
     );
+    
 };
-
-
-
-
-
+const customPatternStyle = {
+    backgroundImage: "repeating-conic-gradient(#F70000 0% 25%, #E4E4ED 0% 50%)",
+    backgroundPosition: "0 0, 20px 20px",
+    backgroundSize: "64px 64px",
+    backgroundColor: "#E4E4ED",
+    width: "1500px", // Set the width to 80% of the viewport width
+    margin: "0 auto", // Center the element horizontally
+    position:'',
+};
 

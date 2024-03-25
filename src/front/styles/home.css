@@ -1,11 +1,43 @@
 .bronze-border {
     border: 6px solid #cd7f32; /* Bronze color */
 }
-/* Menu.js CSS */
+
+.icon:hover {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(100%) hue-rotate(20deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 75px); /* Adjust the spacing between the square and the dropdown */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px; /* Adjust the width of the dropdown menu */
+    background-color: #3b85fb; /* Set background color */
+    border-radius: 8px; /* Add border radius */
+    padding: 8px; /* Add padding */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.square-with-icon:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 5px); /* Adjust Y offset for sliding effect */
+}
+
+.dropdown-item img {
+    width: 24px; /* Adjust size of icons */
+    height: 24px;
+    margin-right: 8px;
+}
+
+
+Menu.js CSS
 .menu-card {
     max-width: 500px; /* Adjust as needed */
     margin: 0 auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    
 }
 
 .burger-preview {
@@ -41,4 +73,145 @@
     height: 60px; /* Adjust size as needed */
 }
 
+/* The following css effect MenuPageSlider.js */
+.whiteLeftSlide {
+    width: 32px;
+    height: 60px;
+    margin-bottom: 0px;
+    position: absolute;
+    border: 2px solid #3b85fb;
+    border-radius: 12px 0 0 12px;
+    background: white;
+    box-shadow: none;
+    transition: width 0.5s ease-out; /* Apply transition to width property */
+    right:0px;
+    top:0px;
+    
+}
 
+.whiteLeftSlide:hover {
+    width: 175px; /* Increase the width on hover */
+}
+.blueMenuButton {
+    align-items: left;
+    width: 32px;
+    height: 60px;
+    position: absolute;
+    border: 1px solid #3b85fb;
+    border-radius: 10px 0 0 10px;
+    background: #3b85fb;
+    box-shadow: none;
+    z-index: 4;
+    transition: width 0.5s ease-out; /* Apply transition to width property */
+    right:0px;
+    top:-2px;
+    left:0px;
+}
+.blueMenuButton:hover {
+    width: 0px; /* Increase the width on hover */
+}
+.greySquare {
+    width: 20px;
+    height: 20px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 50%;
+    left: 10px; /* Adjust the position as needed */
+    transform: translate(-50%, -50%);
+}
+.Profile {
+    width: 8px;
+    height: 8px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 22%;
+    left: 45px; /* Adjust the position as needed */
+    transform: translate(-50%, -50%);
+}
+.ShoppingCart {
+    width: 8px;
+    height: 8px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 22%;
+    left: 85px; /* Adjust the position as needed */
+    transform: translate(-50%, -50%);
+}
+.Favorites {
+    width: 8px;
+    height: 8px;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 22%;
+    left: 130px; /* Adjust the position as needed */
+    transform: translate(-50%, -50%);
+}
+.cart-tab {
+    width: 32px;
+    height: 80px;
+    background-color: #3b85fb;
+    border-radius: 0px 10px 10px 0px;
+}
+/* robo eyes from menu.js */
+.robo-eyes {
+    display: flex;
+    justify-content: center; /* Center the eyes horizontally */
+}
+
+.eye {
+    position: relative;
+    margin: 0 10px;
+    top: 5px; /* Adjust the margin between the eyes */
+}
+
+.blue-square {
+    width: 60px;
+    height: 60px;
+    background-color: #3b85fb;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.white-square {
+    width: 30px; /* Adjust width to fit the blue square */
+    height: 40px; /* Adjust height to fit the blue square */
+    background-color: rgb(255, 255, 255);
+   
+    top: 15px; /* Position the square at the bottom of the blue square */
+    left: 15px; /* Position the square in the center horizontally */
+    border-radius: 5px; /* Apply border radius to match the blue square */
+}
+
+.weatherAPIcontainer {
+    width: 150px; 
+    height: 150px; 
+    border-radius: 10px; 
+    position: absolute;
+    background: white;
+    box-shadow: none;
+    transition: width 0.5s ease-out; /* Apply transition to width property */
+    right:0px;
+    top:0px;
+}
+.fun-font {
+    font-family: "Exo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+  }
+  .fun-font-400 {
+    font-family: "Exo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  } 
+  .red-check-pattern {
+    background-image: repeating-conic-gradient(#F70000 0% 25%, #E4E4ED 0% 50%);
+    height: 100px; /* Adjust the height as needed */
+    background-position: 0 0, 20px 20px;
+    background-size: 64px 64px;
+    
+}
